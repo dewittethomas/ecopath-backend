@@ -11,7 +11,7 @@ export { UserRecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/
 export { SmartMeterRecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Mappers/SmartMeterRecordMapper.ts';
 
 // Seeders
-export { SeederRunner } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Seeders/SeederRunner.ts';
+export { runSeeder } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Seeders/SeederRunner.ts';
 export { UserSeeder } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Seeders/UserSeeder.ts';
 export { SmartMeterSeeder } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Seeders/SmartMeterSeeder.ts';
 export { SensorReadingSeeder } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Seeders/SensorReadingSeeder.ts'

@@ -7,7 +7,8 @@
   "tasks": {
     "run": "deno run --env-file=config/dev/.backend.ecopath.dev.env --allow-env --allow-net --allow-read --allow-write --allow-sys src/Main/Main.ts",
     "test": "deno test -A --coverage; deno coverage --exclude=tests --exclude=src/Domain/Shared; deno coverage --exclude=tests --exclude=src/Domain/Shared --html",
-    "migrate": "deno run --env-file=config/dev/.backend.ecopath.dev.env -A src/Infrastructure/Persistence/PostgreSql/Migrations/Migrate.ts"
+    "migrate": "deno run --env-file=config/dev/.backend.ecopath.dev.env -A src/Main/migrate.ts",
+    "seed": "deno run --env-file=config/dev/.backend.ecopath.dev.env -A src/Main/seed.ts"
   },
   "imports": {
     "@db/postgres": "jsr:@db/postgres@^0.19.5",

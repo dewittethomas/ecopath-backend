@@ -1,26 +1,5 @@
-import { PersistenceModule, WebApiModule } from 'EcoPath/Main/mod.ts';
-import {
-    DIServiceCollection,
-    DIServiceProvider,
-    type ServiceCollection,
-    type ServiceProvider,
-} from '@domaincrafters/di';
-import { SeederRunner } from "EcoPath/Infrastructure/Persistence/PostgreSql/mod.ts";
-import { Config } from 'EcoPath/Infrastructure/Shared/mod.ts';
+import { buildServiceProvider, WebApiModule } from 'EcoPath/Main/mod.ts';
 
-class Main {
-    static async init() {
-        const config: Config = Config.create();
-        const serviceCollection: ServiceCollection = DIServiceCollection.create();
+const { provider } = buildServiceProvider();
 
-        PersistenceModule.add(serviceCollection, config);
-        WebApiModule.add(serviceCollection, config);
-
-        const serviceProvider: ServiceProvider = DIServiceProvider.create(serviceCollection);
-
-        await SeederRunner.run(serviceProvider, config);
-        await WebApiModule.use(serviceProvider);
-    }
-}
-
-Main.init();
+await WebApiModule.use(provider);
