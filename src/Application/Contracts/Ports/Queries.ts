@@ -18,11 +18,6 @@ export interface GetAverageSensorReadingsData {
     average: number;
 }
 
-export interface GroupedAverageRecord {
-    date: Date;
-    average: number;
-}
-
 export interface GetGroupedAverageSensorReadingsData {
     smartMeterId: string;
     type: string;
@@ -30,7 +25,7 @@ export interface GetGroupedAverageSensorReadingsData {
     to: Date;
     unit: string;
     interval: 'day' | 'week' | 'month';
-    values: GroupedAverageRecord[];
+    values: SensorReadingRecord[];
 }
 
 export interface AllSensorReadingsBySmartMeterIdAndDateQuery {

@@ -62,6 +62,23 @@ export class UserProfile {
         Guard.check(this._ecoGoals, 'ecoGoals').againstEmpty();
     }
 
+    equals(other: UserProfile) {
+        return this._birthDate.getTime() === other._birthDate.getTime() &&
+                this._gender === other._gender &&
+                this._location.equals(other._location) &&
+                this._housingType === other._housingType &&
+                this._householdSize === other._householdSize &&
+                this.compareEcoGoals(other)
+    }
+
+    private compareEcoGoals(other: UserProfile): boolean {
+        if (this._ecoGoals.length !== other._ecoGoals.length) return false;
+        for (let i = 0; i < this._ecoGoals.length; i++) {
+            if (this._ecoGoals[i] !== other._ecoGoals[i]) return false;
+        }
+        return true;
+    }
+
     get birthDate(): Date {
         return this._birthDate;
     }

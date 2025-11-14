@@ -27,12 +27,10 @@ export class AllSensorReadingsBySmartMeterIdAndDateController {
         if (avgFlag === 'true' && interval) {
             // grouped averages (day/week/month)
             result = await this.query.fetchGroupedAverage(smartMeterId, from, to, interval);
-        }
-        else if (avgFlag === 'true') {
+        } else if (avgFlag === 'true') {
             // single average
             result = await this.query.fetchAverage(smartMeterId, from, to);
-        }
-        else {
+        } else {
             // raw readings
             result = await this.query.fetchAll(smartMeterId, from, to);
         }

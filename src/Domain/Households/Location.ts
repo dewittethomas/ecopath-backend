@@ -26,6 +26,13 @@ export class Location {
         Guard.check(this._postalCode, 'postalCode').againstEmpty().againstWhitespace();
     }
 
+    equals(other: Location): boolean {
+        return this._houseNumber === other._houseNumber &&
+                this._street === other._street &&
+                this._city === other._city &&
+                this._postalCode === other._postalCode;
+    }
+
     get houseNumber(): string {
         return this._houseNumber;
     }
