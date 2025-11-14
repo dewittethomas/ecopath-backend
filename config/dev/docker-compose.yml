@@ -1,30 +1,32 @@
 services:
-  db:
+  backend-db.dev:
     image: postgres
-    restart: always
-    shm_size: 128mb
     ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_PASSWORD: mysecretpassword
+      - 5432:5432
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - postgres:/data/postgres
+    env_file:
+      - .backend-db.ecopath.dev.env
+    networks:
+      - ecopath-dev
+    restart: unless-stopped
 
-  adminer:
-    image: adminer
-    restart: always
+  backend.dev:
+    image: ecopath-backend
+    env_file: .backend.ecopath.dev.env
     ports:
-      - "8080:8080"
-
-  api:
-    build:
-      context: ../..
-      dockerfile: ./config/dev/Dockerfile
+      - 8000:8000
+    networks:
+      - ecopath-dev
+    restart: unless-stopped
     depends_on:
-      - db
-    ports:
-      - "8000:8000"
-    command: deno task run
+      - backend-db.dev
+
+networks:
+  ecopath-dev:
+    ipam: 
+      config: 
+        - subnet: 10.0.0.0/16
 
 volumes:
-  postgres_data:
+  postgres:

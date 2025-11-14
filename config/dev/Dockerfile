@@ -1,14 +1,9 @@
-FROM denoland/deno:2.0.0
+FROM denoland/deno:2.5.6
 
 WORKDIR /app
 
-COPY deno.json* .
-COPY src ./src
-COPY config ./config
-
-RUN deno cache src/Main/Main.ts
+COPY . .
 
 EXPOSE 8000
 
-# 👇 IMPORTANT: replace start -> run
-CMD ["deno", "task", "run"]
+CMD ["sh", "-c", "deno task migrate && deno task run"]
