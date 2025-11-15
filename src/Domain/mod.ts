@@ -1,3 +1,4 @@
+export { ExtraGuard } from 'EcoPath/Domain/Shared/ExtraGuard.ts';
 export { User, UserId } from 'EcoPath/Domain/Households/User.ts';
 export { UserProfile, Gender, HousingType } from 'EcoPath/Domain/Households/UserProfile.ts';
 export { Location } from 'EcoPath/Domain/Households/Location.ts';
@@ -9,4 +10,4 @@ export { WasteCarbonFactors } from 'EcoPath/Domain/Waste/WasteCarbonFactors.ts';
 export { CarbonFootprint } from 'EcoPath/Domain/CarbonFootprints/CarbonFootprint.ts';
 export { CarbonFootprintRecord, CarbonFootprintRecordId } from 'EcoPath/Domain/CarbonFootprints/CarbonFootprintRecord.ts';
 export { ClassificationResult, ClassificationResultId } from 'EcoPath/Domain/Waste/ClassificationResult.ts';
-export { ExtraGuard } from 'EcoPath/Domain/Shared/ExtraGuard.ts';
+export { WasteRecord } from 'EcoPath/Domain/Waste/WasteRecord.ts';
