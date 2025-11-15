@@ -7,6 +7,7 @@ export type { WasteScanRepository } from 'EcoPath/Domain/Waste/WasteScanReposito
 export type { ClassificationResultRepository } from 'EcoPath/Domain/Waste/ClassificationResultRepository.ts';
 export type { CarbonFootprintRecordRepository } from 'EcoPath/Domain/CarbonFootprints/CarbonFootprintRecordRepository.ts';
 export type { SensorReadingRepository } from 'EcoPath/Domain/Meters/SensorReadingRepository.ts';
+export type { WasteRecordRepository } from 'EcoPath/Domain/Waste/WasteRecordRepository.ts';
 
 // -- USECASE INPUT/OUTPUT --
 export type { SaveUserInput } from 'EcoPath/Application/Households/SaveUser.ts';
