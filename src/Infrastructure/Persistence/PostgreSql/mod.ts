@@ -10,6 +10,7 @@ export { PostgreSqlAllSmartMetersQuery } from 'EcoPath/Infrastructure/Persistenc
 // Mappers
 export { UserRecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Mappers/UserRecordMapper.ts';
 export { SmartMeterRecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Mappers/SmartMeterRecordMapper.ts';
+export type { RecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/RecordMapper.ts';
 
 // Seeders
 export { runSeeder } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Seeders/SeederRunner.ts';
