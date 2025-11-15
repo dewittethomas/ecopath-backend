@@ -6,4 +6,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "deno task migrate && deno task run"]
+CMD ["deno", "task", "run"]
