@@ -6,6 +6,7 @@ import {
 import type { Config } from 'EcoPath/Infrastructure/Shared/mod.ts';
 import {
     PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery,
+    PostgreSqlAllSmartMetersQuery,
     PostgreSqlUserRepository,
     PostgreSqlSmartMeterRepository,
     PostgreSqlSensorReadingRepository,
@@ -81,6 +82,15 @@ export class PersistenceModule {
                         (await _serviceProvider.getService<PostgreSqlClient>('postgreSqlClient')).value;
 
                     return new PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery(postgreSqlClient);
+                }
+            )
+            .addScoped(
+                'allSmartMetersQuery',
+                async (_serviceProvider: ServiceProvider) => {
+                    const postgreSqlClient: PostgreSqlClient =
+                        (await _serviceProvider.getService<PostgreSqlClient>('postgreSqlClient')).value;
+
+                    return new PostgreSqlAllSmartMetersQuery(postgreSqlClient);
                 }
             )
 

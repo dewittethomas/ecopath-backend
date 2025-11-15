@@ -4,13 +4,15 @@ import type { WebApiController } from 'EcoPath/Infrastructure/WebApi/Shared/WebA
 import type { ControllerFactory } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
 import {
     SaveUserController,
-    AllSensorReadingsBySmartMeterIdAndDateController
+    AllSensorReadingsBySmartMeterIdAndDateController,
+    AllSmartMetersController,
 } from 'EcoPath/Infrastructure/WebApi/mod.ts';
 import {
     SaveUser
 } from 'EcoPath/Application/mod.ts';
 import {
-    AllSensorReadingsBySmartMeterIdAndDateQuery
+    AllSensorReadingsBySmartMeterIdAndDateQuery,
+    AllSmartMetersQuery
 } from 'EcoPath/Application/Contracts/mod.ts';
 import type { ServiceProvider } from '@domaincrafters/di';
 import type {
@@ -37,6 +39,8 @@ export class OakControllerFactory implements ControllerFactory {
                 return await this.buildSaveUserController();
             case AllSensorReadingsBySmartMeterIdAndDateController.name:
                 return await this.buildAllSensorReadingsBySmartMeterIdAndDateController();
+            case AllSmartMetersController.name:
+                return await this.buildAllSmartMetersController();
             default:
                 throw new IllegalStateException(`Route name ${ctx.routeName} not found`);
         }
@@ -67,5 +71,13 @@ export class OakControllerFactory implements ControllerFactory {
         )).getOrThrow();
 
         return new AllSensorReadingsBySmartMeterIdAndDateController(query);
+    }
+
+    private async buildAllSmartMetersController(): Promise<AllSmartMetersController> {
+        const query = (await this._serviceProvider.getService<AllSmartMetersQuery>(
+            'allSmartMetersQuery'
+        )).getOrThrow();
+
+        return new AllSmartMetersController(query);
     }
 }

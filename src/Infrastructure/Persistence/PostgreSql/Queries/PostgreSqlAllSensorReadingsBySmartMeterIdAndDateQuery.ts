@@ -2,7 +2,6 @@ import {
     GetSensorReadingsData,
     GetAverageSensorReadingsData,
     GetGroupedAverageSensorReadingsData,
-    GroupedAverageRecord,
     SensorReadingRecord,
     AllSensorReadingsBySmartMeterIdAndDateQuery
 } from 'EcoPath/Application/Contracts/mod.ts';
@@ -20,7 +19,6 @@ export class PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery
         from: Date,
         to: Date
     ): Promise<GetSensorReadingsData> {
-
         const meterRow = await this.db.findOne<{ meter_type: string }>(`
             SELECT meter_type
             FROM smart_meters
@@ -68,7 +66,6 @@ export class PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery
         from: Date,
         to: Date
     ): Promise<GetAverageSensorReadingsData> {
-
         const meterRow = await this.db.findOne<{ meter_type: string }>(`
             SELECT meter_type
             FROM smart_meters
@@ -110,7 +107,6 @@ export class PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery
         to: Date,
         interval: 'day' | 'week' | 'month'
     ): Promise<GetGroupedAverageSensorReadingsData> {
-
         const meterRow = await this.db.findOne<{ meter_type: string }>(`
             SELECT meter_type
             FROM smart_meters
@@ -155,9 +151,9 @@ export class PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery
             ORDER BY period ASC
         `, [smartMeterId, from.toISOString(), toExclusive.toISOString()]);
 
-        const values: GroupedAverageRecord[] = rows.map(r => ({
-            date: new Date(r.period),
-            average: Math.round(r.average * 100) / 100
+        const values: SensorReadingRecord[] = rows.map(r => ({
+            timestamp: new Date(r.period),
+            value: Math.round(r.average * 100) / 100
         }));
 
         return {

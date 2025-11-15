@@ -5,6 +5,7 @@ export { PostgreSqlSensorReadingRepository }from 'EcoPath/Infrastructure/Persist
 
 // Queries
 export { PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Queries/PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery.ts';
+export { PostgreSqlAllSmartMetersQuery } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Queries/PostgreSqlAllSmartMetersQuery.ts';
 
 // Mappers
 export { UserRecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Mappers/UserRecordMapper.ts';

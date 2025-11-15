@@ -29,6 +29,7 @@ export class SmartMeterSeeder {
         ];
 
         for (const m of smartMeters) {
+            console.log(`Started seeding SmartMeter (type: ${m.meterType})`)
             const smartMeter = SmartMeter.create(
                 m.id,
                 m.meterType,

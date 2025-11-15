@@ -48,3 +48,18 @@ export interface AllSensorReadingsBySmartMeterIdAndDateQuery {
         interval: 'day' | 'week' | 'month'
     ): Promise<GetGroupedAverageSensorReadingsData>;
 }
+
+export interface GetSmartMetersData {
+    id: string;
+    meterType: string;
+    location: {
+        houseNumber: string;
+        street: string;
+        city: string;
+        postalCode: string;
+    };
+}
+
+export interface AllSmartMetersQuery {
+    fetchAll(): Promise<GetSmartMetersData[]>;
+}
