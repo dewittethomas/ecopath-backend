@@ -20,65 +20,78 @@ function makeValidCarbonFootprint(): CarbonFootprint {
     return CarbonFootprint.create(50, 100, totalWaste);
 }
 
-function makeValidCarbonFootprintRecord() {
+function makeValidCarbonFootprintRecordData() {
     return {
         id: CarbonFootprintRecordId.create(),
         userId: UserId.create(),
-        fromDate: new Date(2023, 0, 1),
-        toDate: new Date(2023, 1, 1),
-        CarbonFootprint: makeValidCarbonFootprint()
+        month: 1,
+        year: 2023,
+        carbonFootprint: makeValidCarbonFootprint()
     };
 }
 
 Deno.test('CarbonFootprintRecord - Creates successfully', () => {
-    const data = makeValidCarbonFootprintRecord();
+    const data = makeValidCarbonFootprintRecordData();
 
     const record = CarbonFootprintRecord.create(
         data.id,
         data.userId,
-        data.fromDate,
-        data.toDate,
-        data.CarbonFootprint
+        data.month,
+        data.year,
+        data.carbonFootprint
     );
 
     assertEquals(record.id.equals(data.id), true);
     assertEquals(record.userId.equals(data.userId), true);
-    assertEquals(record.fromDate.getTime(), data.fromDate.getTime());
-    assertEquals(record.toDate.getTime(), data.toDate.getTime());
+    assertEquals(record.month, data.month);
+    assertEquals(record.year, data.year);
 });
 
 Deno.test('CarbonFootprintRecord - Fails with missing or invalid data', async (t) => {
-    const valid = makeValidCarbonFootprintRecord();
-    const futureDate = new Date(Date.now() + 60_000);
+    const valid = makeValidCarbonFootprintRecordData();
 
     const invalidCases = [
         {
             userId: null as unknown as UserId,
-            fromDate: valid.fromDate,
-            toDate: valid.toDate,
-            CarbonFootprint: valid.CarbonFootprint,
+            month: valid.month,
+            year: valid.year,
+            carbonFootprint: valid.carbonFootprint,
             msg: 'missing userId'
         },
         {
             userId: valid.userId,
-            fromDate: futureDate,
-            toDate: valid.toDate,
-            CarbonFootprint: valid.CarbonFootprint,
-            msg: 'future fromDate'
+            month: 0,
+            year: valid.year,
+            carbonFootprint: valid.carbonFootprint,
+            msg: 'invalid month too low'
         },
         {
             userId: valid.userId,
-            fromDate: valid.fromDate,
-            toDate: futureDate,
-            CarbonFootprint: valid.CarbonFootprint,
-            msg: 'future toDate'
+            month: 13,
+            year: valid.year,
+            carbonFootprint: valid.carbonFootprint,
+            msg: 'invalid month too high'
         },
         {
             userId: valid.userId,
-            fromDate: valid.fromDate,
-            toDate: valid.toDate,
-            CarbonFootprint: null as unknown as CarbonFootprint,
-            msg: 'missing CarbonFootprint'
+            month: valid.month,
+            year: 1500,
+            carbonFootprint: valid.carbonFootprint,
+            msg: 'invalid year too low'
+        },
+        {
+            userId: valid.userId,
+            month: valid.month,
+            year: 9999,
+            carbonFootprint: valid.carbonFootprint,
+            msg: 'invalid year too high'
+        },
+        {
+            userId: valid.userId,
+            month: valid.month,
+            year: valid.year,
+            carbonFootprint: null as unknown as CarbonFootprint,
+            msg: 'missing carbonFootprint'
         }
     ];
 
@@ -88,9 +101,9 @@ Deno.test('CarbonFootprintRecord - Fails with missing or invalid data', async (t
                 CarbonFootprintRecord.create(
                     valid.id,
                     c.userId,
-                    c.fromDate,
-                    c.toDate,
-                    c.CarbonFootprint
+                    c.month,
+                    c.year,
+                    c.carbonFootprint
                 );
             });
         });
@@ -98,16 +111,16 @@ Deno.test('CarbonFootprintRecord - Fails with missing or invalid data', async (t
 });
 
 Deno.test('CarbonFootprintRecord - Correctly references CarbonFootprint values', () => {
-    const data = makeValidCarbonFootprintRecord();
+    const data = makeValidCarbonFootprintRecordData();
     const record = CarbonFootprintRecord.create(
         data.id,
         data.userId,
-        data.fromDate,
-        data.toDate,
-        data.CarbonFootprint
+        data.month,
+        data.year,
+        data.carbonFootprint
     );
 
-    assertEquals(record.CarbonFootprint.totalGasUsage, data.CarbonFootprint.totalGasUsage);
-    assertEquals(record.CarbonFootprint.totalElectricityUsage, data.CarbonFootprint.totalElectricityUsage);
-    assertEquals(record.CarbonFootprint.totalWaste.get(WasteType.Plastic), 10);
+    assertEquals(record.carbonFootprint.totalGasUsage, data.carbonFootprint.totalGasUsage);
+    assertEquals(record.carbonFootprint.totalElectricityUsage, data.carbonFootprint.totalElectricityUsage);
+    assertEquals(record.carbonFootprint.totalWaste.get(WasteType.Plastic), 10);
 });
