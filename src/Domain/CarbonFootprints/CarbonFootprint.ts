@@ -1,11 +1,10 @@
-import { Guard } from "@domaincrafters/std";
-import { WasteType } from "EcoPath/Domain/mod.ts";
-import { WasteCarbonFactors } from "../Waste/WasteCarbonFactors.ts";
+import { Guard } from '@domaincrafters/std';
+import { WasteType, WasteCarbonFactors } from 'EcoPath/Domain/mod.ts';
 
 export class CarbonFootprint {
-    private readonly _totalGasUsage: number; // in m³
-    private readonly _totalElectricityUsage: number; // in kWh
-    private readonly _totalWaste: Map<WasteType, number>; // in <WasteType, kg>
+    private readonly _totalGasUsage: number;          // m³
+    private readonly _totalElectricityUsage: number;  // kWh
+    private readonly _totalWaste: Map<WasteType, number>; // kg per type
 
     private constructor(
         totalGasUsage: number,
@@ -22,40 +21,47 @@ export class CarbonFootprint {
         totalElectricityUsage: number,
         totalWaste: Map<WasteType, number>
     ): CarbonFootprint {
-        const carbonFootprint = new CarbonFootprint(totalGasUsage, totalElectricityUsage, totalWaste);
-        carbonFootprint.validateState();
-        return carbonFootprint;
+        const cf = new CarbonFootprint(totalGasUsage, totalElectricityUsage, totalWaste);
+        cf.validateState();
+        return cf;
     }
 
-    public validateState() {
-        Guard.check(this._totalGasUsage, 'totalGasUsage').againstNullOrUndefined().againstNegative();
-        Guard.check(this._totalElectricityUsage, 'totalElectricityUsage').againstNullOrUndefined().againstNegative();
-        this.ensureWasteIsPositive();
+    private validateState(): void {
+        Guard.check(this._totalGasUsage, 'totalGasUsage')
+            .againstNullOrUndefined()
+            .againstNegative();
+
+        Guard.check(this._totalElectricityUsage, 'totalElectricityUsage')
+            .againstNullOrUndefined()
+            .againstNegative();
+
+        for (const [type, weight] of this._totalWaste.entries()) {
+            Guard.check(weight, `wasteWeight(${type})`)
+                .againstNullOrUndefined()
+                .againstNegative();
+        }
     }
 
+    /**
+     * Calculates CO₂ equivalent in kilograms.
+     */
     public calculateCarbonEquivalent(): number {
-        const gasFactor = 2.2;
-        const electricityFactor = 0.55;
-        let wasteEquivalent = 0;
-        
+        const gasFactor = 2.2;          // kg CO₂ per m³ gas
+        const electricityFactor = 0.55; // kg CO₂ per kWh
+
+        const gasCO2 = this._totalGasUsage * gasFactor;
+        const elecCO2 = this._totalElectricityUsage * electricityFactor;
+
+        let wasteCO2 = 0;
+
         for (const [type, weight] of this._totalWaste.entries()) {
             const factor = WasteCarbonFactors[type];
             if (factor !== undefined) {
-                wasteEquivalent += weight * factor;
+                wasteCO2 += weight * factor;
             }
         }
 
-        const totalEquivalent = (this._totalGasUsage * gasFactor)
-            + (this._totalElectricityUsage * electricityFactor)
-            + wasteEquivalent;
-        
-        return totalEquivalent;
-    }
-
-    private ensureWasteIsPositive() {
-        for (const [_, weight] of this._totalWaste.entries()) {
-            Guard.check(weight, `weight`).againstNullOrUndefined().againstNegative();
-        }
+        return gasCO2 + elecCO2 + wasteCO2;
     }
 
     get totalGasUsage(): number {
