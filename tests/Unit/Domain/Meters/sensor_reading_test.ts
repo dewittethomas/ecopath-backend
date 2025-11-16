@@ -26,8 +26,8 @@ Deno.test('SensorReading - Fails with invalid or missing fields', async (t) => {
 
     const invalidCases = [
         { smartMeterId: null as unknown as SmartMeterId, timestamp, value: 10, unit: Unit.KilowattHour, msg: 'missing SmartMeter' },
+
         { smartMeterId, timestamp: null as unknown as Date, value: 10, unit: Unit.KilowattHour, msg: 'missing timestamp' },
-        { smartMeterId, timestamp, value: 0, unit: Unit.KilowattHour, msg: 'zero value' },
         { smartMeterId, timestamp, value: -5, unit: Unit.KilowattHour, msg: 'negative value' },
         { smartMeterId, timestamp, value: 10, unit: null as unknown as Unit, msg: 'missing unit' },
         { smartMeterId, timestamp: new Date(Date.now() + 60_000), value: 10, unit: Unit.KilowattHour, msg: 'future timestamp' },

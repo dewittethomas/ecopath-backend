@@ -48,13 +48,23 @@ export class ExtraGuard<T> {
 
     public ensureValueExistsInEnum<E extends Record<string, unknown>>(enumType: E, message?: string): this {
         if (!Object.values(enumType).includes(this.value)) {
-            this.throwException(message || `Invalid enum value "${this.value}" — not part of ${enumType.constructor.name}`);
+            this.throwException(message || `Invalid enum value "${this.value}" — not part of ${enumType.constructor.name}.`);
         }
         return this;
     }
 
     public ensureNumberIsAboveZero(message?: string) {
         Guard.check(this.value, message).againstZero().againstNegative();
+    }
+
+    public ensureNumberIsBetween(min: number, max: number, message?: string) {
+        if (typeof this.value !== 'number' || Number.isNaN(this.value)) {
+            this.throwException(message || `${this.parameterName} must be a valid number.`);
+        }
+        if (this.value < min || this.value > max) {
+            this.throwException(message || `${this.parameterName} must be between ${min} and ${max}.`)
+        }
+        return this;
     }
 
     public ensureStringIsInBase64Format(message?: string) {

@@ -42,8 +42,13 @@ export class WasteScan extends Entity {
 
     public override validateState(): void {
         Guard.check(this._userId, 'userId').againstNullOrUndefined();
-        ExtraGuard.check(this._timestamp, 'timestamp').againstNullOrUndefined().ensureIsValidDate().ensureDateIsInThePast();
-        ExtraGuard.check(this._image, 'image').againstNullOrUndefined().ensureStringIsInBase64Format();
+        ExtraGuard.check(this._timestamp, 'timestamp')
+            .againstNullOrUndefined()
+            .ensureIsValidDate()
+            .ensureDateIsInThePast();
+        ExtraGuard.check(this._image, 'image')
+            .againstNullOrUndefined()
+            .ensureStringIsInBase64Format();
     }
 
     override get id(): WasteScanId {

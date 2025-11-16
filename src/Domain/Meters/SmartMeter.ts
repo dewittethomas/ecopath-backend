@@ -41,7 +41,9 @@ export class SmartMeter extends Entity {
     }
 
     public override validateState(): void {
-        ExtraGuard.check(this._meterType, 'meterType').againstNullOrUndefined().ensureValueExistsInEnum(MeterType);
+        ExtraGuard.check(this._meterType, 'meterType')
+            .againstNullOrUndefined()
+            .ensureValueExistsInEnum(MeterType);
         ExtraGuard.check(this._location, 'location').againstNullOrUndefined();
     }
 

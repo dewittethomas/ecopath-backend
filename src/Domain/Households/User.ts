@@ -47,7 +47,7 @@
             public override validateState(): void {
                 Guard.check(this._name, 'name').againstEmpty().againstWhitespace();
                 Guard.check(this._email, 'email').againstEmpty().againstWhitespace();
-                ExtraGuard.check(this._avatarImage, 'avatarImage').ensureStringIsInBase64Format();
+                ExtraGuard.check(this._avatarImage, 'avatarImage').againstNullOrUndefined().ensureStringIsInBase64Format();
                 Guard.check(this._userProfile, 'userProfile').againstNullOrUndefined()
             }
 

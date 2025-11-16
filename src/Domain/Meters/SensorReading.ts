@@ -37,9 +37,14 @@ export class SensorReading {
 
     public validateState(): void {
         ExtraGuard.check(this._smartMeterId, 'smartMeterId').againstNullOrUndefined();
-        ExtraGuard.check(this._timestamp, 'timestamp').againstNullOrUndefined().ensureIsValidDate().ensureDateIsInThePast();
+        ExtraGuard.check(this._timestamp, 'timestamp')
+            .againstNullOrUndefined()
+            .ensureIsValidDate()
+            .ensureDateIsInThePast();
         Guard.check(this._value, 'value').againstNegative();
-        ExtraGuard.check(this._unit, 'unit').againstNullOrUndefined().ensureValueExistsInEnum(Unit);
+        ExtraGuard.check(this._unit, 'unit')
+            .againstNullOrUndefined()
+            .ensureValueExistsInEnum(Unit);
     }
 
     equals(other: SensorReading): boolean {
