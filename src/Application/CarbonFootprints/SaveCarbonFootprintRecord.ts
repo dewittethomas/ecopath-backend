@@ -11,8 +11,8 @@ import {
 export interface SaveCarbonFootprintRecordInput {
     id: string;
     userId: string;
-    fromDate: Date;
-    toDate: Date;
+    year: number;
+    month: number;
     CarbonFootprint: {
         totalGasUsage: number;
         totalElectricityUsage: number;
@@ -47,8 +47,8 @@ export class SaveCarbonFootprintRecord implements UseCase<SaveCarbonFootprintRec
             const record = CarbonFootprintRecord.create(
                 CarbonFootprintRecordId.create(input.id),
                 UserId.create(input.userId),
-                new Date(input.fromDate),
-                new Date(input.toDate),
+                input.month,
+                input.year,
                 carbonFootprint
             );
 
