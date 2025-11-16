@@ -16,23 +16,23 @@ export class WasteRecord extends Entity {
     private readonly _userId: UserId;
     private readonly _wasteType: WasteType;
     private readonly _weightKg: number;
-    private readonly _year: number;
     private readonly _month: number;
+    private readonly _year: number;
 
     private constructor(
         id: WasteRecordId,
         userId: UserId,
         wasteType: WasteType,
         weightKg: number,
-        year: number,
         month: number,
+        year: number
     ) {
         super(id);
         this._userId = userId;
         this._wasteType = wasteType;
         this._weightKg = weightKg;
-        this._year = year;
         this._month = month;
+        this._year = year;
     }
 
     public static create(
@@ -43,7 +43,7 @@ export class WasteRecord extends Entity {
         year: number,
         month: number,
     ): WasteRecord {
-        const record = new WasteRecord(id, userId, wasteType, weightKg, year, month);
+        const record = new WasteRecord(id, userId, wasteType, weightKg, month, year);
         record.validateState();
         return record;
     }
@@ -59,13 +59,13 @@ export class WasteRecord extends Entity {
             .againstNullOrUndefined()
             .againstNegative();
 
-        ExtraGuard.check(this._year, 'year')
-            .againstNullOrUndefined()
-            .ensureNumberIsBetween(2000, 2100);
-
         ExtraGuard.check(this._month, 'month')
             .againstNullOrUndefined()
             .ensureNumberIsBetween(1, 12);
+
+        ExtraGuard.check(this._year, 'year')
+            .againstNullOrUndefined()
+            .ensureNumberIsBetween(2000, 2100);
     }
 
     override get id(): WasteRecordId {
@@ -84,11 +84,11 @@ export class WasteRecord extends Entity {
         return this._weightKg;
     }
 
-    get year(): number {
-        return this._year;
-    }
-
     get month(): number {
         return this._month;
+    }
+
+    get year(): number {
+        return this._year;
     }
 }

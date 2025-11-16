@@ -1,13 +1,14 @@
 import type { UseCase } from '@domaincrafters/application';
-import type { WasteRecordRepository, UnitOfWork } from "EcoPath/Application/Contracts/mod.ts";
-import { WasteRecord, WasteRecordId, UserId, WasteType } from "EcoPath/Domain/mod.ts";
+import type { WasteRecordRepository, UnitOfWork } from 'EcoPath/Application/Contracts/mod.ts';
+import { WasteRecord, WasteRecordId, UserId, WasteType } from 'EcoPath/Domain/mod.ts';
 
 export interface SaveWasteRecordInput {
     id: string;
     userId: string;
     wasteType: WasteType;
     weightKg: number;
-    disposedAt: Date;
+    month: number;
+    year: number;
 }
 
 export class SaveWasteRecord implements UseCase<SaveWasteRecordInput> {
@@ -29,7 +30,8 @@ export class SaveWasteRecord implements UseCase<SaveWasteRecordInput> {
                 UserId.create(input.userId),
                 input.wasteType,
                 input.weightKg,
-                input.disposedAt,
+                input.month,
+                input.year
             );
 
             await this._wasteRecordRepository.save(record);
