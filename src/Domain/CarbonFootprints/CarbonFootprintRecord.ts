@@ -1,5 +1,5 @@
-import { Entity, UUIDEntityId } from "@domaincrafters/domain";
-import { ExtraGuard, UserId, CarbonFootprint } from "EcoPath/Domain/mod.ts";
+import { Entity, UUIDEntityId } from '@domaincrafters/domain';
+import { ExtraGuard, UserId, CarbonFootprint } from 'EcoPath/Domain/mod.ts';
 
 export class CarbonFootprintRecordId extends UUIDEntityId {
     private constructor(id?: string) {
@@ -13,60 +13,74 @@ export class CarbonFootprintRecordId extends UUIDEntityId {
 
 export class CarbonFootprintRecord extends Entity {
     private readonly _userId: UserId;
-    private readonly _fromDate: Date;
-    private readonly _toDate: Date;
-    private readonly _CarbonFootprint: CarbonFootprint;
+    private readonly _year: number;
+    private readonly _month: number;
+    private readonly _carbonFootprint: CarbonFootprint;
 
     private constructor(
         id: CarbonFootprintRecordId,
         userId: UserId,
-        fromDate: Date,
-        toDate: Date,
-        CarbonFootprint: CarbonFootprint
+        month: number,
+        year: number,
+        carbonFootprint: CarbonFootprint
     ) {
         super(id);
         this._userId = userId;
-        this._fromDate = fromDate;
-        this._toDate = toDate;
-        this._CarbonFootprint = CarbonFootprint;
+        this._month = month;
+        this._year = year;
+        this._carbonFootprint = carbonFootprint;
     }
 
     public static create(
         id: CarbonFootprintRecordId,
         userId: UserId,
-        fromDate: Date,
-        toDate: Date,
-        CarbonFootprint: CarbonFootprint
-    ) {
-        const carbonFootprintRecord = new CarbonFootprintRecord(id, userId, fromDate, toDate, CarbonFootprint);
-        carbonFootprintRecord.validateState();
-        return carbonFootprintRecord;
+        month: number,
+        year: number,
+        carbonFootprint: CarbonFootprint
+    ): CarbonFootprintRecord {
+        const record = new CarbonFootprintRecord(
+            id,
+            userId,
+            month,
+            year,
+            carbonFootprint
+        );
+
+        record.validateState();
+        return record;
     }
 
     public override validateState(): void {
         ExtraGuard.check(this._userId, 'userId').againstNullOrUndefined();
-        ExtraGuard.check(this._fromDate, 'fromDate').ensureDateIsInThePast();
-        ExtraGuard.check(this._toDate, 'toDate').ensureDateIsInThePast();
-        ExtraGuard.check(this._CarbonFootprint, 'CarbonFootprint').againstNullOrUndefined();
+
+        ExtraGuard.check(this._month, 'month')
+            .againstNullOrUndefined()
+            .ensureNumberIsBetween(1, 12);
+
+        ExtraGuard.check(this._year, 'year')
+            .againstNullOrUndefined()
+            .ensureNumberIsBetween(2000, 2100);
+
+        ExtraGuard.check(this._carbonFootprint, 'carbonFootprint').againstNullOrUndefined();
     }
 
     override get id(): CarbonFootprintRecordId {
-      return this._id as CarbonFootprintRecordId;
+        return this._id as CarbonFootprintRecordId;
     }
 
     get userId(): UserId {
         return this._userId;
     }
 
-    get fromDate(): Date {
-        return this._fromDate;
+    get month(): number {
+        return this._month;
     }
 
-    get toDate(): Date {
-        return this._toDate;
+    get year(): number {
+        return this._year;
     }
 
-    get CarbonFootprint(): CarbonFootprint {
-        return this._CarbonFootprint;
+    get carbonFootprint(): CarbonFootprint {
+        return this._carbonFootprint;
     }
 }
