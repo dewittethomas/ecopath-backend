@@ -16,8 +16,12 @@ export class AllSensorReadingsBySmartMeterIdAndDateController {
         const request = await WebApiRequest.create(ctx, this.validateRequest);
 
         const smartMeterId = request.parameter('smartMeterId');
-        const from = new Date(ctx.request.url.searchParams.get('from')!);
-        const to = new Date(ctx.request.url.searchParams.get('to')!);
+
+        const fromParam = ctx.request.url.searchParams.get('from');
+        const toParam = ctx.request.url.searchParams.get('to');
+
+        const from = new Date(fromParam as string);
+        const to = new Date(toParam as string);
 
         const avgFlag = ctx.request.url.searchParams.get('avg');
         const interval = ctx.request.url.searchParams.get('interval') as 'day' | 'week' | 'month' | null;

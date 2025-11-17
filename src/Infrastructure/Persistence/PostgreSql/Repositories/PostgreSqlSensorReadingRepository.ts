@@ -1,5 +1,5 @@
-import type { SensorReadingRepository } from 'EcoPath/Application/Contracts/mod.ts';
 import type { SensorReading, SmartMeterId } from 'EcoPath/Domain/mod.ts';
+import type { SensorReadingRepository } from 'EcoPath/Application/Contracts/mod.ts';
 import type { RecordMapper, PostgreSqlClient } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 
 export class PostgreSqlSensorReadingRepository implements SensorReadingRepository {

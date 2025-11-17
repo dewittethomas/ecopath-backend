@@ -1,4 +1,4 @@
-import { SensorReadingRecord } from 'EcoPath/Application/Contracts/mod.ts';
+import { SensorReadingRecord, CarbonFootprintRecord } from 'EcoPath/Application/Contracts/mod.ts';
 
 export interface GetSensorReadingsData {
     smartMeterId: string;
@@ -62,4 +62,8 @@ export interface GetSmartMetersData {
 
 export interface AllSmartMetersQuery {
     fetchAll(): Promise<GetSmartMetersData[]>;
+}
+
+export interface AllCarbonFootprintRecordsByUserIdQuery {
+    fetchAll(userId: string): Promise<CarbonFootprintRecord[]>;
 }

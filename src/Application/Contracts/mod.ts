@@ -17,11 +17,13 @@ export type { SaveClassificationResultInput } from 'EcoPath/Application/Waste/Sa
 
 // -- QUERY INTERFACES -- 
 export type { SensorReadingRecord } from 'EcoPath/Application/Contracts/Data/SensorReadingRecord.ts';
+export type { CarbonFootprintRecord } from 'EcoPath/Application/Contracts/Data/CarbonFootprintRecord.ts';
 export type { 
     GetSensorReadingsData, 
     GetAverageSensorReadingsData, 
     GetGroupedAverageSensorReadingsData, 
     AllSensorReadingsBySmartMeterIdAndDateQuery, 
     GetSmartMetersData, 
-    AllSmartMetersQuery 
+    AllSmartMetersQuery,
+    AllCarbonFootprintRecordsByUserIdQuery
 } from 'EcoPath/Application/Contracts/Ports/Queries.ts';
