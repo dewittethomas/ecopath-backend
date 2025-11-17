@@ -5,15 +5,18 @@ import {
 } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 import type { Config } from 'EcoPath/Infrastructure/Shared/mod.ts';
 import {
-    PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery,
-    PostgreSqlAllSmartMetersQuery,
+    UserRecordMapper,
+    SmartMeterRecordMapper,
+    SensorReadingRecordMapper,
+    CarbonFootprintRecordMapper,
     PostgreSqlUserRepository,
     PostgreSqlSmartMeterRepository,
     PostgreSqlSensorReadingRepository,
-    UserRecordMapper,
-    SmartMeterRecordMapper
+    PostgreSqlCarbonFootprintRecordRepository,
+    PostgreSqlAllSmartMetersQuery,
+    PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery,
+    PostgreSqlCarbonFootprintRecordsByUserIdQuery
 } from 'EcoPath/Infrastructure/Persistence/PostgreSql/mod.ts';
-import { SensorReadingRecordMapper } from "../../../Infrastructure/Persistence/PostgreSql/Mappers/SensorReadingRecordMapper.ts";
 
 export class PersistenceModule {
     static add(serviceCollection: ServiceCollection, config: Config): void {
@@ -69,21 +72,25 @@ export class PersistenceModule {
                     )
                 }
             )
+            .addScoped(
+                'postgreSqlCarbonFootprintRecordRepository',
+                async(serviceProvider: ServiceProvider) => {
+                    const client = 
+                        (await serviceProvider.getService<PostgreSqlClient>('postgreSqlClient'))
+                            .getOrThrow();
+                    const carbonFootprintDocumentMapper = new CarbonFootprintRecordMapper();
 
+                    return new PostgreSqlCarbonFootprintRecordRepository(
+                        client,
+                        carbonFootprintDocumentMapper
+                    )
+                }
+            )
         return this;
     }
     
     static addQueries(serviceCollection: ServiceCollection): typeof PersistenceModule {
         serviceCollection
-            .addScoped(
-                'allSensorReadingsBySmartMeterIdAndDateQuery',
-                async (_serviceProvider: ServiceProvider) => {
-                    const postgreSqlClient: PostgreSqlClient =
-                        (await _serviceProvider.getService<PostgreSqlClient>('postgreSqlClient')).value;
-
-                    return new PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery(postgreSqlClient);
-                }
-            )
             .addScoped(
                 'allSmartMetersQuery',
                 async (_serviceProvider: ServiceProvider) => {
@@ -91,6 +98,24 @@ export class PersistenceModule {
                         (await _serviceProvider.getService<PostgreSqlClient>('postgreSqlClient')).value;
 
                     return new PostgreSqlAllSmartMetersQuery(postgreSqlClient);
+                }
+            )
+            .addScoped(
+                'sensorReadingsBySmartMeterIdAndDateQuery',
+                async (_serviceProvider: ServiceProvider) => {
+                    const postgreSqlClient: PostgreSqlClient =
+                        (await _serviceProvider.getService<PostgreSqlClient>('postgreSqlClient')).value;
+
+                    return new PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery(postgreSqlClient);
+                }
+            )
+            .addScoped(
+                'carbonFootprintRecordsByUserIdQuery',
+                async (_serviceProvider: ServiceProvider) => {
+                    const postgreSqlClient: PostgreSqlClient =
+                        (await _serviceProvider.getService<PostgreSqlClient>('postgreSqlClient')).value;
+                    
+                    return new PostgreSqlCarbonFootprintRecordsByUserIdQuery(postgreSqlClient);
                 }
             )
 

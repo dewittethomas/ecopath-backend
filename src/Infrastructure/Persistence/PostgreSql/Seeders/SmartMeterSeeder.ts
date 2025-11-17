@@ -29,7 +29,7 @@ export class SmartMeterSeeder {
         ];
 
         for (const m of smartMeters) {
-            console.log(`Started seeding SmartMeter (type: ${m.meterType})`)
+            console.log(`Started seeding SmartMeter (type: ${m.meterType})...`)
             const smartMeter = SmartMeter.create(
                 m.id,
                 m.meterType,
@@ -42,7 +42,7 @@ export class SmartMeterSeeder {
             );
 
             await this.smartMeterRepository.save(smartMeter);
-            console.log(`SmartMeter ${smartMeter.id} (type: ${smartMeter.meterType}) seeded`);
+            console.log(`Seeded SmartMeter ${smartMeter.id} (type: ${smartMeter.meterType}).`);
         }
     }
 }

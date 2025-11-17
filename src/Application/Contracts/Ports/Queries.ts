@@ -28,7 +28,7 @@ export interface GetGroupedAverageSensorReadingsData {
     values: SensorReadingRecord[];
 }
 
-export interface AllSensorReadingsBySmartMeterIdAndDateQuery {
+export interface SensorReadingsBySmartMeterIdAndDateQuery {
     fetchAll(
         smartMeterId: string,
         from: Date,
@@ -64,6 +64,6 @@ export interface AllSmartMetersQuery {
     fetchAll(): Promise<GetSmartMetersData[]>;
 }
 
-export interface AllCarbonFootprintRecordsByUserIdQuery {
+export interface CarbonFootprintRecordsByUserIdQuery {
     fetchAll(userId: string): Promise<CarbonFootprintRecord[]>;
 }

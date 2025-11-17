@@ -26,6 +26,7 @@ export class UserSeeder {
         ];
 
         for (const u of users) {
+            console.log(`Started seeding User (gender: ${u.gender})...`)
             const profile = UserProfile.create(
                 u.birthDate,
                 u.gender,
@@ -49,6 +50,7 @@ export class UserSeeder {
             );
 
             await this.userRepository.save(user);
+            console.log(`Seeded User ${user.id} (gender: ${user.userProfile.gender}).`)
         }
     }
 }

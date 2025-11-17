@@ -1,6 +1,11 @@
 import type { Router } from '@oak/oak';
 import type { RouterBuilder } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
-import { SaveUserController, AllSensorReadingsBySmartMeterIdAndDateController, AllSmartMetersController } from "EcoPath/Infrastructure/WebApi/mod.ts";
+import { 
+    SaveUserController, 
+    SensorReadingsBySmartMeterIdAndDateController, 
+    AllSmartMetersController,
+    CarbonFootprintRecordsByUserIdController
+} from "EcoPath/Infrastructure/WebApi/mod.ts";
 
 export class Routes {
     static map(routerBuilder: RouterBuilder): Router {
@@ -10,12 +15,16 @@ export class Routes {
                 '/api/users'
             )
             .mapGet(
-                AllSensorReadingsBySmartMeterIdAndDateController.name,
+                AllSmartMetersController.name,
+                '/api/smart-meters'
+            )
+            .mapGet(
+                SensorReadingsBySmartMeterIdAndDateController.name,
                 '/api/smart-meters/:smartMeterId/readings'
             )
             .mapGet(
-                AllSmartMetersController.name,
-                '/api/smart-meters'
+                CarbonFootprintRecordsByUserIdController.name,
+                '/api/carbon-footprint-records/:userId'
             )
             .build();
     }

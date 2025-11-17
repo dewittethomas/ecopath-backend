@@ -9,7 +9,6 @@ export class SensorReadingSeeder {
     constructor(
         private readonly smartMeterRepository: SmartMeterRepository,
         private readonly sensorReadingRepository: SensorReadingRepository,
-        private readonly config: Config
     ) {}
 
     async seed(): Promise<void> {
@@ -21,7 +20,7 @@ export class SensorReadingSeeder {
         const hoursBack = 24 * days;
 
         for (const smartMeter of smartMeters) {
-            console.log(`Starting seeding SensorReadings for SmartMeter ${smartMeter.id} (type: ${smartMeter.meterType})`)
+            console.log(`Started seeding SensorReadings for SmartMeter ${smartMeter.id} (type: ${smartMeter.meterType})...`)
             const unit = smartMeter.meterType === MeterType.ELECTRICITY 
                 ? Unit.KilowattHour
                 : Unit.CubicMeter;
@@ -37,8 +36,9 @@ export class SensorReadingSeeder {
                 );
 
                 await this.sensorReadingRepository.save(reading, smartMeter.id);
-                console.log(`Seeded SensorReadings for SmartMeter ${smartMeter.id} (type: ${smartMeter.meterType}) for ${days} days.`)
             }
+
+            console.log(`Seeded SensorReadings for SmartMeter ${smartMeter.id} (type: ${smartMeter.meterType}) for ${days} days.`)
         }
     }
 

@@ -3,14 +3,13 @@ import {
     GetAverageSensorReadingsData,
     GetGroupedAverageSensorReadingsData,
     SensorReadingRecord,
-    AllSensorReadingsBySmartMeterIdAndDateQuery
+    SensorReadingsBySmartMeterIdAndDateQuery
 } from 'EcoPath/Application/Contracts/mod.ts';
-
 import { PostgreSqlClient } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 import { Unit } from 'EcoPath/Domain/mod.ts';
 
-export class PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery
-    implements AllSensorReadingsBySmartMeterIdAndDateQuery {
+export class PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery
+    implements SensorReadingsBySmartMeterIdAndDateQuery {
 
     constructor(private readonly db: PostgreSqlClient) {}
 

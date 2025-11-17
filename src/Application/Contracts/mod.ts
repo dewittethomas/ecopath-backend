@@ -22,8 +22,8 @@ export type {
     GetSensorReadingsData, 
     GetAverageSensorReadingsData, 
     GetGroupedAverageSensorReadingsData, 
-    AllSensorReadingsBySmartMeterIdAndDateQuery, 
+    SensorReadingsBySmartMeterIdAndDateQuery, 
     GetSmartMetersData, 
     AllSmartMetersQuery,
-    AllCarbonFootprintRecordsByUserIdQuery
+    CarbonFootprintRecordsByUserIdQuery
 } from 'EcoPath/Application/Contracts/Ports/Queries.ts';

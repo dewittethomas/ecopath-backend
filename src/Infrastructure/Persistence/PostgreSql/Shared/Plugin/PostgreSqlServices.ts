@@ -4,7 +4,6 @@ import type {
     ServiceProvider,
     ServiceDisposer
 } from '@domaincrafters/di';
-
 import { Client } from '@db/postgres';
 import type { Config } from 'EcoPath/Infrastructure/Shared/Config.ts';
 
@@ -12,7 +11,10 @@ import {
     PostgreSqlClient,
     PostgreSqlUnitOfWork
 } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
-import { PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery } from "../../mod.ts";
+import { 
+    PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery, 
+    PostgreSqlCarbonFootprintRecordsByUserIdQuery 
+} from "EcoPath/Infrastructure//Persistence/PostgreSql/mod.ts";
 
 export class PostgreSqlServices {
 
@@ -54,13 +56,23 @@ export class PostgreSqlServices {
 
     static addQueries(serviceCollection: ServiceCollection): typeof PostgreSqlServices {
         serviceCollection.addScoped(
-            'allSensorReadingsBySmartMeterIdAndDate',
+            'sensorReadingsBySmartMeterIdAndDate',
             async (_serviceProvider: ServiceProvider) => {
                 const postgreSqlClient: PostgreSqlClient =
                     (await _serviceProvider.getService<PostgreSqlClient>('postgreSqlClient')).value;
 
-                return new PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery(postgreSqlClient);
-            },
+                return new PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery(postgreSqlClient);
+            }
+        );
+
+        serviceCollection.addScoped(
+            'carbonFootprintRecordsByUserId',
+            async (_serviceProvider: ServiceProvider) => {
+                const postgreSqlClient: PostgreSqlClient =
+                    (await _serviceProvider.getService<PostgreSqlClient>('postgreSqlClient')).value;
+
+                return new PostgreSqlCarbonFootprintRecordsByUserIdQuery(postgreSqlClient);
+            }
         );
 
         return this;

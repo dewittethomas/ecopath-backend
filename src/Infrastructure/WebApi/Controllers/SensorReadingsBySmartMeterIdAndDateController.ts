@@ -5,11 +5,11 @@ import {
     WebApiResult,
     RequestValidator
 } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
-import type { AllSensorReadingsBySmartMeterIdAndDateQuery } from 'EcoPath/Application/Contracts/mod.ts';
+import type { SensorReadingsBySmartMeterIdAndDateQuery } from 'EcoPath/Application/Contracts/mod.ts';
 
-export class AllSensorReadingsBySmartMeterIdAndDateController {
+export class SensorReadingsBySmartMeterIdAndDateController {
     constructor(
-        private readonly query: AllSensorReadingsBySmartMeterIdAndDateQuery
+        private readonly query: SensorReadingsBySmartMeterIdAndDateQuery
     ) {}
 
     async handle(ctx: RouterContext<string>): Promise<void> {

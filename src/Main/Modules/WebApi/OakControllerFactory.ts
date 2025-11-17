@@ -4,15 +4,17 @@ import type { WebApiController } from 'EcoPath/Infrastructure/WebApi/Shared/WebA
 import type { ControllerFactory } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
 import {
     SaveUserController,
-    AllSensorReadingsBySmartMeterIdAndDateController,
     AllSmartMetersController,
+    SensorReadingsBySmartMeterIdAndDateController,
+    CarbonFootprintRecordsByUserIdController
 } from 'EcoPath/Infrastructure/WebApi/mod.ts';
 import {
     SaveUser
 } from 'EcoPath/Application/mod.ts';
 import {
-    AllSensorReadingsBySmartMeterIdAndDateQuery,
-    AllSmartMetersQuery
+    AllSmartMetersQuery,
+    SensorReadingsBySmartMeterIdAndDateQuery,
+    CarbonFootprintRecordsByUserIdQuery
 } from 'EcoPath/Application/Contracts/mod.ts';
 import type { ServiceProvider } from '@domaincrafters/di';
 import type {
@@ -37,10 +39,12 @@ export class OakControllerFactory implements ControllerFactory {
         switch (ctx.routeName) {
             case SaveUserController.name:
                 return await this.buildSaveUserController();
-            case AllSensorReadingsBySmartMeterIdAndDateController.name:
-                return await this.buildAllSensorReadingsBySmartMeterIdAndDateController();
             case AllSmartMetersController.name:
                 return await this.buildAllSmartMetersController();
+            case SensorReadingsBySmartMeterIdAndDateController.name:
+                return await this.buildSensorReadingsBySmartMeterIdAndDateController();
+            case CarbonFootprintRecordsByUserIdController.name:
+                return await this.buildCarbonFootprintRecordsByUserIdController();
             default:
                 throw new IllegalStateException(`Route name ${ctx.routeName} not found`);
         }
@@ -65,19 +69,27 @@ export class OakControllerFactory implements ControllerFactory {
         );
     }
 
-    private async buildAllSensorReadingsBySmartMeterIdAndDateController(): Promise<AllSensorReadingsBySmartMeterIdAndDateController> {
-        const query = (await this._serviceProvider.getService<AllSensorReadingsBySmartMeterIdAndDateQuery>(
-            'allSensorReadingsBySmartMeterIdAndDateQuery',
-        )).getOrThrow();
-
-        return new AllSensorReadingsBySmartMeterIdAndDateController(query);
-    }
-
     private async buildAllSmartMetersController(): Promise<AllSmartMetersController> {
         const query = (await this._serviceProvider.getService<AllSmartMetersQuery>(
             'allSmartMetersQuery'
         )).getOrThrow();
 
         return new AllSmartMetersController(query);
+    }
+
+    private async buildSensorReadingsBySmartMeterIdAndDateController(): Promise<SensorReadingsBySmartMeterIdAndDateController> {
+        const query = (await this._serviceProvider.getService<SensorReadingsBySmartMeterIdAndDateQuery>(
+            'sensorReadingsBySmartMeterIdAndDateQuery'
+        )).getOrThrow();
+
+        return new SensorReadingsBySmartMeterIdAndDateController(query);
+    }
+
+    private async buildCarbonFootprintRecordsByUserIdController(): Promise<CarbonFootprintRecordsByUserIdController> {
+        const query = (await this._serviceProvider.getService<CarbonFootprintRecordsByUserIdQuery>(
+            'carbonFootprintRecordsByUserIdQuery'
+        )).getOrThrow();
+
+        return new CarbonFootprintRecordsByUserIdController(query);
     }
 }
