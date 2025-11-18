@@ -13,6 +13,33 @@ export class PostgreSqlCarbonFootprintRecordRepository
     ) {
         super(client, 'carbon_footprint_records', mapper);
     }
+
+    override async save(entity: CarbonFootprintRecord): Promise<void> {
+        const record = this._mapper.toRecord(entity);
+
+        const columns = Object.keys(record);
+        const values = Object.values(record);
+        const placeholders = columns.map((_, i) => `$${i + 1}`).join(',');
+        const updateAssignments = columns.map(col => `${col} = EXCLUDED.${col}`).join(',');
+
+        await this._dbClient.execute(`
+            INSERT INTO carbon_footprint_records (${columns.join(',')})
+            VALUES (${placeholders})
+            ON CONFLICT (id) DO UPDATE SET ${updateAssignments}
+        `, values);
+
+        await this._dbClient.execute(`
+            DELETE FROM carbon_footprint_records_waste
+            WHERE record_id = $1
+        `, [entity.id.toString()]);
+
+        for (const [wasteType, weight] of entity.carbonFootprint.totalWaste.entries()) {
+            await this._dbClient.execute(`
+                INSERT INTO carbon_footprint_records_waste (record_id, waste_type, weight_kg)
+                VALUES ($1, $2, $3)
+            `, [entity.id.toString(), wasteType, weight]);
+        }
+    }
     
     async allByUserId(userId: string): Promise<CarbonFootprintRecord[]> {
         const footprintRows = await this._dbClient.findMany<PgRecord>(

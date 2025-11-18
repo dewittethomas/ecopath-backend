@@ -17,7 +17,18 @@ export class CarbonFootprintRecordsByUserIdController {
 
         const userId = ctx.params.userId!;
 
-        const result = await this.query.fetchAll(userId);
+        const monthParam = ctx.request.url.searchParams.get('month');
+        const yearParam = ctx.request.url.searchParams.get('year');
+
+        let result;
+
+        if (monthParam && yearParam) {
+            // fetch by month/year
+            result = await this.query.fetchByMonth(userId, Number(monthParam), Number(yearParam));
+        } else {
+            // fetch all
+            result = await this.query.fetchAll(userId);
+        }
 
         WebApiResult.ok(ctx, result);
     }

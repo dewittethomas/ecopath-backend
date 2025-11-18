@@ -66,4 +66,5 @@ export interface AllSmartMetersQuery {
 
 export interface CarbonFootprintRecordsByUserIdQuery {
     fetchAll(userId: string): Promise<CarbonFootprintRecord[]>;
+    fetchByMonth(userId: string, month: number, year: number): Promise<CarbonFootprintRecord | null>;
 }
