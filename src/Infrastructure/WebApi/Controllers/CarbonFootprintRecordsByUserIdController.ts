@@ -22,9 +22,10 @@ export class CarbonFootprintRecordsByUserIdController {
 
         let result;
 
-        if (monthParam && yearParam) {
+        if (monthParam) {
             // fetch by month/year
-            result = await this.query.fetchByMonth(userId, Number(monthParam), Number(yearParam));
+            const year = yearParam ? Number(yearParam) : new Date().getFullYear();
+            result = await this.query.fetchByMonth(userId, Number(monthParam), year);
         } else {
             // fetch all
             result = await this.query.fetchAll(userId);
