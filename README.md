@@ -4,6 +4,13 @@ This document explains how to start the backend for the first time in developmen
 You must run the migration and optional seeding steps **before** bringing the backend up normally.
 
 ---
+## 🏗️ 0. Build the Backend Docker Image
+
+Before running containers, build the backend image:
+
+```sh
+docker build -f ./config/dev/Dockerfile -t ecopath-backend .
+```
 
 ## ⚙️ 1. Start the Database Container
 
