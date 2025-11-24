@@ -6,6 +6,7 @@ import {
     SaveUserController,
     AllSmartMetersController,
     SensorReadingsBySmartMeterIdAndDateController,
+    SensorReadingsByCityAndDateController,
     CarbonFootprintRecordsByUserIdController
 } from 'EcoPath/Infrastructure/WebApi/mod.ts';
 import {
@@ -43,6 +44,8 @@ export class OakControllerFactory implements ControllerFactory {
                 return await this.buildAllSmartMetersController();
             case SensorReadingsBySmartMeterIdAndDateController.name:
                 return await this.buildSensorReadingsBySmartMeterIdAndDateController();
+            case SensorReadingsByCityAndDateController.name:
+                return await this.buildSensorReadingsByCityAndDateController();
             case CarbonFootprintRecordsByUserIdController.name:
                 return await this.buildCarbonFootprintRecordsByUserIdController();
             default:
@@ -83,6 +86,14 @@ export class OakControllerFactory implements ControllerFactory {
         )).getOrThrow();
 
         return new SensorReadingsBySmartMeterIdAndDateController(query);
+    }
+
+    private async buildSensorReadingsByCityAndDateController(): Promise<SensorReadingsByCityAndDateController> {
+        const query = (await this._serviceProvider.getService<SensorReadingsBySmartMeterIdAndDateQuery>(
+            'sensorReadingsBySmartMeterIdAndDateQuery'
+        )).getOrThrow();
+
+        return new SensorReadingsByCityAndDateController(query);
     }
 
     private async buildCarbonFootprintRecordsByUserIdController(): Promise<CarbonFootprintRecordsByUserIdController> {

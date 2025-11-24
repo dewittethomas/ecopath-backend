@@ -3,6 +3,7 @@ import type { RouterBuilder } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts'
 import { 
     SaveUserController, 
     SensorReadingsBySmartMeterIdAndDateController, 
+    SensorReadingsByCityAndDateController, 
     AllSmartMetersController,
     CarbonFootprintRecordsByUserIdController
 } from "EcoPath/Infrastructure/WebApi/mod.ts";
@@ -21,6 +22,10 @@ export class Routes {
             .mapGet(
                 SensorReadingsBySmartMeterIdAndDateController.name,
                 '/api/smart-meters/:smartMeterId/readings'
+            )
+            .mapGet(
+                SensorReadingsByCityAndDateController.name,
+                '/api/smart-meters/:city/readings/:type'
             )
             .mapGet(
                 CarbonFootprintRecordsByUserIdController.name,

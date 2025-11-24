@@ -28,6 +28,26 @@ export interface GetGroupedAverageSensorReadingsData {
     values: SensorReadingRecord[];
 }
 
+export interface GetGroupedAverageSensorReadingsData {
+    smartMeterId: string;
+    type: string;
+    from: Date;
+    to: Date;
+    unit: string;
+    interval: 'day' | 'week' | 'month';
+    values: SensorReadingRecord[];
+}
+
+export interface GetGroupedAverageByCitySensorReadingsData {
+    city: string;
+    type: string;
+    from: Date;
+    to: Date;
+    unit: string;
+    interval: 'day' | 'week' | 'month';
+    values: SensorReadingRecord[];
+}
+
 export interface SensorReadingsBySmartMeterIdAndDateQuery {
     fetchAll(
         smartMeterId: string,
@@ -47,6 +67,14 @@ export interface SensorReadingsBySmartMeterIdAndDateQuery {
         to: Date,
         interval: 'day' | 'week' | 'month'
     ): Promise<GetGroupedAverageSensorReadingsData>;
+
+    fetchGroupedAverageByCity(
+        city: string,
+        type: string,
+        from: Date,
+        to: Date,
+        interval: 'day' | 'week' | 'month'
+    ): Promise<GetGroupedAverageByCitySensorReadingsData>
 }
 
 export interface GetSmartMetersData {
