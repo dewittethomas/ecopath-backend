@@ -1,6 +1,7 @@
 import {
     GetSensorReadingsData,
     GetAverageSensorReadingsData,
+    type Interval,
     GetGroupedAverageSensorReadingsData,
     SensorReadingRecord,
     SensorReadingsBySmartMeterIdAndDateQuery
@@ -80,7 +81,7 @@ export class PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery
         smartMeterId: string,
         from: Date,
         to: Date,
-        interval: 'day' | 'week' | 'month'
+        interval: Interval
     ): Promise<GetGroupedAverageSensorReadingsData> {
         const { type, unit } = await this.getMeterTypeAndUnit(smartMeterId);
         const { fromIso, toIso } = this.normalizeRange(from, to);
@@ -120,7 +121,7 @@ export class PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery
         type: string,
         from: Date,
         to: Date,
-        interval: 'day' | 'week' | 'month'
+        interval: Interval
     ) {
         const { fromIso, toIso } = this.normalizeRange(from, to);
         const groupExpression = this.getGroupExpression(interval);

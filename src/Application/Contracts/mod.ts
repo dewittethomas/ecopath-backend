@@ -20,7 +20,8 @@ export type { SensorReadingRecord } from 'EcoPath/Application/Contracts/Data/Sen
 export type { CarbonFootprintRecord } from 'EcoPath/Application/Contracts/Data/CarbonFootprintRecord.ts';
 export type { 
     GetSensorReadingsData, 
-    GetAverageSensorReadingsData, 
+    GetAverageSensorReadingsData,
+    Interval,
     GetGroupedAverageSensorReadingsData, 
     SensorReadingsBySmartMeterIdAndDateQuery, 
     GetSmartMetersData, 
