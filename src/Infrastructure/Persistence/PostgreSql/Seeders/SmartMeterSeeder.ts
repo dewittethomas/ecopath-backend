@@ -18,11 +18,51 @@ export class SmartMeterSeeder {
             },
             {
                 id: SmartMeterId.create(),
+                meterType: MeterType.ELECTRICITY,
+                location: {
+                    houseNumber: '11',
+                    street: 'Main St',
+                    city: 'Daejeon',
+                    postalCode: '1000'
+                }
+            },
+            {
+                id: SmartMeterId.create(),
+                meterType: MeterType.ELECTRICITY,
+                location: {
+                    houseNumber: '11',
+                    street: 'Main St',
+                    city: 'Daejeon',
+                    postalCode: '1000'
+                }
+            },
+            {
+                id: SmartMeterId.create(),
                 meterType: MeterType.GAS,
                 location: {
                     houseNumber: '11',
                     street: 'Main St',
                     city: 'Seoul',
+                    postalCode: '1000'
+                }
+            },
+            {
+                id: SmartMeterId.create(),
+                meterType: MeterType.GAS,
+                location: {
+                    houseNumber: '11',
+                    street: 'Main St',
+                    city: 'Daejeon',
+                    postalCode: '1000'
+                }
+            },
+            {
+                id: SmartMeterId.create(),
+                meterType: MeterType.GAS,
+                location: {
+                    houseNumber: '11',
+                    street: 'Main St',
+                    city: 'Busan',
                     postalCode: '1000'
                 }
             }
