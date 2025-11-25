@@ -1,0 +1,32 @@
+services:
+  backend-db.dev:
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/data/postgres
+    env_file:
+      - .backend-db.ecopath.dev.env
+    networks:
+      - ecopath-dev
+    restart: unless-stopped
+
+  backend.dev:
+    image: ecopath-backend-prod
+    env_file: .backend.ecopath.dev.env
+    ports:
+      - 8000:8000
+    networks:
+      - ecopath-dev
+    restart: unless-stopped
+    depends_on:
+      - backend-db.dev
+
+networks:
+  ecopath-dev:
+    ipam: 
+      config: 
+        - subnet: 10.0.0.0/16
+
+volumes:
+  postgres:
