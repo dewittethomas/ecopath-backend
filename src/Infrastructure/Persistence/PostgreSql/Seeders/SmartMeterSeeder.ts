@@ -12,7 +12,7 @@ export class SmartMeterSeeder {
                 location: {
                     houseNumber: '11',
                     street: 'Main St',
-                    city: 'New York',
+                    city: 'Seoul',
                     postalCode: '1000'
                 }
             },
@@ -22,7 +22,7 @@ export class SmartMeterSeeder {
                 location: {
                     houseNumber: '11',
                     street: 'Main St',
-                    city: 'New York',
+                    city: 'Seoul',
                     postalCode: '1000'
                 }
             }

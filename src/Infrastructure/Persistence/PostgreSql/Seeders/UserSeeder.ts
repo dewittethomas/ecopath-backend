@@ -16,7 +16,7 @@ export class UserSeeder {
                 location: {
                     houseNumber: '11',
                     street: 'Main St',
-                    city: 'New York',
+                    city: 'Seoul',
                     postalCode: '1000'
                 },
                 housingType: HousingType.Apartment,
