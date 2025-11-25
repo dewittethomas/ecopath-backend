@@ -112,71 +112,109 @@ Location: /users/bb70ae35-b68e-4200-9462-0766d991a565
 
 ## **3. GET /api/smart-meters/:smartMeterId/readings**
 
-**Description:** Returns sensor readings for a smart meter within a given date range, with options for averages.
+**Description:** Returns detailed sensor readings for a smart meter, including raw values, averages, or grouped averages.
 
 **Method:** `GET`
 
 **Path Parameters:**
 
-* `smartMeterId` — ID of the smart meter.
+* `smartMeterId` — Smart meter identifier
 
 **Query Parameters:**
 
-* `from` — start date (ISO8601) **required**
-* `to` — end date (ISO8601) **required**
-* `avg` — optional, `true` to get averages
-* `interval` — optional, one of `day`, `week`, `month`; used only if `avg=true`
+* `from` — ISO date string **required**
+* `to` — ISO date string **required**
+* `avg` — optional, `true` to return an average
+* `interval` — optional (`day` | `week` | `month`) — required only when requesting grouped averages
 
-**Example Response (Raw Readings):**
+### **Response Schemas**
+
+### **Raw Readings — `GetSensorReadingsData`**
 
 ```json
-[
-  {
-    "timestamp": "2025-11-25T12:00:00Z",
-    "value": 123.45
-  }
-]
+{
+  "smartMeterId": "string",
+  "type": "string",
+  "from": "2025-11-25T00:00:00Z",
+  "to": "2025-11-26T00:00:00Z",
+  "unit": "kWh",
+  "values": [
+    {
+      "timestamp": "2025-11-25T12:00:00Z",
+      "value": 123.45
+    }
+  ]
+}
 ```
 
-**Example Response (Average):**
+### **Single Average — `GetAverageSensorReadingsData`**
 
 ```json
-[
-  {
-    "intervalStart": "2025-11-25",
-    "averageValue": 120.5
-  }
-]
+{
+  "smartMeterId": "string",
+  "type": "string",
+  "from": "2025-11-25T00:00:00Z",
+  "to": "2025-11-26T00:00:00Z",
+  "unit": "kWh",
+  "average": 120.5
+}
+```
+
+### **Grouped Average — `GetGroupedAverageSensorReadingsData`**
+
+```json
+{
+  "smartMeterId": "string",
+  "type": "string",
+  "from": "2025-11-01T00:00:00Z",
+  "to": "2025-11-30T00:00:00Z",
+  "unit": "kWh",
+  "interval": "day",
+  "values": [
+    {
+      "timestamp": "2025-11-01T00:00:00Z",
+      "value": 100.2
+    }
+  ]
+}
 ```
 
 ---
 
 ## **4. GET /api/smart-meters/:city/readings/:type**
 
-**Description:** Returns sensor readings for a given city and reading type, with optional averages grouped by interval.
+**Description:** Returns grouped average sensor readings for an entire city.
 
 **Method:** `GET`
 
 **Path Parameters:**
 
-* `city` — City name **required**
-* `type` — Reading type **required**
+* `city` — City name
+* `type` — Sensor reading type
 
 **Query Parameters:**
 
-* `from` — start date (ISO8601) **required**
-* `to` — end date (ISO8601) **required**
-* `interval` — optional, one of `day`, `week`, `month`
+* `from` — ISO date **required**
+* `to` — ISO date **required**
+* `interval` — `day` | `week` | `month` **required**
 
-**Example Response (Grouped Average):**
+### **Response — `GetGroupedAverageByCitySensorReadingsData`**
 
 ```json
-[
-  {
-    "intervalStart": "2025-11-25",
-    "averageValue": 115.7
-  }
-]
+{
+  "city": "string",
+  "type": "string",
+  "from": "2025-11-01T00:00:00Z",
+  "to": "2025-11-30T00:00:00Z",
+  "unit": "kWh",
+  "interval": "week",
+  "values": [
+    {
+      "timestamp": "2025-11-07T00:00:00Z",
+      "value": 112.4
+    }
+  ]
+}
 ```
 
 ---
