@@ -1,5 +1,18 @@
 import { SensorReadingRecord, CarbonFootprintRecord } from 'EcoPath/Application/Contracts/mod.ts';
 
+export type Interval = 'day' | 'week' | 'month';
+
+export interface AllSmartMetersData {
+    id: string;
+    meterType: string;
+    location: {
+        houseNumber: string;
+        street: string;
+        city: string;
+        postalCode: string;
+    };
+}
+
 export interface GetSensorReadingsData {
     smartMeterId: string;
     type: string;
@@ -17,8 +30,6 @@ export interface GetAverageSensorReadingsData {
     unit: string;
     average: number;
 }
-
-export type Interval = 'day' | 'week' | 'month';
 
 export interface GetGroupedAverageSensorReadingsData {
     smartMeterId: string;
@@ -38,6 +49,21 @@ export interface GetGroupedAverageByCitySensorReadingsData {
     unit: string;
     interval: Interval;
     values: SensorReadingRecord[];
+}
+
+export interface WasteScanData {
+    id: string;
+    image: string;
+    timestamp: Date;
+    wasteType: string;
+    geoLocation: {
+        latitude: number;
+        longitude: number;
+    };
+}
+
+export interface ListAllWasteScansOutput {
+    data: WasteScanData[];
 }
 
 export interface SensorReadingsBySmartMeterIdAndDateQuery {
@@ -67,21 +93,6 @@ export interface SensorReadingsBySmartMeterIdAndDateQuery {
         to: Date,
         interval: Interval
     ): Promise<GetGroupedAverageByCitySensorReadingsData>
-}
-
-export interface GetSmartMetersData {
-    id: string;
-    meterType: string;
-    location: {
-        houseNumber: string;
-        street: string;
-        city: string;
-        postalCode: string;
-    };
-}
-
-export interface AllSmartMetersQuery {
-    fetchAll(): Promise<GetSmartMetersData[]>;
 }
 
 export interface CarbonFootprintRecordsByUserIdQuery {

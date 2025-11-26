@@ -1,18 +1,19 @@
 import type { RouterContext } from '@oak/oak';
 import {
+    RequestValidator,
+    type WebApiController,
     WebApiRequest,
     WebApiResult,
-    RequestValidator
 } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
 import type { AllSmartMetersQuery } from 'EcoPath/Application/Contracts/mod.ts';
 
-export class AllSmartMetersController {
+export class AllSmartMetersController implements WebApiController {
     constructor(private readonly query: AllSmartMetersQuery) {}
 
     async handle(ctx: RouterContext<string>): Promise<void> {
         await WebApiRequest.create(ctx, this.validateRequest);
 
-        const result = await this.query.fetchAll();
+        const result = await this.query.fetch();
 
         WebApiResult.ok(ctx, result);
     }

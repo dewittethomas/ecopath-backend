@@ -4,7 +4,7 @@ import { PostgreSqlClient } from 'EcoPath/Infrastructure/Persistence/PostgreSql/
 export class PostgreSqlAllSmartMetersQuery implements AllSmartMetersQuery {
     constructor(private readonly db: PostgreSqlClient) {}
 
-    async fetchAll(): Promise<GetSmartMetersData[]> {
+    async fetch(): Promise<GetSmartMetersData[]> {
         const rows = await this.db.findMany<{
             id: string;
             meter_type: string;

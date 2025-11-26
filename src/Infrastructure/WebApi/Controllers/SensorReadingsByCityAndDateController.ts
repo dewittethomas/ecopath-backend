@@ -1,13 +1,14 @@
 import type { RouterContext } from '@oak/oak';
 import { Guard } from '@domaincrafters/std';
 import {
+    RequestValidator,
+    type WebApiController,
     WebApiRequest,
     WebApiResult,
-    RequestValidator
 } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
 import type { SensorReadingsBySmartMeterIdAndDateQuery } from 'EcoPath/Application/Contracts/mod.ts';
 
-export class SensorReadingsByCityAndDateController {
+export class SensorReadingsByCityAndDateController implements WebApiController {
     constructor(
         private readonly query: SensorReadingsBySmartMeterIdAndDateQuery
     ) {}

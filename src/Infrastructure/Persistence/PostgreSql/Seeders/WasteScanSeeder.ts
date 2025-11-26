@@ -9,12 +9,37 @@ export class WasteScanSeeder {
             {
                 id: WasteScanId.create(),
                 image: "iVBORw0KGgoAAAANSUhEUgAAAAUA",
-                timestamp: new Date("2025-01-01T00:00:00.000Z"),
+                timestamp: new Date("2025-01-01T10:00:00.000Z"),
                 wasteType: WasteType.Plastic,
-                geoLocation: {
-                    latitude: 37.549431,
-                    longitude: 127.074103
-                }
+                geoLocation: { latitude: 37.5665, longitude: 126.978 }
+            },
+            {
+                id: WasteScanId.create(),
+                image: "iVBORw0KGgoAAAANSUhEUgAAAAUB",
+                timestamp: new Date("2025-01-01T12:30:00.000Z"),
+                wasteType: WasteType.Metal,
+                geoLocation: { latitude: 37.5796, longitude: 126.977 }
+            },
+            {
+                id: WasteScanId.create(),
+                image: "iVBORw0KGgoAAAANSUhEUgAAAAUC",
+                timestamp: new Date("2025-01-01T15:45:00.000Z"),
+                wasteType: WasteType.PaperAndCardboard,
+                geoLocation: { latitude: 37.57, longitude: 127.009 }
+            },
+            {
+                id: WasteScanId.create(),
+                image: "iVBORw0KGgoAAAANSUhEUgAAAAUD",
+                timestamp: new Date("2025-01-01T17:20:00.000Z"),
+                wasteType: WasteType.Plastic,
+                geoLocation: { latitude: 37.5512, longitude: 126.9882 }
+            },
+            {
+                id: WasteScanId.create(),
+                image: "iVBORw0KGgoAAAANSUhEUgAAAAUE",
+                timestamp: new Date("2025-01-01T20:10:00.000Z"),
+                wasteType: WasteType.Glass,
+                geoLocation: { latitude: 37.5651, longitude: 126.9895 }
             }
         ]
 
@@ -25,7 +50,10 @@ export class WasteScanSeeder {
                 w.image,
                 w.timestamp,
                 w.wasteType,
-                w.geoLocation as GeoLocation
+                GeoLocation.create(
+                    w.geoLocation.latitude,
+                    w.geoLocation.longitude
+                )
             )
             await this.wasteScanRepository.save(wasteScan);
         }

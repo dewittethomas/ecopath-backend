@@ -14,7 +14,7 @@ export class WasteScanRecordMapper implements RecordMapper<WasteScan> {
     }
 
     reconstitute(record: PgRecord): WasteScan {
-        const geoLocation = GeoLocation.create(record.latitude as number, record.longitude as number);
+        const geoLocation = GeoLocation.create(Number(record.latitude), Number(record.longitude));
 
         return WasteScan.create(
             WasteScanId.create(record.id as string),

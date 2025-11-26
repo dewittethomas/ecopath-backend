@@ -66,4 +66,13 @@ export abstract class PostgreSqlRepository<E extends Entity> implements Reposito
             throw new IllegalStateException(`Entity with id: ${entity.id.toString()} was not deleted`);
         }
     }
+
+    async all(): Promise<E[]> {
+        const rows = await this._dbClient.findMany<PgRecord>(
+            `SELECT * FROM ${this._tableName}`,
+            []
+        );
+
+        return rows.map(row => this._mapper.reconstitute(row));
+    }
 }

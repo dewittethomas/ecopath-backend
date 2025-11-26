@@ -1,13 +1,14 @@
 import type { RouterContext } from '@oak/oak';
 import { Guard } from '@domaincrafters/std';
 import {
+    RequestValidator,
+    type WebApiController,
     WebApiRequest,
     WebApiResult,
-    RequestValidator
 } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
 import type { CarbonFootprintRecordsByUserIdQuery } from 'EcoPath/Application/Contracts/mod.ts';
 
-export class CarbonFootprintRecordsByUserIdController {
+export class CarbonFootprintRecordsByUserIdController implements WebApiController {
     constructor(
         private readonly query: CarbonFootprintRecordsByUserIdQuery
     ) {}
