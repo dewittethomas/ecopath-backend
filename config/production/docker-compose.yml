@@ -1,32 +1,30 @@
 services:
-  backend-db.dev:
+  backend-db.prod:
     image: postgres:alpine
-    ports:
-      - 5432:5432
     volumes:
       - postgres:/data/postgres
     env_file:
       - .backend-db.ecopath.production.env
     networks:
-      - ecopath-dev
+      - ecopath-prod
     restart: unless-stopped
 
-  backend.dev:
-    image: ecopath-backend-prod
+  backend.prod:
+    image: ecopath-backend
     env_file: .backend.ecopath.production.env
     ports:
       - 8000:8000
     networks:
-      - ecopath-dev
+      - ecopath-prod
     restart: unless-stopped
     depends_on:
-      - backend-db.dev
+      - backend-db.prod
 
 networks:
-  ecopath-dev:
+  ecopath-prod:
     ipam: 
       config: 
-        - subnet: 10.0.0.0/16
+        - subnet: 10.1.0.0/16
 
 volumes:
   postgres:
