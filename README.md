@@ -16,6 +16,6 @@ This is the backend for the **Ecopath** project, developed for the **Capstone De
 
 ## Documentation
 Full documentation is available in the `docs` folder:
-- [Development Setup](https://github.com/dewittethomas/ecopath-backend/docs/development.md)
-- [Production Deployment](https://github.com/dewittethomas/ecopath-backend/docs/production.md)
-- [API Endpoints](https://github.com/dewittethomas/ecopath-backend/docs/endpoints.md)
+- [Development Setup](https://github.com/dewittethomas/ecopath-backend/blob/main/docs/development.md)
+- [Production Deployment](https://github.com/dewittethomas/ecopath-backend/blob/main/docs/production.md)
+- [API Endpoints](https://github.com/dewittethomas/ecopath-backend/blob/main/docs/endpoints.md)
