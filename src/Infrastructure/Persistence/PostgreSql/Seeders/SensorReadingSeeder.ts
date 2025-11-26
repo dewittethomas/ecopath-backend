@@ -3,7 +3,6 @@ import type {
     SmartMeterRepository,
     SensorReadingRepository
 } from 'EcoPath/Application/Contracts/mod.ts';
-import { Config } from 'EcoPath/Infrastructure/Shared/Config.ts';
 
 export class SensorReadingSeeder {
     constructor(

@@ -13,7 +13,7 @@ services:
 
   backend.dev:
     image: ecopath-backend-prod
-    env_file: .backend.ecopath.dev.env
+    env_file: .backend.ecopath.production.env
     ports:
       - 8000:8000
     networks:

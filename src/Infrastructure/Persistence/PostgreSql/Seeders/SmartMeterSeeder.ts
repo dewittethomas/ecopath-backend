@@ -32,7 +32,7 @@ export class SmartMeterSeeder {
                 location: {
                     houseNumber: '11',
                     street: 'Main St',
-                    city: 'Daejeon',
+                    city: 'Busan',
                     postalCode: '1000'
                 }
             },

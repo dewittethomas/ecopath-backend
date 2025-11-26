@@ -41,7 +41,7 @@ export class WasteRecord extends Entity {
         wasteType: WasteType,
         weightKg: number,
         year: number,
-        month: number,
+        month: number
     ): WasteRecord {
         const record = new WasteRecord(id, userId, wasteType, weightKg, month, year);
         record.validateState();

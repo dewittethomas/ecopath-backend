@@ -27,4 +27,22 @@ export class PostgreSqlSensorReadingRepository implements SensorReadingRepositor
             record.unit
         ]);
     }
+
+    async saveMany(readings: SensorReading[], smartMeterId: string) {
+        if (readings.length === 0) return;
+
+        const values = readings.map(r => `(
+            '${r.smartMeterId}',
+            '${r.timestamp.toISOString()}',
+            ${r.value},
+            '${r.unit}'
+        )`).join(',');
+
+        const query = `
+            INSERT INTO sensor_readings (smart_meter_id, timestamp, value, unit)
+            VALUES ${values};
+        `;
+
+        await this._dbClient.execute(query);
+    }
 }
