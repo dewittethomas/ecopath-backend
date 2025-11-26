@@ -1,6 +1,6 @@
 import type { ServiceProvider } from '@domaincrafters/di';
-import type { UnitOfWork, UserRepository, SmartMeterRepository, SensorReadingRepository, CarbonFootprintRecordRepository } from 'EcoPath/Application/Contracts/mod.ts';
-import { UserSeeder, SmartMeterSeeder, SensorReadingSeeder, CarbonFootprintRecordSeeder } from 'EcoPath/Infrastructure/Persistence/PostgreSql/mod.ts';
+import type { UnitOfWork, UserRepository, SmartMeterRepository, SensorReadingRepository, CarbonFootprintRecordRepository, WasteScanRepository } from 'EcoPath/Application/Contracts/mod.ts';
+import { UserSeeder, SmartMeterSeeder, SensorReadingSeeder, CarbonFootprintRecordSeeder, WasteScanSeeder } from 'EcoPath/Infrastructure/Persistence/PostgreSql/mod.ts';
 
 export async function runSeeder(provider: ServiceProvider): Promise<void> {
     const scope = provider.createScope();
@@ -15,6 +15,8 @@ export async function runSeeder(provider: ServiceProvider): Promise<void> {
         (await scope.getService<SensorReadingRepository>('postgreSqlSensorReadingRepository')).getOrThrow();
     const carbonFootprintRecordRepository =
         (await scope.getService<CarbonFootprintRecordRepository>('postgreSqlCarbonFootprintRecordRepository')).getOrThrow();
+    const wasteScanRepository =
+        (await scope.getService<WasteScanRepository>('postgreSqlWasteScanRepository')).getOrThrow();
 
     await unitOfWork.do(async () => {
         await new UserSeeder(userRepository).seed();
@@ -24,6 +26,7 @@ export async function runSeeder(provider: ServiceProvider): Promise<void> {
             sensorReadingRepository
         ).seed();
         await new CarbonFootprintRecordSeeder(carbonFootprintRecordRepository, userRepository).seed();
+        await new WasteScanSeeder(wasteScanRepository).seed();
     });
 
     await scope.dispose();

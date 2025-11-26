@@ -37,7 +37,6 @@ export class WasteScan extends Entity {
         timestamp: Date,
         wasteType: WasteType,
         geoLocation: GeoLocation
-
     ): WasteScan {
         const scan = new WasteScan(id, image, timestamp, wasteType, geoLocation);
         scan.validateState();

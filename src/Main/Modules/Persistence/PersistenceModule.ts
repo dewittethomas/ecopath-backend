@@ -9,10 +9,12 @@ import {
     SmartMeterRecordMapper,
     SensorReadingRecordMapper,
     CarbonFootprintRecordMapper,
+    WasteScanRecordMapper,
     PostgreSqlUserRepository,
     PostgreSqlSmartMeterRepository,
     PostgreSqlSensorReadingRepository,
     PostgreSqlCarbonFootprintRecordRepository,
+    PostgreSqlWasteScanRepository,
     PostgreSqlAllSmartMetersQuery,
     PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery,
     PostgreSqlCarbonFootprintRecordsByUserIdQuery
@@ -83,6 +85,20 @@ export class PersistenceModule {
                     return new PostgreSqlCarbonFootprintRecordRepository(
                         client,
                         carbonFootprintDocumentMapper
+                    )
+                }
+            )
+            .addScoped(
+                'postgreSqlWasteScanRepository',
+                async(serviceProvider: ServiceProvider) => {
+                    const client = 
+                        (await serviceProvider.getService<PostgreSqlClient>('postgreSqlClient'))
+                            .getOrThrow();
+                    const wasteScanDocumentMapper = new WasteScanRecordMapper();
+
+                    return new PostgreSqlWasteScanRepository(
+                        client,
+                        wasteScanDocumentMapper
                     )
                 }
             )

@@ -1,6 +1,6 @@
 # Ecopath Backend
 
-This is the backend for the **Ecopath** project, developed for the **Capstone Design Project** course at **Sejong University**.
+This is the backend for the **EcoPath** project, developed for the **Capstone Design Project** course at **Sejong University**.
 
 ## Team Members
 - Thomas Dewitte  

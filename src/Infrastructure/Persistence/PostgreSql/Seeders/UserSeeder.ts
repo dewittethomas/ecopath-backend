@@ -21,7 +21,7 @@ export class UserSeeder {
                 },
                 housingType: HousingType.Apartment,
                 householdSize: 1,
-                ecoGoals: ['reduce_waste', 'use_bike']
+                ecoGoals: ['Reduce waste', 'Use less electricity']
             }
         ];
 
