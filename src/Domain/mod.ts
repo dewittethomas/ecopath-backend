@@ -11,3 +11,4 @@ export { CarbonFootprint } from 'EcoPath/Domain/CarbonFootprints/CarbonFootprint
 export { CarbonFootprintRecord, CarbonFootprintRecordId } from 'EcoPath/Domain/CarbonFootprints/CarbonFootprintRecord.ts';
 export { ClassificationResult, ClassificationResultId } from 'EcoPath/Domain/Waste/ClassificationResult.ts';
 export { WasteRecord, WasteRecordId } from 'EcoPath/Domain/Waste/WasteRecord.ts';
+export { GeoLocation } from 'EcoPath/Domain/Waste/GeoLocation.ts';

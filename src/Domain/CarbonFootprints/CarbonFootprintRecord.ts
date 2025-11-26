@@ -1,3 +1,4 @@
+import { Guard } from '@domaincrafters/std';
 import { Entity, UUIDEntityId } from '@domaincrafters/domain';
 import { ExtraGuard, UserId, CarbonFootprint } from 'EcoPath/Domain/mod.ts';
 
@@ -52,15 +53,8 @@ export class CarbonFootprintRecord extends Entity {
 
     public override validateState(): void {
         ExtraGuard.check(this._userId, 'userId').againstNullOrUndefined();
-
-        ExtraGuard.check(this._month, 'month')
-            .againstNullOrUndefined()
-            .ensureNumberIsBetween(1, 12);
-
-        ExtraGuard.check(this._year, 'year')
-            .againstNullOrUndefined()
-            .ensureNumberIsBetween(2000, 2100);
-
+        Guard.check(this._month, 'month').isInRange(1, 12);
+        Guard.check(this._year, 'year').isInRange(2000, 2100);
         ExtraGuard.check(this._carbonFootprint, 'carbonFootprint').againstNullOrUndefined();
     }
 

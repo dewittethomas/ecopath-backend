@@ -1,4 +1,4 @@
-import type { SensorReading, SmartMeterId } from 'EcoPath/Domain/mod.ts';
+import { SensorReading, SmartMeterId } from 'EcoPath/Domain/mod.ts';
 import type { SensorReadingRepository } from 'EcoPath/Application/Contracts/mod.ts';
 import type { RecordMapper, PostgreSqlClient } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 
@@ -28,21 +28,19 @@ export class PostgreSqlSensorReadingRepository implements SensorReadingRepositor
         ]);
     }
 
-    async saveMany(readings: SensorReading[], smartMeterId: string) {
-        if (readings.length === 0) return;
+    async saveMany(readings: SensorReading[], smartMeterId: SmartMeterId): Promise<void> {
+        const placeholders: string[] = [];
 
-        const values = readings.map(r => `(
-            '${r.smartMeterId}',
-            '${r.timestamp.toISOString()}',
-            ${r.value},
-            '${r.unit}'
-        )`).join(',');
+        for (const r of readings) {
+            const record = this._mapper.toRecord(r);
+            placeholders.push(`('${smartMeterId.toString()}', '${record.timestamp}', '${record.value}', '${record.unit}')`);
+        }
 
         const query = `
             INSERT INTO sensor_readings (smart_meter_id, timestamp, value, unit)
-            VALUES ${values};
+            VALUES ${placeholders.join(',')};
         `;
 
-        await this._dbClient.execute(query);
+        await this._dbClient.execute(query, []);
     }
 }

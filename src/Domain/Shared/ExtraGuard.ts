@@ -57,16 +57,6 @@ export class ExtraGuard<T> {
         Guard.check(this.value, message).againstZero().againstNegative();
     }
 
-    public ensureNumberIsBetween(min: number, max: number, message?: string) {
-        if (typeof this.value !== 'number' || Number.isNaN(this.value)) {
-            this.throwException(message || `${this.parameterName} must be a valid number.`);
-        }
-        if (this.value < min || this.value > max) {
-            this.throwException(message || `${this.parameterName} must be between ${min} and ${max}.`)
-        }
-        return this;
-    }
-
     public ensureStringIsInBase64Format(message?: string) {
         Guard.check(this.value, message).matches(/^[A-Za-z0-9+/=]+$/);
         return this;

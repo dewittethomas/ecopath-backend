@@ -2,7 +2,6 @@ import type { PgRecord, RecordMapper } from 'EcoPath/Infrastructure/Persistence/
 import { SensorReading, Unit, SmartMeterId } from 'EcoPath/Domain/mod.ts';
 
 export class SensorReadingRecordMapper implements RecordMapper<SensorReading> {
-
     toRecord(entity: SensorReading): PgRecord {
         return {
             smart_meter_id: entity.smartMeterId.toString(),

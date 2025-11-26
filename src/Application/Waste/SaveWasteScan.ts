@@ -1,12 +1,13 @@
 import type { UseCase } from '@domaincrafters/application';
 import type { WasteScanRepository, UnitOfWork } from "EcoPath/Application/Contracts/mod.ts";
-import { WasteScan, WasteScanId, UserId } from "EcoPath/Domain/mod.ts";
+import { WasteScan, WasteScanId, WasteType, GeoLocation } from "EcoPath/Domain/mod.ts";
 
 export interface SaveWasteScanInput {
     id: string;
-    userId: string;
-    timestamp: Date;
     image: string;
+    timestamp: Date;
+    wasteType: WasteType;
+    geoLocation: GeoLocation;
 }
 
 export class SaveWasteScan implements UseCase<SaveWasteScanInput> {
@@ -25,9 +26,10 @@ export class SaveWasteScan implements UseCase<SaveWasteScanInput> {
         return this._unitOfWork.do<void>(() => {
             const wasteScan = WasteScan.create(
                 WasteScanId.create(input.id),
-                UserId.create(input.userId),
-                input.timestamp,
                 input.image,
+                input.timestamp,
+                input.wasteType,
+                input.geoLocation
             );
 
             return this._wasteScanRepository.save(wasteScan);

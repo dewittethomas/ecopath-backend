@@ -3,6 +3,7 @@ import type {
     SmartMeterRepository,
     SensorReadingRepository
 } from 'EcoPath/Application/Contracts/mod.ts';
+import { read } from "node:fs";
 
 export class SensorReadingSeeder {
     constructor(
@@ -12,14 +13,14 @@ export class SensorReadingSeeder {
 
     async seed(): Promise<void> {
         const smartMeters: SmartMeter[] = await this.smartMeterRepository.findAll();
-        if (smartMeters.length === 0) return;
 
         const now = new Date();
         const days = 31;
         const hoursBack = 24 * days;
 
         for (const smartMeter of smartMeters) {
-            console.log(`Started seeding SensorReadings for SmartMeter ${smartMeter.id} (type: ${smartMeter.meterType})...`)
+            console.log(`Started seeding SensorReadings for SmartMeter ${smartMeter.id} (type: ${smartMeter.meterType})...`);
+            const sensorReadings: SensorReading[] = [];
             const unit = smartMeter.meterType === MeterType.ELECTRICITY 
                 ? Unit.KilowattHour
                 : Unit.CubicMeter;
@@ -34,8 +35,10 @@ export class SensorReadingSeeder {
                     unit,
                 );
 
-                await this.sensorReadingRepository.save(reading, smartMeter.id);
+                sensorReadings.push(reading);
             }
+
+            await this.sensorReadingRepository.saveMany(sensorReadings, smartMeter.id);
 
             console.log(`Seeded SensorReadings for SmartMeter ${smartMeter.id} (type: ${smartMeter.meterType}) for ${days} days.`)
         }
