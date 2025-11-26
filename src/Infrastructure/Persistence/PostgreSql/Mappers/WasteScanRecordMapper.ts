@@ -7,17 +7,20 @@ export class WasteScanRecordMapper implements RecordMapper<WasteScan> {
             image: entity.image,
             timestamp: entity.timestamp.toISOString(),
             wasteType: entity.wasteType,
-            geoLocation: entity.geoLocation
+            latitude: entity.geoLocation.latitude,
+            longitude: entity.geoLocation.longitude
         };
     }
 
     reconstitute(record: PgRecord): WasteScan {
+        const geoLocation = GeoLocation.create(record.latitude as number, record.longitude as number);
+
         return WasteScan.create(
             WasteScanId.create(record.id as string),
             record.image as string,
             new Date(record.timestamp as string),
             record.wasteType as WasteType,
-            record.geoLocation as GeoLocation
+            geoLocation
         );
     }
 }
