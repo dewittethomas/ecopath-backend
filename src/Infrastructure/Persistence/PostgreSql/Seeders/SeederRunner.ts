@@ -1,9 +1,8 @@
 import type { ServiceProvider } from '@domaincrafters/di';
-import { Config } from 'EcoPath/Infrastructure/Shared/Config.ts';
 import type { UnitOfWork, UserRepository, SmartMeterRepository, SensorReadingRepository, CarbonFootprintRecordRepository } from 'EcoPath/Application/Contracts/mod.ts';
 import { UserSeeder, SmartMeterSeeder, SensorReadingSeeder, CarbonFootprintRecordSeeder } from 'EcoPath/Infrastructure/Persistence/PostgreSql/mod.ts';
 
-export async function runSeeder(provider: ServiceProvider, config: Config): Promise<void> {
+export async function runSeeder(provider: ServiceProvider): Promise<void> {
     const scope = provider.createScope();
 
     const unitOfWork =

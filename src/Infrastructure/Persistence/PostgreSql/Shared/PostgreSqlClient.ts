@@ -87,8 +87,7 @@ export class PostgreSqlClient {
         error: unknown,
         msg: string,
     ): IllegalStateException {
-        const errorMessage: string = String(error);
-        const message: string = `${msg}: ${errorMessage}`;
+        const message: string = `${msg}: ${error instanceof Error ? error.message : JSON.stringify(error)}`;
         return new IllegalStateException(message);
     }
 }

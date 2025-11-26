@@ -62,7 +62,7 @@ export class PostgreSqlCarbonFootprintRecordRepository
             `
             SELECT *
             FROM carbon_footprint_records_waste
-            WHERE record_id = ANY($1)
+            WHERE record_id = $1
             `,
             [recordIds]
         );
@@ -107,7 +107,6 @@ export class PostgreSqlCarbonFootprintRecordRepository
             WHERE user_id = $1
             AND month = $2
             AND year = $3
-            LIMIT 1
             `,
             [userId, month, year]
         );

@@ -70,5 +70,11 @@ export class WasteScan extends Entity {
         return this._timestamp;
     }
 
-    
+    get wasteType(): WasteType {
+        return this._wasteType;
+    }
+
+    get geoLocation(): GeoLocation {
+        return this._geoLocation;
+    }
 }

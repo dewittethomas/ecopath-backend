@@ -55,9 +55,7 @@ export class CarbonFootprintRecordSeeder {
             );
 
             await this.carbonFootprintRecordRepository.save(record);
-            console.log(
-                `Seeded CarbonFootprintRecord (month: ${month}, year: 2025) for User ${userId}.`
-            );
+            console.log(`Seeded CarbonFootprintRecord (month: ${month}, year: 2025) for User ${userId}.`);
         }
 
         console.log(`Finished seeding CarbonFootprintRecords for User ${userId}.`);

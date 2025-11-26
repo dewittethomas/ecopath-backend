@@ -3,7 +3,6 @@ import type {
     SmartMeterRepository,
     SensorReadingRepository
 } from 'EcoPath/Application/Contracts/mod.ts';
-import { read } from "node:fs";
 
 export class SensorReadingSeeder {
     constructor(
@@ -28,14 +27,14 @@ export class SensorReadingSeeder {
             for (let h = 0; h < hoursBack; h++) {
                 const timestamp = new Date(now.getTime() - h * 60 * 60 * 1000);
 
-                const reading = SensorReading.create(
+                const sensorReading = SensorReading.create(
                     smartMeter.id,
                     timestamp,
                     this.generateValue(smartMeter.meterType),
                     unit,
                 );
 
-                sensorReadings.push(reading);
+                sensorReadings.push(sensorReading);
             }
 
             await this.sensorReadingRepository.saveMany(sensorReadings, smartMeter.id);
