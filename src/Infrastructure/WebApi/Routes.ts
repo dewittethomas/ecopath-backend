@@ -1,7 +1,8 @@
 import type { Router } from '@oak/oak';
 import type { RouterBuilder } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
 import { 
-    SaveUserController, 
+    SaveUserController,
+    SaveWasteScanController,
     SensorReadingsBySmartMeterIdAndDateController, 
     SensorReadingsByCityAndDateController, 
     AllSmartMetersController,
@@ -15,6 +16,10 @@ export class Routes {
             .mapPost(
                 SaveUserController.name,
                 '/api/users'
+            )
+            .mapPost(
+                SaveWasteScanController.name,
+                '/api/waste-scans'
             )
             .mapGet(
                 AllSmartMetersController.name,

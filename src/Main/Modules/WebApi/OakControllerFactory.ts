@@ -8,11 +8,13 @@ import {
     AllWasteScansController,
     SensorReadingsBySmartMeterIdAndDateController,
     SensorReadingsByCityAndDateController,
-    CarbonFootprintRecordsByUserIdController
+    CarbonFootprintRecordsByUserIdController,
+    SaveWasteScanController
 } from 'EcoPath/Infrastructure/WebApi/mod.ts';
 import {
     SaveUser,
-    ListAllWasteScans
+    ListAllWasteScans,
+    SaveWasteScan
 } from 'EcoPath/Application/mod.ts';
 import {
     SensorReadingsBySmartMeterIdAndDateQuery,
@@ -42,6 +44,8 @@ export class OakControllerFactory implements ControllerFactory {
         switch (ctx.routeName) {
             case SaveUserController.name:
                 return await this.buildSaveUserController();
+            case SaveWasteScanController.name:
+                return await this.buildSaveWasteScanController();
             case AllWasteScansController.name:
                 return await this.buildAllWasteScansController();
             // case AllSmartMetersController.name:
@@ -72,6 +76,24 @@ export class OakControllerFactory implements ControllerFactory {
 
         return new SaveUserController(
             saveUser
+        );
+    }
+
+    private async buildSaveWasteScanController(): Promise<SaveWasteScanController> {
+        const wasteScanRepository = (await this._serviceProvider.getService<WasteScanRepository>(
+            'postgreSqlWasteScanRepository'
+        )).getOrThrow();
+
+        const unitOfWork = (await this._serviceProvider.getService<UnitOfWork>('postgreSqlUnitOfWork'))
+            .getOrThrow();
+
+        const saveWasteScan: SaveWasteScan = new SaveWasteScan(
+            wasteScanRepository,
+            unitOfWork
+        );
+
+        return new SaveWasteScanController(
+            saveWasteScan
         );
     }
 

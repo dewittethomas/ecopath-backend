@@ -2,6 +2,7 @@ export type { ControllerFactory } from 'EcoPath/Infrastructure/WebApi/Shared/Con
 
 // Controllers
 export { SaveUserController } from 'EcoPath/Infrastructure/WebApi/Controllers/SaveUserController.ts';
+export { SaveWasteScanController } from 'EcoPath/Infrastructure/WebApi/Controllers/SaveWasteScanController.ts'; 
 export { SensorReadingsBySmartMeterIdAndDateController } from 'EcoPath/Infrastructure/WebApi/Controllers/SensorReadingsBySmartMeterIdAndDateController.ts';
 export { SensorReadingsByCityAndDateController } from 'EcoPath/Infrastructure/WebApi/Controllers/SensorReadingsByCityAndDateController.ts';
 export { AllSmartMetersController } from 'EcoPath/Infrastructure/WebApi/Controllers/AllSmartMetersController.ts';

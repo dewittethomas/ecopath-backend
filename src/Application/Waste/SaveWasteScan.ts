@@ -3,14 +3,16 @@ import type { WasteScanRepository, UnitOfWork } from "EcoPath/Application/Contra
 import { WasteScan, WasteScanId, WasteType, GeoLocation } from "EcoPath/Domain/mod.ts";
 
 export interface SaveWasteScanInput {
-    id: string;
     image: string;
     timestamp: Date;
-    wasteType: WasteType;
-    geoLocation: GeoLocation;
+    wasteType: string;
+    geoLocation: {
+        latitude: number;
+        longitude: number;
+    }
 }
 
-export class SaveWasteScan implements UseCase<SaveWasteScanInput> {
+export class SaveWasteScan implements UseCase<SaveWasteScanInput, string> {
     private readonly _wasteScanRepository: WasteScanRepository;
     private readonly _unitOfWork: UnitOfWork;
 
@@ -22,17 +24,26 @@ export class SaveWasteScan implements UseCase<SaveWasteScanInput> {
         this._unitOfWork = unitOfWork;
     }
 
-    execute(input: SaveWasteScanInput): Promise<void> {
-        return this._unitOfWork.do<void>(() => {
-            const wasteScan = WasteScan.create(
-                WasteScanId.create(input.id),
-                input.image,
-                input.timestamp,
-                input.wasteType,
-                input.geoLocation
+    async execute(input: SaveWasteScanInput): Promise<string> {
+        return this._unitOfWork.do<string>(async () => {
+            const geoLocation: GeoLocation = GeoLocation.create(
+                input.geoLocation.latitude,
+                input.geoLocation.longitude
             );
 
-            return this._wasteScanRepository.save(wasteScan);
+            const wasteScanId = WasteScanId.create();
+
+            const wasteScan = WasteScan.create(
+                wasteScanId,
+                input.image,
+                input.timestamp,
+                input.wasteType as WasteType,
+                geoLocation
+            );
+
+            await this._wasteScanRepository.save(wasteScan);
+
+            return wasteScan.id.toString();
         });
     }
 }
