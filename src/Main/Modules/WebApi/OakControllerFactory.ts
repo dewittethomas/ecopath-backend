@@ -4,22 +4,27 @@ import type { WebApiController } from 'EcoPath/Infrastructure/WebApi/Shared/WebA
 import type { ControllerFactory } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
 import {
     SaveUserController,
+    SavePickupRequestController,
     AllSmartMetersController,
     AllWasteScansController,
+    AllPickupRequestsController,
     SensorReadingsBySmartMeterIdAndDateController,
     SensorReadingsByCityAndDateController,
     CarbonFootprintRecordsByUserIdController,
-    SaveWasteScanController
+    SaveWasteScanController,
 } from 'EcoPath/Infrastructure/WebApi/mod.ts';
 import {
-    SaveUser,
+    SavePickupRequest,
     ListAllWasteScans,
-    SaveWasteScan,
-    ListAllPickupRequests
+    ListAllSmartMeters,
+    ListAllPickupRequests,
+    SaveUser,
+    SaveWasteScan
 } from 'EcoPath/Application/mod.ts';
 import {
     SensorReadingsBySmartMeterIdAndDateQuery,
     CarbonFootprintRecordsByUserIdQuery,
+    SmartMeterRepository,
     WasteScanRepository,
     PickupRequestRepository
 } from 'EcoPath/Application/Contracts/mod.ts';
@@ -28,8 +33,6 @@ import type {
     UserRepository,
     UnitOfWork
 } from 'EcoPath/Application/Contracts/mod.ts';
-import { AllPickupRequestsController } from "../../../Infrastructure/WebApi/Controllers/AllPickupRequestsController.ts";
-import { PickupRequest } from "../../../Domain/mod.ts";
 
 export class OakControllerFactory implements ControllerFactory {
     private readonly _serviceProvider: ServiceProvider;
@@ -46,16 +49,18 @@ export class OakControllerFactory implements ControllerFactory {
         }
 
         switch (ctx.routeName) {
+            case AllSmartMetersController.name:
+                return await this.buildAllSmartMetersController();
             case SaveUserController.name:
                 return await this.buildSaveUserController();
             case SaveWasteScanController.name:
                 return await this.buildSaveWasteScanController();
+            case SavePickupRequestController.name:
+                return await this.buildSavePickupRequestController();
             case AllWasteScansController.name:
                 return await this.buildAllWasteScansController();
             case AllPickupRequestsController.name:
                 return await this.buildAllPickupRequestsController();
-            // case AllSmartMetersController.name:
-            //     return await this.buildAllSmartMetersController();
             case SensorReadingsBySmartMeterIdAndDateController.name:
                 return await this.buildSensorReadingsBySmartMeterIdAndDateController();
             case SensorReadingsByCityAndDateController.name:
@@ -103,13 +108,33 @@ export class OakControllerFactory implements ControllerFactory {
         );
     }
 
-    // private async buildAllSmartMetersController(): Promise<AllSmartMetersController> {
-    //     const query = (await this._serviceProvider.getService<AllSmartMetersQuery>(
-    //         'allSmartMetersQuery'
-    //     )).getOrThrow();
+    private async buildSavePickupRequestController(): Promise<SavePickupRequestController> {
+        const pickupRequestRepository = (await this._serviceProvider.getService<PickupRequestRepository>(
+            'postgreSqlPickupRequestRepository'
+        )).getOrThrow();
 
-    //     return new AllSmartMetersController(query);
-    // }
+        const unitOfWork = (await this._serviceProvider.getService<UnitOfWork>('postgreSqlUnitOfWork'))
+            .getOrThrow();
+
+        const savePickupRequest: SavePickupRequest = new SavePickupRequest(
+            pickupRequestRepository,
+            unitOfWork
+        );
+
+        return new SavePickupRequestController(
+            savePickupRequest
+        );
+    }
+
+    private async buildAllSmartMetersController(): Promise<AllSmartMetersController> {
+        const smartMeterRepository = (await this._serviceProvider.getService<SmartMeterRepository>(
+            'postgreSqlSmartMeterRepository'
+        )).getOrThrow();
+
+        const listAllSmartMeters = new ListAllSmartMeters(smartMeterRepository);
+
+        return new AllSmartMetersController(listAllSmartMeters);
+    }
 
     private async buildAllWasteScansController(): Promise<AllWasteScansController> {
         const wasteScanRepository = (await this._serviceProvider.getService<WasteScanRepository>(

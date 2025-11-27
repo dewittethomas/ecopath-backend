@@ -14,7 +14,7 @@ export interface SavePickupRequestInput {
     notes?: string;
 }
 
-export class SaveWasteScan implements UseCase<SavePickupRequestInput, string> {
+export class SavePickupRequest implements UseCase<SavePickupRequestInput, string> {
     private readonly _pickupRequestRepository: PickupRequestRepository;
     private readonly _unitOfWork: UnitOfWork;
 

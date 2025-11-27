@@ -15,6 +15,7 @@ export type { SaveUserInput } from 'EcoPath/Application/Households/SaveUser.ts';
 export type { SaveSmartMeterInput } from 'EcoPath/Application/Meters/SaveSmartMeter.ts';
 export type { SaveWasteScanInput } from 'EcoPath/Application/Waste/SaveWasteScan.ts';
 export type { SaveClassificationResultInput } from 'EcoPath/Application/Waste/SaveClassificationResult.ts';
+export type { SavePickupRequestInput } from 'EcoPath/Application/PickupRequests/SavePickupRequest.ts';
 
 // -- QUERY INTERFACES -- 
 export type { SensorReadingRecord } from 'EcoPath/Application/Contracts/Data/SensorReadingRecord.ts';
@@ -23,6 +24,8 @@ export type {
     AllSmartMetersData,
     WasteScanData,
     PickupRequestData,
+    SmartMeterData,
+    ListAllSmartMetersOutput,
     ListAllWasteScansOutput,
     ListAllPickupRequestsOutput,
     GetSensorReadingsData, 

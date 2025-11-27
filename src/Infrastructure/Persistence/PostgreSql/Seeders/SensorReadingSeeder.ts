@@ -11,7 +11,7 @@ export class SensorReadingSeeder {
     ) {}
 
     async seed(): Promise<void> {
-        const smartMeters: SmartMeter[] = await this.smartMeterRepository.findAll();
+        const smartMeters: SmartMeter[] = await this.smartMeterRepository.all();
 
         const now = new Date();
         const days = 31;

@@ -8,7 +8,6 @@ export { PostgreSqlPickupRequestRepository } from 'EcoPath/Infrastructure/Persis
 
 // Queries
 export { PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Queries/PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery.ts';
-export { PostgreSqlAllSmartMetersQuery } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Queries/PostgreSqlAllSmartMetersQuery.ts';
 export { PostgreSqlCarbonFootprintRecordsByUserIdQuery } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Queries/PostgreSqlCarbonFootprintRecordsByUserIdQuery.ts';
 
 // Mappers

@@ -51,6 +51,17 @@ export interface GetGroupedAverageByCitySensorReadingsData {
     values: SensorReadingRecord[];
 }
 
+export interface SmartMeterData {
+    id: string;
+    meterType: string;
+    location: {
+        houseNumber: string;
+        street: string;
+        city: string;
+        postalCode: string;
+    };
+}
+
 export interface WasteScanData {
     id: string;
     image: string;
@@ -73,6 +84,10 @@ export interface PickupRequestData {
     image: string;
     timestamp: Date;
     notes?: string;
+}
+
+export interface ListAllSmartMetersOutput {
+    data: SmartMeterData[];
 }
 
 export interface ListAllWasteScansOutput {

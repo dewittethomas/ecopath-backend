@@ -1,5 +1,5 @@
 import { UseCase } from '@domaincrafters/application';
-import { GetSensorReadingsData, AllSensorReadingsBySmartMeterIdAndDateQuery } from "EcoPath/Application/Contracts/mod.ts";
+import { GetSensorReadingsData, SensorReadingsBySmartMeterIdAndDateQuery } from "EcoPath/Application/Contracts/mod.ts";
 
 export interface GetSensorReadingsInput {
     smartMeterId: string;
@@ -10,9 +10,9 @@ export interface GetSensorReadingsInput {
 export class GetSensorReadings
     implements UseCase<GetSensorReadingsInput, GetSensorReadingsData>
 {
-    private readonly _query: AllSensorReadingsBySmartMeterIdAndDateQuery;
+    private readonly _query: SensorReadingsBySmartMeterIdAndDateQuery;
 
-    constructor(query: AllSensorReadingsBySmartMeterIdAndDateQuery) {
+    constructor(query: SensorReadingsBySmartMeterIdAndDateQuery) {
         this._query = query;
     }
 

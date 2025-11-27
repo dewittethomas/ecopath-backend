@@ -16,7 +16,6 @@ import {
     PostgreSqlSensorReadingRepository,
     PostgreSqlCarbonFootprintRecordRepository,
     PostgreSqlWasteScanRepository,
-    PostgreSqlAllSmartMetersQuery,
     PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery,
     PostgreSqlCarbonFootprintRecordsByUserIdQuery,
     PostgreSqlPickupRequestRepository
@@ -123,15 +122,6 @@ export class PersistenceModule {
     
     static addQueries(serviceCollection: ServiceCollection): typeof PersistenceModule {
         serviceCollection
-            .addScoped(
-                'allSmartMetersQuery',
-                async (_serviceProvider: ServiceProvider) => {
-                    const postgreSqlClient: PostgreSqlClient =
-                        (await _serviceProvider.getService<PostgreSqlClient>('postgreSqlClient')).value;
-
-                    return new PostgreSqlAllSmartMetersQuery(postgreSqlClient);
-                }
-            )
             .addScoped(
                 'sensorReadingsBySmartMeterIdAndDateQuery',
                 async (_serviceProvider: ServiceProvider) => {

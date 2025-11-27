@@ -1,29 +1,24 @@
 import type { RouterContext } from '@oak/oak';
-import {
-    RequestValidator,
-    type WebApiController,
-    WebApiRequest,
-    WebApiResult,
-} from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
-import type { AllSmartMetersQuery } from 'EcoPath/Application/Contracts/mod.ts';
+import type { WebApiController } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
+import { WebApiResult } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
+
+import type { ListAllSmartMetersOutput } from 'EcoPath/Application/Contracts/mod.ts';
+import { ListAllSmartMeters } from 'EcoPath/Application/mod.ts';
 
 export class AllSmartMetersController implements WebApiController {
-    constructor(private readonly query: AllSmartMetersQuery) {}
+    private readonly _useCase: ListAllSmartMeters;
 
-    async handle(ctx: RouterContext<string>): Promise<void> {
-        await WebApiRequest.create(ctx, this.validateRequest);
-
-        const result = await this.query.fetch();
-
-        WebApiResult.ok(ctx, result);
+    constructor(useCase: ListAllSmartMeters) {
+        this._useCase = useCase;
     }
 
-    private validateRequest(_ctx: RouterContext<string>): Promise<void> {
-        RequestValidator
-            .create([])
-            .onValidationFailure('Invalid request for smart meters.')
-            .validate();
+    async handle(ctx: RouterContext<string>): Promise<void> {
+        const output: ListAllSmartMetersOutput = await this._useCase.execute();
 
-        return Promise.resolve();
+        const response = {
+            data: output.data,
+        };
+
+        WebApiResult.ok(ctx, response);
     }
 }

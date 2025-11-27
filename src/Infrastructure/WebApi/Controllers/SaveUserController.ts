@@ -54,7 +54,7 @@ export class SaveUserController implements WebApiController {
                     houseNumber: body.userProfile.location.houseNumber,
                     street: body.userProfile.location.street,
                     city: body.userProfile.location.city,
-                    postalCode: body.userProfile.location.postalCode,
+                    postalCode: body.userProfile.location.postalCode
                 },
                 housingType: body.userProfile.housingType,
                 householdSize: body.userProfile.householdSize,
@@ -81,6 +81,8 @@ export class SaveUserController implements WebApiController {
                 () => Guard.check(body.userProfile.housingType).againstEmpty('Housing type is required'),
                 () => Guard.check(body.userProfile.householdSize).againstNegative().againstZero(),
                 () => Guard.check(body.userProfile.location).againstNullOrUndefined('Location is required'),
+                () => Guard.check(body.userProfile.location.houseNumber).againstEmpty('HouseNumber is required'),
+                () => Guard.check(body.userProfile.location.street).againstEmpty('Street is required'),
                 () => Guard.check(body.userProfile.location.city).againstEmpty('City is required'),
                 () => Guard.check(body.userProfile.location.postalCode).againstEmpty('Postal code is required'),
             ])

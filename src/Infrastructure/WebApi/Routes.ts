@@ -3,6 +3,7 @@ import type { RouterBuilder } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts'
 import { 
     SaveUserController,
     SaveWasteScanController,
+    SavePickupRequestController,
     SensorReadingsBySmartMeterIdAndDateController, 
     SensorReadingsByCityAndDateController, 
     AllSmartMetersController,
@@ -21,6 +22,10 @@ export class Routes {
             .mapPost(
                 SaveWasteScanController.name,
                 '/api/waste-scans'
+            )
+            .mapPost(
+                SavePickupRequestController.name,
+                '/api/pickup-requests'
             )
             .mapGet(
                 AllSmartMetersController.name,
