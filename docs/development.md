@@ -4,7 +4,16 @@ This document explains how to start the backend for the first time in developmen
 You must run the migration and optional seeding steps **before** bringing the backend up normally.
 
 ---
-## 🏗️ 0. Build the Development Backend Docker Image
+
+## 📝 0. Configure Environment Variables
+
+Before doing anything else, rename the `.env.example` files in `./config/dev/` to `.env`:
+```sh
+mv ./config/dev/backend-db.ecopath.dev.env.example ./config/dev/backend-db.ecopath.dev.env
+mv ./config/dev/backend.ecopath.dev.env.example ./config/dev/backend.ecopath.dev.env
+```
+
+## 🏗️ 1. Build the Development Backend Docker Image
 
 Build the backend image using the development Dockerfile:
 
@@ -12,7 +21,7 @@ Build the backend image using the development Dockerfile:
 docker build -f ./config/dev/Dockerfile -t ecopath-backend .
 ```
 
-## ⚙️ 1. Start the Development Database Container
+## ⚙️ 2. Start the Development Database Container
 
 Before running any migrations, you need the Postgres container running in the background:
 
@@ -20,7 +29,7 @@ Before running any migrations, you need the Postgres container running in the ba
 docker compose -f ./config/dev/docker-compose.yml up -d backend-db.dev
 ```
 
-## 📦 2. Run Database Migrations (required)
+## 📦 3. Run Database Migrations (required)
 
 Migrations must be applied **before starting the development backend**.
 
@@ -40,7 +49,7 @@ You must run this **once for every new** development deployment that introduces 
 
 ---
 
-## 🌱 3. Seed Development Data
+## 🌱 4. Seed Development Data
 
 If you want seed data in development:
 
@@ -48,7 +57,7 @@ If you want seed data in development:
 docker compose -f ./config/dev/docker-compose.yml run --rm backend.dev deno task seed
 ```
 
-## 🚀 4. Start the Full Development Environment
+## 🚀 5. Start the Full Development Environment
 
 Once migrations are applied, start all services:
 
