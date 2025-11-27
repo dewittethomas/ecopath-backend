@@ -4,7 +4,16 @@ This document explains how to deploy the backend in production.
 Just like in development, you must run database migrations **before** bringing the backend up normally.
 
 ---
-## 🏗️ 0. Build the Production Backend Docker Image
+
+## 📝 0. Configure Environment Variables
+
+Before doing anything else, rename the `.env.example` files in `./config/dev/` to `.env`:
+```sh
+mv ./config/production/backend-db.ecopath.prod.env.example ./config/production/backend-db.ecopath.prod.env
+mv ./config/production/backend.ecopath.prod.env.example ./config/dev/backend.ecopath.prod.env
+```
+
+## 🏗️ 1. Build the Production Backend Docker Image
 
 Build the backend image using the production Dockerfile:
 
@@ -12,7 +21,7 @@ Build the backend image using the production Dockerfile:
 docker build -f ./config/production/Dockerfile -t ecopath-backend .
 ```
 
-## ⚙️ 1. Start the Production Database Container
+## ⚙️ 2. Start the Production Database Container
 
 Before running any migrations, you need the Postgres container running in the background:
 
@@ -20,7 +29,7 @@ Before running any migrations, you need the Postgres container running in the ba
 docker compose -f ./config/production/docker-compose.yml up -d backend-db.prod
 ```
 
-## 📦 2. Run Database Migrations (required)
+## 📦 3. Run Database Migrations (required)
 
 Migrations must be applied **before starting the production backend**.
 
@@ -40,7 +49,7 @@ You must run this **once for every new** production deployment that introduces n
 
 ---
 
-## 🌱 3. Seed Production Data
+## 🌱 4. Seed Production Data
 
 If you want seed data in production:
 
@@ -48,7 +57,7 @@ If you want seed data in production:
 docker compose -f ./config/production/docker-compose.yml run --rm backend.prod deno task seed
 ```
 
-## 🚀 4. Start the Full Development Environment
+## 🚀 5. Start the Full Development Environment
 
 Once migrations are applied, start all services:
 
