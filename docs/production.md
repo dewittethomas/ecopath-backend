@@ -10,7 +10,7 @@ Just like in development, you must run database migrations **before** bringing t
 Before doing anything else, rename the `.env.example` files in `./config/dev/` to `.env`:
 ```sh
 mv ./config/production/backend-db.ecopath.prod.env.example ./config/production/backend-db.ecopath.prod.env
-mv ./config/production/backend.ecopath.prod.env.example ./config/dev/backend.ecopath.prod.env
+mv ./config/production/backend.ecopath.prod.env.example ./config/production/backend.ecopath.prod.env
 ```
 
 ## 🏗️ 1. Build the Production Backend Docker Image
