@@ -62,6 +62,19 @@ export interface WasteScanData {
     };
 }
 
+export interface PickupRequestData {
+    id: string;
+    location: {
+        houseNumber: string;
+        street: string;
+        city: string;
+        postalCode: string;
+    };
+    image: string;
+    timestamp: Date;
+    notes?: string;
+}
+
 export interface ListAllWasteScansOutput {
     data: WasteScanData[];
 }

@@ -1,4 +1,3 @@
-import { UseCase } from '@domaincrafters/application';
 import { WasteScan } from "EcoPath/Domain/mod.ts";
 import type {
     WasteScanRepository, WasteScanData

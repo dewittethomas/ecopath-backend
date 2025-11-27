@@ -8,6 +8,7 @@ export type { ClassificationResultRepository } from 'EcoPath/Domain/Waste/Classi
 export type { CarbonFootprintRecordRepository } from 'EcoPath/Domain/CarbonFootprints/CarbonFootprintRecordRepository.ts';
 export type { SensorReadingRepository } from 'EcoPath/Domain/Meters/SensorReadingRepository.ts';
 export type { WasteRecordRepository } from 'EcoPath/Domain/Waste/WasteRecordRepository.ts';
+export type { PickupRequestRepository } from 'EcoPath/Domain/PickupRequests/PickupRequestRepository.ts';
 
 // -- USECASE INPUT/OUTPUT --
 export type { SaveUserInput } from 'EcoPath/Application/Households/SaveUser.ts';
@@ -21,6 +22,7 @@ export type { CarbonFootprintRecord } from 'EcoPath/Application/Contracts/Data/C
 export type {
     AllSmartMetersData,
     WasteScanData,
+    PickupRequestData,
     ListAllWasteScansOutput,
     GetSensorReadingsData, 
     GetAverageSensorReadingsData,

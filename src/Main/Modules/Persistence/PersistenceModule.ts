@@ -10,6 +10,7 @@ import {
     SensorReadingRecordMapper,
     CarbonFootprintRecordMapper,
     WasteScanRecordMapper,
+    PickupRequestMapper,
     PostgreSqlUserRepository,
     PostgreSqlSmartMeterRepository,
     PostgreSqlSensorReadingRepository,
@@ -17,7 +18,8 @@ import {
     PostgreSqlWasteScanRepository,
     PostgreSqlAllSmartMetersQuery,
     PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery,
-    PostgreSqlCarbonFootprintRecordsByUserIdQuery
+    PostgreSqlCarbonFootprintRecordsByUserIdQuery,
+    PostgreSqlPickupRequestRepository
 } from 'EcoPath/Infrastructure/Persistence/PostgreSql/mod.ts';
 
 export class PersistenceModule {
@@ -99,6 +101,20 @@ export class PersistenceModule {
                     return new PostgreSqlWasteScanRepository(
                         client,
                         wasteScanDocumentMapper
+                    )
+                }
+            )
+            .addScoped(
+                'postgreSqlPickupRequestRepository',
+                async(serviceProvider: ServiceProvider) => {
+                    const client = 
+                        (await serviceProvider.getService<PostgreSqlClient>('postgreSqlClient'))
+                            .getOrThrow();
+                    const pickupRequestDocumentMapper = new PickupRequestMapper();
+
+                    return new PostgreSqlPickupRequestRepository(
+                        client,
+                        pickupRequestDocumentMapper
                     )
                 }
             )

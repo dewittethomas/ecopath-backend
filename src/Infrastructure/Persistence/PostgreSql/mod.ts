@@ -4,6 +4,7 @@ export { PostgreSqlSmartMeterRepository } from 'EcoPath/Infrastructure/Persisten
 export { PostgreSqlSensorReadingRepository }from 'EcoPath/Infrastructure/Persistence/PostgreSql/Repositories/PostgreSqlSensorReadingRepository.ts';
 export { PostgreSqlCarbonFootprintRecordRepository } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Repositories/PostgreSqlCarbonFootprintRecordRepository.ts';
 export { PostgreSqlWasteScanRepository } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Repositories/PostgreSqlWasteScanRepository.ts';
+export { PostgreSqlPickupRequestRepository } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Repositories/PostgreSqlPickupRequestRepository.ts';
 
 // Queries
 export { PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Queries/PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery.ts';
@@ -17,6 +18,7 @@ export { SmartMeterRecordMapper } from 'EcoPath/Infrastructure/Persistence/Postg
 export { SensorReadingRecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Mappers/SensorReadingRecordMapper.ts';
 export { CarbonFootprintRecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Mappers/CarbonFootprintRecordMapper.ts';
 export { WasteScanRecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Mappers/WasteScanRecordMapper.ts';
+export { PickupRequestMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Mappers/PickupRequestRecordMapper.ts';
 
 // Seeders
 export { runSeeder } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Seeders/SeederRunner.ts';
@@ -25,3 +27,4 @@ export { SmartMeterSeeder } from 'EcoPath/Infrastructure/Persistence/PostgreSql/
 export { SensorReadingSeeder } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Seeders/SensorReadingSeeder.ts';
 export { CarbonFootprintRecordSeeder } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Seeders/CarbonFootprintRecordSeeder.ts';
 export { WasteScanSeeder} from 'EcoPath/Infrastructure/Persistence/PostgreSql/Seeders/WasteScanSeeder.ts';
+export { PickupRequestSeeder } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Seeders/PickupRequestSeeder.ts';
