@@ -26,7 +26,7 @@ export class SaveWasteScan implements UseCase<SavePickupRequestInput, string> {
         this._unitOfWork = unitOfWork;
     }
 
-    async execute(input: SavePickupRequestInput): Promise<string> {
+    execute(input: SavePickupRequestInput): Promise<string> {
         return this._unitOfWork.do<string>(async () => {
             const location = Location.create(
                 input.location.houseNumber,
@@ -42,7 +42,7 @@ export class SaveWasteScan implements UseCase<SavePickupRequestInput, string> {
                 location,
                 input.image,
                 input.timestamp,
-                input.notes?
+                input.notes
             );
 
             await this._pickupRequestRepository.save(pickupRequest);

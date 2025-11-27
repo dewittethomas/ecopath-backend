@@ -8,3 +8,4 @@ export { SensorReadingsByCityAndDateController } from 'EcoPath/Infrastructure/We
 export { AllSmartMetersController } from 'EcoPath/Infrastructure/WebApi/Controllers/AllSmartMetersController.ts';
 export { CarbonFootprintRecordsByUserIdController } from 'EcoPath/Infrastructure/WebApi/Controllers/CarbonFootprintRecordsByUserIdController.ts';
 export { AllWasteScansController } from 'EcoPath/Infrastructure/WebApi/Controllers/AllWasteScansController.ts';
+export { AllPickupRequestsController } from "EcoPath/Infrastructure/WebApi/Controllers/AllPickupRequestsController.ts";

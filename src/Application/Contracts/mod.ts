@@ -24,6 +24,7 @@ export type {
     WasteScanData,
     PickupRequestData,
     ListAllWasteScansOutput,
+    ListAllPickupRequestsOutput,
     GetSensorReadingsData, 
     GetAverageSensorReadingsData,
     Interval,

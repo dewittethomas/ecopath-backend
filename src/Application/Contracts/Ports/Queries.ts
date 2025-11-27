@@ -79,6 +79,10 @@ export interface ListAllWasteScansOutput {
     data: WasteScanData[];
 }
 
+export interface ListAllPickupRequestsOutput {
+    data: PickupRequestData[];
+}
+
 export interface SensorReadingsBySmartMeterIdAndDateQuery {
     fetchAll(
         smartMeterId: string,

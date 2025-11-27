@@ -8,3 +8,4 @@ export { GetSensorReadings } from 'EcoPath/Application/Meters/GetSensorReadings.
 export { GetAverageSensorReadings } from 'EcoPath/Application/Meters/GetAverageSensorReadings.ts';
 export { GetGroupedAverageSensorReadings } from 'EcoPath/Application/Meters/GetGroupedAverageSensorReadings.ts';
 export { ListAllWasteScans } from 'EcoPath/Application/Waste/ListAllWasteScans.ts';
+export { ListAllPickupRequests } from 'EcoPath/Application/PickupRequests/ListAllPickupRequests.ts';

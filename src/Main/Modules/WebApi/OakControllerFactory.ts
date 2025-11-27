@@ -14,18 +14,22 @@ import {
 import {
     SaveUser,
     ListAllWasteScans,
-    SaveWasteScan
+    SaveWasteScan,
+    ListAllPickupRequests
 } from 'EcoPath/Application/mod.ts';
 import {
     SensorReadingsBySmartMeterIdAndDateQuery,
     CarbonFootprintRecordsByUserIdQuery,
-    WasteScanRepository
+    WasteScanRepository,
+    PickupRequestRepository
 } from 'EcoPath/Application/Contracts/mod.ts';
 import type { ServiceProvider } from '@domaincrafters/di';
 import type {
     UserRepository,
     UnitOfWork
 } from 'EcoPath/Application/Contracts/mod.ts';
+import { AllPickupRequestsController } from "../../../Infrastructure/WebApi/Controllers/AllPickupRequestsController.ts";
+import { PickupRequest } from "../../../Domain/mod.ts";
 
 export class OakControllerFactory implements ControllerFactory {
     private readonly _serviceProvider: ServiceProvider;
@@ -48,6 +52,8 @@ export class OakControllerFactory implements ControllerFactory {
                 return await this.buildSaveWasteScanController();
             case AllWasteScansController.name:
                 return await this.buildAllWasteScansController();
+            case AllPickupRequestsController.name:
+                return await this.buildAllPickupRequestsController();
             // case AllSmartMetersController.name:
             //     return await this.buildAllSmartMetersController();
             case SensorReadingsBySmartMeterIdAndDateController.name:
@@ -113,6 +119,16 @@ export class OakControllerFactory implements ControllerFactory {
         const listAllWasteScans = new ListAllWasteScans(wasteScanRepository);
 
         return new AllWasteScansController(listAllWasteScans);
+    }
+
+    private async buildAllPickupRequestsController(): Promise<AllPickupRequestsController> {
+        const pickupRequestRepository = (await this._serviceProvider.getService<PickupRequestRepository>(
+            'postgreSqlPickupRequestRepository'
+        )).getOrThrow();
+
+        const listAllPickupRequests = new ListAllPickupRequests(pickupRequestRepository);
+
+        return new AllPickupRequestsController(listAllPickupRequests);
     }
 
     private async buildSensorReadingsBySmartMeterIdAndDateController(): Promise<SensorReadingsBySmartMeterIdAndDateController> {

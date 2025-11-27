@@ -18,18 +18,18 @@ function toPickupRequestData(entity: PickupRequest): PickupRequestData {
     };
 }
 
-export interface ListAllWasteScansOutput {
+export interface ListAllPickupRequestsOutput {
     data: PickupRequestData[];
 }
 
-export class ListAllWasteScans {
+export class ListAllPickupRequests {
     private readonly _repository: PickupRequestRepository;
 
     constructor(repository: PickupRequestRepository) {
         this._repository = repository;
     }
 
-    async execute(): Promise<ListAllWasteScansOutput> {
+    async execute(): Promise<ListAllPickupRequestsOutput> {
         const scans = await this._repository.all();
         return { data: scans.map(toPickupRequestData) };
     }

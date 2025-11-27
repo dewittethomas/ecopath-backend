@@ -24,7 +24,7 @@ export class SaveWasteScan implements UseCase<SaveWasteScanInput, string> {
         this._unitOfWork = unitOfWork;
     }
 
-    async execute(input: SaveWasteScanInput): Promise<string> {
+    execute(input: SaveWasteScanInput): Promise<string> {
         return this._unitOfWork.do<string>(async () => {
             const geoLocation: GeoLocation = GeoLocation.create(
                 input.geoLocation.latitude,

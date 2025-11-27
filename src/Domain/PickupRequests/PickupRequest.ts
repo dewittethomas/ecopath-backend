@@ -36,7 +36,7 @@ export class PickupRequest extends Entity {
         location: Location,
         image: string,
         timestamp: Date,
-        notes: string
+        notes?: string
     ): PickupRequest {
         const pickupRequest = new PickupRequest(id, location, image, timestamp, notes);
         pickupRequest.validateState();
