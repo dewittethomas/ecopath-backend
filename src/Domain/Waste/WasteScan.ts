@@ -49,8 +49,7 @@ export class WasteScan extends Entity {
             .ensureStringIsInBase64Format();
         ExtraGuard.check(this._timestamp, 'timestamp')
             .againstNullOrUndefined()
-            .ensureIsValidDate()
-            .ensureDateIsInThePast();
+            .ensureIsValidDate();
         ExtraGuard.check(this._wasteType, 'wasteType')
             .againstNullOrUndefined()
             .ensureValueExistsInEnum(WasteType);
