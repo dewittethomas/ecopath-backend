@@ -12,7 +12,6 @@ function toPickupRequestData(entity: PickupRequest): PickupRequestData {
             city: entity.location.city,
             postalCode: entity.location.postalCode
         },
-        image: entity.image,
         timestamp: entity.timestamp,
         notes: entity.notes
     };

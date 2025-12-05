@@ -10,7 +10,8 @@ import {
     AllWasteScansController,
     CarbonFootprintRecordsByUserIdController,
     AllPickupRequestsController,
-    GetWasteScanImageByIdController
+    GetWasteScanImageByIdController,
+    GetPickupRequestImageByIdController
 } from "EcoPath/Infrastructure/WebApi/mod.ts";
 
 export class Routes {
@@ -55,6 +56,10 @@ export class Routes {
             .mapGet(
                 GetWasteScanImageByIdController.name,
                 '/api/waste-scans/:wasteScanId/image'
+            )
+            .mapGet(
+                GetPickupRequestImageByIdController.name,
+                '/api/pickup-requests/:pickupRequestId/image'
             )
             .build();
     }

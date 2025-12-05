@@ -26,6 +26,10 @@ export interface GetWasteScanImageByIdOutput {
     image: string;
 }
 
+export interface GetPickupRequestImageByIdOutput {
+    image: string;
+}
+
 export interface GetAverageSensorReadingsData {
     smartMeterId: string;
     type: string;
@@ -84,7 +88,6 @@ export interface PickupRequestData {
         city: string;
         postalCode: string;
     };
-    image: string;
     timestamp: Date;
     notes?: string;
 }

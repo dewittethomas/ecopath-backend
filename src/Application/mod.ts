@@ -12,3 +12,4 @@ export { ListAllSmartMeters } from 'EcoPath/Application/Meters/ListAllSmartMeter
 export { ListAllWasteScans } from 'EcoPath/Application/Waste/ListAllWasteScans.ts';
 export { ListAllPickupRequests } from 'EcoPath/Application/PickupRequests/ListAllPickupRequests.ts';
 export { GetWasteScanImageById } from 'EcoPath/Application/Waste/GetWasteScanImageById.ts';
+export { GetPickupRequestImageById } from 'EcoPath/Application/PickupRequests/GetPickupRequestImageById.ts';

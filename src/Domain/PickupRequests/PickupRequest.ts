@@ -46,7 +46,7 @@ export class PickupRequest extends Entity {
     public override validateState(): void {
         ExtraGuard.check(this._location, 'location').againstNullOrUndefined();
         ExtraGuard.check(this._image, 'image').againstNullOrUndefined();
-        ExtraGuard.check(this._timestamp, 'timestamp').ensureDateIsInTheFuture();
+        ExtraGuard.check(this._timestamp, 'timestamp').againstNullOrUndefined();
     }
 
     override get id(): PickupRequestId {

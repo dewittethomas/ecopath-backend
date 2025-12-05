@@ -12,6 +12,7 @@ export { SensorReadingsBySmartMeterIdAndDateController } from 'EcoPath/Infrastru
 export { SensorReadingsByCityAndDateController } from 'EcoPath/Infrastructure/WebApi/Controllers/SensorReadingsByCityAndDateController.ts';
 export { CarbonFootprintRecordsByUserIdController } from 'EcoPath/Infrastructure/WebApi/Controllers/CarbonFootprintRecordsByUserIdController.ts';
 export { GetWasteScanImageByIdController } from 'EcoPath/Infrastructure/WebApi/Controllers/GetWasteScanImageByIdController.ts';
+export { GetPickupRequestImageByIdController } from 'EcoPath/Infrastructure/WebApi/Controllers/GetPickupRequestImageByIdController.ts';
 
 // All
 export { AllWasteScansController } from 'EcoPath/Infrastructure/WebApi/Controllers/AllWasteScansController.ts';

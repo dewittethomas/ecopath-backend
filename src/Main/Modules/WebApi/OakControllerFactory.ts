@@ -12,7 +12,8 @@ import {
     SensorReadingsByCityAndDateController,
     CarbonFootprintRecordsByUserIdController,
     SaveWasteScanController,
-    GetWasteScanImageByIdController
+    GetWasteScanImageByIdController,
+    GetPickupRequestImageByIdController
 } from 'EcoPath/Infrastructure/WebApi/mod.ts';
 import {
     SavePickupRequest,
@@ -21,7 +22,8 @@ import {
     ListAllPickupRequests,
     SaveUser,
     SaveWasteScan,
-    GetWasteScanImageById
+    GetWasteScanImageById,
+    GetPickupRequestImageById
 } from 'EcoPath/Application/mod.ts';
 import {
     SensorReadingsBySmartMeterIdAndDateQuery,
@@ -71,6 +73,8 @@ export class OakControllerFactory implements ControllerFactory {
                 return await this.buildCarbonFootprintRecordsByUserIdController();
             case GetWasteScanImageByIdController.name:
                 return await this.buildGetWasteScanImageByIdController();
+            case GetPickupRequestImageByIdController.name:
+                return await this.buildGetPickupRequestImageByIdController();
             default:
                 throw new IllegalStateException(`Route name ${ctx.routeName} not found`);
         }
@@ -192,5 +196,15 @@ export class OakControllerFactory implements ControllerFactory {
         const getWasteScanImageById = new GetWasteScanImageById(wasteScanRepository);
 
         return new GetWasteScanImageByIdController(getWasteScanImageById);
+    }
+
+    private async buildGetPickupRequestImageByIdController(): Promise<GetPickupRequestImageByIdController> {
+        const pickupRequestRepository = (await this._serviceProvider.getService<PickupRequestRepository>(
+            'postgreSqlPickupRequestRepository'
+        )).getOrThrow();
+
+        const getPickupRequestImageById = new GetPickupRequestImageById(pickupRequestRepository);
+
+        return new GetPickupRequestImageByIdController(getPickupRequestImageById);
     }
 }
