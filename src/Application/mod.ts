@@ -11,3 +11,4 @@ export { GetGroupedAverageSensorReadings } from 'EcoPath/Application/Meters/GetG
 export { ListAllSmartMeters } from 'EcoPath/Application/Meters/ListAllSmartMeters.ts';
 export { ListAllWasteScans } from 'EcoPath/Application/Waste/ListAllWasteScans.ts';
 export { ListAllPickupRequests } from 'EcoPath/Application/PickupRequests/ListAllPickupRequests.ts';
+export { GetWasteScanImageById } from 'EcoPath/Application/Waste/GetWasteScanImageById.ts';

@@ -6,7 +6,6 @@ import type {
 function toWasteScanData(entity: WasteScan): WasteScanData {
     return {
         id: entity.id.toString(),
-        image: entity.image,
         timestamp: entity.timestamp,
         wasteType: entity.wasteType,
         geoLocation: {

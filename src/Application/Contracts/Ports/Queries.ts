@@ -22,6 +22,10 @@ export interface GetSensorReadingsData {
     values: SensorReadingRecord[]
 }
 
+export interface GetWasteScanImageByIdOutput {
+    image: string;
+}
+
 export interface GetAverageSensorReadingsData {
     smartMeterId: string;
     type: string;
@@ -64,7 +68,6 @@ export interface SmartMeterData {
 
 export interface WasteScanData {
     id: string;
-    image: string;
     timestamp: Date;
     wasteType: string;
     geoLocation: {

@@ -11,6 +11,7 @@ export { SavePickupRequestController } from 'EcoPath/Infrastructure/WebApi/Contr
 export { SensorReadingsBySmartMeterIdAndDateController } from 'EcoPath/Infrastructure/WebApi/Controllers/SensorReadingsBySmartMeterIdAndDateController.ts';
 export { SensorReadingsByCityAndDateController } from 'EcoPath/Infrastructure/WebApi/Controllers/SensorReadingsByCityAndDateController.ts';
 export { CarbonFootprintRecordsByUserIdController } from 'EcoPath/Infrastructure/WebApi/Controllers/CarbonFootprintRecordsByUserIdController.ts';
+export { GetWasteScanImageByIdController } from 'EcoPath/Infrastructure/WebApi/Controllers/GetWasteScanImageByIdController.ts';
 
 // All
 export { AllWasteScansController } from 'EcoPath/Infrastructure/WebApi/Controllers/AllWasteScansController.ts';

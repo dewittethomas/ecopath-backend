@@ -33,5 +33,6 @@ export type {
     Interval,
     GetGroupedAverageSensorReadingsData, 
     SensorReadingsBySmartMeterIdAndDateQuery, 
-    CarbonFootprintRecordsByUserIdQuery
+    CarbonFootprintRecordsByUserIdQuery,
+    GetWasteScanImageByIdOutput
 } from 'EcoPath/Application/Contracts/Ports/Queries.ts';
