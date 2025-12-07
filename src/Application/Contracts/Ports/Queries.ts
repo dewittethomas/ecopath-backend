@@ -61,7 +61,7 @@ export interface SensorReadingsByCityOutput {
 }
 
 export interface AverageSensorReadingsByCityOutput {
-    smartMeterId: string;
+    city: string;
     type: string;
     from: Date;
     to: Date;
@@ -81,19 +81,22 @@ export interface GroupedAverageSensorReadingsByCityOutput {
 
 export interface SensorReadingsByCityAndDateQuery {
     fetch(
-        smartMeterId: string,
+        city: string,
+        type: string,
         from: Date,
         to: Date
     ): Promise<SensorReadingsByCityOutput>;
 
     fetchAverage(
-        smartMeterId: string,
+        city: string,
+        type: string,
         from: Date,
         to: Date
     ): Promise<AverageSensorReadingsByCityOutput>;
 
     fetchGroupedAverage(
-        smartMeterId: string,
+        city: string,
+        type: string,
         from: Date,
         to: Date,
         interval: Interval

@@ -37,7 +37,7 @@ export class SensorReadingsBySmartMeterIdAndDateController implements WebApiCont
             result = await this.query.fetchAverage(smartMeterId, from, to);
         } else {
             // raw readings
-            result = await this.query.fetchAll(smartMeterId, from, to);
+            result = await this.query.fetch(smartMeterId, from, to);
         }
 
         WebApiResult.ok(ctx, result);

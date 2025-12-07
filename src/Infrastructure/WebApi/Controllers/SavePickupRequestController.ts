@@ -18,7 +18,7 @@ export interface SavePickupRequestBody {
     }
     image: string;
     timestamp: Date;
-    notes: string;
+    notes?: string;
 }
 
 export class SavePickupRequestController implements WebApiController {

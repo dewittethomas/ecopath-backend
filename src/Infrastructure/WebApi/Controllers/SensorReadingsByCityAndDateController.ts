@@ -6,11 +6,11 @@ import {
     WebApiRequest,
     WebApiResult,
 } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
-import type { SensorReadingsBySmartMeterIdAndDateQuery } from 'EcoPath/Application/Contracts/mod.ts';
+import type { SensorReadingsByCityAndDateQuery } from 'EcoPath/Application/Contracts/mod.ts';
 
 export class SensorReadingsByCityAndDateController implements WebApiController {
     constructor(
-        private readonly query: SensorReadingsBySmartMeterIdAndDateQuery
+        private readonly query: SensorReadingsByCityAndDateQuery
     ) {}
 
     async handle(ctx: RouterContext<string>): Promise<void> {
@@ -25,12 +25,20 @@ export class SensorReadingsByCityAndDateController implements WebApiController {
         const from = new Date(fromParam as string);
         const to = new Date(toParam as string);
 
+        const avgFlag = ctx.request.url.searchParams.get('avg');
         const interval = ctx.request.url.searchParams.get('interval') as 'day' | 'week' | 'month' | null;
 
         let result;
         
-        if (interval) {
-            result = await this.query.fetchGroupedAverageByCity(city, type, from, to, interval);
+        if (avgFlag === 'true' && interval) {
+            // grouped averages (day/week/month)
+            result = await this.query.fetchGroupedAverage(city, type, from, to, interval);
+        } else if (avgFlag === 'true') {
+            // single average
+            result = await this.query.fetchAverage(city, type, from, to);
+        } else {
+            // raw readings
+            result = await this.query.fetch(city, type, from, to);
         }
 
         WebApiResult.ok(ctx, result);

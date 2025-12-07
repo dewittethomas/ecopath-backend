@@ -26,6 +26,17 @@ paths:
               description: URL of the newly created user
               schema:
                 type: string
+                
+  /api/smart-meters:
+    get:
+      summary: Get all smart meters
+      responses:
+        '200':
+          description: List of smart meters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAllSmartMetersOutput'
 
   /api/waste-scans:
     get:
@@ -60,8 +71,18 @@ paths:
       responses:
         '200':
           description: List of pickup requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAllPickupRequestsOutput'
     post:
       summary: Create a new pickup request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavePickupRequestInput'
       responses:
         '201':
           description: Resource created
@@ -71,27 +92,50 @@ paths:
               schema:
                 type: string
 
-
-  /api/smart-meters:
-    get:
-      summary: Get all smart meters
-      responses:
-        '200':
-          description: List of smart meters
-
   /api/smart-meters/{smartMeterId}/readings:
     get:
-      summary: Get sensor readings for a smart meter and date
+      summary: Get sensor readings for a smart meter
       parameters:
         - name: smartMeterId
           in: path
           required: true
           schema:
             type: string
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: avg
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true to get average readings
+        - name: interval
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [day, week, month]
+          description: Only used if avg=true, defines the grouping interval
       responses:
         '200':
-          description: Sensor readings
-
+          description: Sensor readings output
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/SensorReadingsBySmartMeterIdOutput'
+                  - $ref: '#/components/schemas/AverageSensorReadingsBySmartMeterIdOutput'
+                  - $ref: '#/components/schemas/GroupedAverageSensorReadingsBySmartMeterIdOutput'
   /api/smart-meters/{city}/readings/{type}:
     get:
       summary: Get sensor readings by city and type
@@ -155,24 +199,49 @@ paths:
 
 components:
   schemas: 
-    SaveWasteScanInput:
+    ListAllPickupRequestsOutput:
       type: object
       required:
-        - image
-        - timestamp
-        - wasteType
-        - geoLocation
+        - data
       properties:
-        image:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PickupRequestData'
+    
+    ListAllWasteScansOutput:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/WasteScanData'
+
+    ListAllSmartMetersOutput:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SmartMeterData'
+
+    SmartMeterData:
+      type: object
+      required:
+        - id
+        - meterType
+        - location
+      properties:
+        id:
           type: string
-          description: Base64-encoded image
-        timestamp:
+        meterType:
           type: string
-          format: date-time
-        wasteType:
-          type: string
-        geoLocation:
-          $ref: '#/components/schemas/GeoLocation'
+        location:
+          $ref: '#/components/schemas/Location'
 
     SaveUserInput:
       type: object
@@ -195,10 +264,10 @@ components:
           required:
             - birthDate
             - gender
+            - location
             - housingType
             - householdSize
             - ecoGoals
-            - location
           properties:
             birthDate:
               type: string
@@ -215,6 +284,45 @@ components:
                 type: string
             location:
               $ref: '#/components/schemas/Location'
+
+    SaveWasteScanInput:
+      type: object
+      required:
+        - image
+        - timestamp
+        - wasteType
+        - geoLocation
+      properties:
+        image:
+          type: string
+          description: Base64-encoded image
+        timestamp:
+          type: string
+          format: date-time
+        wasteType:
+          type: string
+        geoLocation:
+          $ref: '#/components/schemas/GeoLocation'
+
+    SavePickupRequestInput:
+      type: object
+      required:
+        - location
+        - image
+        - timestamp
+      properties:
+        location:
+          $ref: '#/components/schemas/Location'
+        image:
+          type: string
+          description: Base64-encoded image
+        timestamp:
+          type: string
+          format: date-time
+        notes:
+          anyOf:
+            - type: string
+            - type: 'null'
     
     Location:
       type: object
@@ -248,16 +356,26 @@ components:
         - one_room_studio
         - shared_house
         - other
-
-    ListAllWasteScansOutput:
+  
+    PickupRequestData:
       type: object
       required:
-        - data
+        - id
+        - location
+        - timestamp
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/WasteScanData'
+        id:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+        timestamp:
+          type: string
+          format: date-time
+        notes:
+          type: 
+            - string
+            - 'null'
+          
 
     WasteScanData:
       type: object
@@ -277,6 +395,107 @@ components:
         geoLocation:
           $ref: '#/components/schemas/GeoLocation'
 
+    Interval:
+      type: string
+      enum:
+        - day
+        - week
+        - month
+
+    SensorReadingRecordData:
+      type: object
+      required:
+        - timestamp
+        - value
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        value:
+          type: number
+
+    SensorReadingsBySmartMeterIdOutput:
+      type: object
+      required:
+        - smartMeterId
+        - type
+        - from
+        - to
+        - unit
+        - values
+      properties:
+        smartMeterId:
+          type: string
+        type:
+          type: string
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        unit:
+          type: string
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/SensorReadingRecordData'
+
+    AverageSensorReadingsBySmartMeterIdOutput:
+      type: object
+      required:
+        - smartMeterId
+        - type
+        - from
+        - to
+        - unit
+        - average
+      properties:
+        smartMeterId:
+          type: string
+        type:
+          type: string
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        unit:
+          type: string
+        average:
+          type: number
+
+    GroupedAverageSensorReadingsBySmartMeterIdOutput:
+      type: object
+      required:
+        - smartMeterId
+        - type
+        - from
+        - to
+        - unit
+        - interval
+        - values
+      properties:
+        smartMeterId:
+          type: string
+        type:
+          type: string
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        unit:
+          type: string
+        interval:
+          $ref: '#/components/schemas/Interval'
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/SensorReadingRecordData'
+    
     GeoLocation:
       type: object
       required:

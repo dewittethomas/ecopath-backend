@@ -17,6 +17,7 @@ import {
     PostgreSqlCarbonFootprintRecordRepository,
     PostgreSqlWasteScanRepository,
     PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery,
+    PostgreSqlSensorReadingsByCityAndDateQuery,
     PostgreSqlCarbonFootprintRecordsByUserIdQuery,
     PostgreSqlPickupRequestRepository
 } from 'EcoPath/Infrastructure/Persistence/PostgreSql/mod.ts';
@@ -129,6 +130,15 @@ export class PersistenceModule {
                         (await _serviceProvider.getService<PostgreSqlClient>('postgreSqlClient')).value;
 
                     return new PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery(postgreSqlClient);
+                }
+            )
+            .addScoped(
+                'sensorReadingsByCityAndDateQuery',
+                async (_serviceProvider: ServiceProvider) => {
+                    const postgreSqlClient: PostgreSqlClient =
+                        (await _serviceProvider.getService<PostgreSqlClient>('postgreSqlClient')).value;
+
+                    return new PostgreSqlSensorReadingsByCityAndDateQuery(postgreSqlClient);
                 }
             )
             .addScoped(

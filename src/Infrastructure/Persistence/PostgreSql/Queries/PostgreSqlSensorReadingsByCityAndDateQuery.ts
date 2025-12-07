@@ -1,25 +1,25 @@
 import type {
     Interval,
-    SensorReadingsBySmartMeterIdOutput,
-    AverageSensorReadingsBySmartMeterIdOutput,
-    GroupedAverageSensorReadingsBySmartMeterIdOutput,
+    SensorReadingsByCityOutput,
+    AverageSensorReadingsByCityOutput,
+    GroupedAverageSensorReadingsByCityOutput,
     SensorReadingRecordData,
-    SensorReadingsBySmartMeterIdAndDateQuery
+    SensorReadingsByCityAndDateQuery
 } from 'EcoPath/Application/Contracts/mod.ts';
 import { PostgreSqlClient } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 import { Unit } from 'EcoPath/Domain/mod.ts';
 
-export class PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery
-    implements SensorReadingsBySmartMeterIdAndDateQuery {
+export class PostgreSqlSensorReadingsByCityAndDateQuery
+    implements SensorReadingsByCityAndDateQuery {
 
     constructor(private readonly db: PostgreSqlClient) {}
 
     async fetch(
-        smartMeterId: string,
+        city: string,
+        type: string,
         from: Date,
         to: Date
-    ): Promise<SensorReadingsBySmartMeterIdOutput> {
-        const { type, unit } = await this.getMeterTypeAndUnit(smartMeterId);
+    ): Promise<SensorReadingsByCityOutput> {
         const { fromIso, toIso } = this.normalizeRange(from, to);
 
         const rows = await this.db.findMany<{
@@ -28,19 +28,24 @@ export class PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery
         }>(`
             SELECT timestamp, value
             FROM sensor_readings
-            WHERE smart_meter_id = $1
-              AND timestamp >= $2
-              AND timestamp < $3
-            ORDER BY timestamp ASC
-        `, [smartMeterId, fromIso, toIso]);
+            WHERE smart_meter_id IN
+            (SELECT id
+            FROM smart_meters
+            WHERE city = $1
+            AND meter_type = $2)
+              AND timestamp >= $3
+              AND timestamp < $4
+        `, [city, type, fromIso, toIso]);
 
         const values: SensorReadingRecordData[] = rows.map(r => ({
             timestamp: new Date(r.timestamp),
             value: r.value
         }));
 
+        const unit: Unit = type === 'electricity' ? Unit.KilowattHour : Unit.CubicMeter
+
         return {
-            smartMeterId,
+            city,
             type,
             from,
             to,
@@ -50,25 +55,31 @@ export class PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery
     }
 
     async fetchAverage(
-        smartMeterId: string,
+        city: string,
+        type: string,
         from: Date,
         to: Date
-    ): Promise<AverageSensorReadingsBySmartMeterIdOutput> {
-        const { type, unit } = await this.getMeterTypeAndUnit(smartMeterId);
+    ): Promise<AverageSensorReadingsByCityOutput> {
         const { fromIso, toIso } = this.normalizeRange(from, to);
 
         const avgRow = await this.db.findOne<{ average: number }>(`
             SELECT AVG(value)::float AS average
             FROM sensor_readings
-            WHERE smart_meter_id = $1
-              AND timestamp >= $2
-              AND timestamp < $3
-        `, [smartMeterId, fromIso, toIso]);
+            WHERE smart_meter_id IN
+            (SELECT id
+            FROM smart_meters
+            WHERE city = $1
+            AND meter_type = $2)
+              AND timestamp >= $3
+              AND timestamp < $4
+        `, [city, type, fromIso, toIso]);
 
         const roundedAverage = Math.round((avgRow.getOrThrow().average ?? 0) * 100) / 100;
 
+        const unit: Unit = type === 'electricity' ? Unit.KilowattHour : Unit.CubicMeter
+
         return {
-            smartMeterId,
+            city,
             type,
             from,
             to,
@@ -78,12 +89,12 @@ export class PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery
     }
 
     async fetchGroupedAverage(
-        smartMeterId: string,
+        city: string,
+        type: string,
         from: Date,
         to: Date,
         interval: Interval
-    ): Promise<GroupedAverageSensorReadingsBySmartMeterIdOutput> {
-        const { type, unit } = await this.getMeterTypeAndUnit(smartMeterId);
+    ) {
         const { fromIso, toIso } = this.normalizeRange(from, to);
         const groupExpression = this.getGroupExpression(interval);
 
@@ -93,42 +104,32 @@ export class PostgreSqlSensorReadingsBySmartMeterIdAndDateQuery
         }>(`
             SELECT ${groupExpression} AS period, AVG(value)::float AS average
             FROM sensor_readings
-            WHERE smart_meter_id = $1
-              AND timestamp >= $2
-              AND timestamp < $3
+            WHERE smart_meter_id IN
+            (SELECT id
+            FROM smart_meters
+            WHERE city = $1
+            AND meter_type = $2)
+              AND timestamp >= $3
+              AND timestamp < $4
             GROUP BY period
             ORDER BY period ASC
-        `, [smartMeterId, fromIso, toIso]);
+        `, [city, type, fromIso, toIso]);
 
         const values: SensorReadingRecordData[] = rows.map(r => ({
             timestamp: new Date(r.period),
             value: Math.round(r.average * 100) / 100
         }));
 
+        const unit: Unit = type === 'electricity' ? Unit.KilowattHour : Unit.CubicMeter
+
         return {
-            smartMeterId,
+            city,
             type,
             from,
             to,
             unit,
             interval,
             values
-        };
-    }
-
-    private async getMeterTypeAndUnit(smartMeterId: string) {
-        const row = await this.db.findOne<{ meter_type: string}>(`
-            SELECT meter_type
-            FROM smart_meters
-            WHERE id = $1
-            LIMIT 1
-        `, [smartMeterId]);
-
-        const { meter_type } = row.getOrThrow();
-        
-        return {
-            type: meter_type,
-            unit: meter_type === 'electricity' ? Unit.KilowattHour : Unit.CubicMeter
         }
     }
 

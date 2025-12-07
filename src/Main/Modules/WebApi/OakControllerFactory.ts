@@ -27,6 +27,7 @@ import {
 } from 'EcoPath/Application/mod.ts';
 import {
     SensorReadingsBySmartMeterIdAndDateQuery,
+    SensorReadingsByCityAndDateQuery,
     CarbonFootprintRecordsByUserIdQuery,
     SmartMeterRepository,
     WasteScanRepository,
@@ -173,8 +174,8 @@ export class OakControllerFactory implements ControllerFactory {
     }
 
     private async buildSensorReadingsByCityAndDateController(): Promise<SensorReadingsByCityAndDateController> {
-        const query = (await this._serviceProvider.getService<SensorReadingsBySmartMeterIdAndDateQuery>(
-            'sensorReadingsBySmartMeterIdAndDateQuery'
+        const query = (await this._serviceProvider.getService<SensorReadingsByCityAndDateQuery>(
+            'sensorReadingsByCityAndDateQuery'
         )).getOrThrow();
 
         return new SensorReadingsByCityAndDateController(query);
