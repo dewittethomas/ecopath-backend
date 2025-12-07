@@ -18,7 +18,7 @@ mv ./config/production/backend.ecopath.prod.env.example ./config/production/back
 Build the backend image using the production Dockerfile:
 
 ```sh
-docker build -f ./config/production/Dockerfile -t ecopath-backend .
+docker build -f ./config/dev/Dockerfile -t ecopath-backend . --no-cache
 ```
 
 ## ⚙️ 2. Start the Production Database Container

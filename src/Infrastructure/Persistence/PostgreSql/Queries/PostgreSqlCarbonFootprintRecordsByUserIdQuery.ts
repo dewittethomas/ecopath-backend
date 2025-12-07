@@ -1,10 +1,9 @@
-import {
-    CarbonFootprintRecord,
-    CarbonFootprintRecordsByUserIdQuery
+import type {
+    CarbonFootprintRecordsByUserIdOutput,
+    CarbonFootprintRecordsByUserIdQuery,
+    CarbonFootprintRecordData
 } from 'EcoPath/Application/Contracts/mod.ts';
-
 import { CarbonFootprint, WasteType } from "EcoPath/Domain/mod.ts";
-
 import { PostgreSqlClient } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 import { PgRecord } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/RecordMapper.ts';
 
@@ -13,7 +12,7 @@ export class PostgreSqlCarbonFootprintRecordsByUserIdQuery
 
     constructor(private readonly db: PostgreSqlClient) {}
 
-    async fetchAll(userId: string): Promise<CarbonFootprintRecord[]> {
+    async fetch(userId: string): Promise<CarbonFootprintRecordsByUserIdOutput> {
         const rows = await this.db.findMany<PgRecord>(`
             SELECT *
             FROM carbon_footprint_records
@@ -21,7 +20,7 @@ export class PostgreSqlCarbonFootprintRecordsByUserIdQuery
             ORDER BY year DESC, month DESC
         `, [userId]);
 
-        if (rows.length === 0) return [];
+        if (rows.length === 0) return { data: []};
 
         const recordIds = rows.map(r => r.id);
 
@@ -34,39 +33,41 @@ export class PostgreSqlCarbonFootprintRecordsByUserIdQuery
         const wasteMapByRecord: Record<string, Map<WasteType, number>> = {};
 
         for (const row of wasteRows) {
-            const recId = row.record_id as string;
-            if (!wasteMapByRecord[recId]) {
-                wasteMapByRecord[recId] = new Map();
+            const recordId = row.record_id as string;
+            if (!wasteMapByRecord[recordId]) {
+                wasteMapByRecord[recordId] = new Map();
             }
-            wasteMapByRecord[recId].set(row.waste_type as WasteType, Number(row.weight_kg));
+            wasteMapByRecord[recordId].set(row.waste_type as WasteType, Number(row.weight_kg));
         }
 
-        return rows.map(row => {
-            const id = row.id as string;
+        return {
+            data: rows.map(row => {
+                const id = row.id as string;
 
-            const footprint = CarbonFootprint.create(
-                Number(row.total_gas_usage),
-                Number(row.total_electricity_usage),
-                wasteMapByRecord[id] ?? new Map<WasteType, number>()
-            );
+                const footprint = CarbonFootprint.create(
+                    Number(row.total_gas_usage),
+                    Number(row.total_electricity_usage),
+                    wasteMapByRecord[id] ?? new Map<WasteType, number>()
+                );
 
-            return {
-                id,
-                userId: row.user_id as string,
-                month: Number(row.month),
-                year: Number(row.year),
-                totalGasUsage: footprint.totalGasUsage,
-                totalElectricityUsage: footprint.totalElectricityUsage,
-                totalWaste: Object.fromEntries(footprint.totalWaste)
-            };
-        });
+                return {
+                    id,
+                    userId: row.user_id as string,
+                    month: Number(row.month),
+                    year: Number(row.year),
+                    totalGasUsage: footprint.totalGasUsage,
+                    totalElectricityUsage: footprint.totalElectricityUsage,
+                    totalWaste: Object.fromEntries(footprint.totalWaste)
+                };
+            })
+        }
     }
 
     async fetchByMonth(
         userId: string,
         month: number,
         year: number
-    ): Promise<CarbonFootprintRecord | null> {
+    ): Promise<CarbonFootprintRecordData | null> {
         const optionalRow = await this.db.findOne<PgRecord>(`
             SELECT *
             FROM carbon_footprint_records

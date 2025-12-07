@@ -2,7 +2,6 @@ import {
     CarbonFootprintRecord,
     CarbonFootprintRecordId,
     CarbonFootprint,
-    UserId,
     WasteType
 } from 'EcoPath/Domain/mod.ts';
 

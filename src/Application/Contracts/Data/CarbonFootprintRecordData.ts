@@ -1,4 +1,4 @@
-export interface CarbonFootprintRecord {
+export interface CarbonFootprintRecordData {
     id: string;
     userId: string;
     month: number;

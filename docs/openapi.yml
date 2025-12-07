@@ -1,0 +1,212 @@
+openapi: 3.1.0
+
+info:
+  title: Your API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000
+
+paths:
+  /api/users:
+    post:
+      summary: Create a new user
+      responses:
+        '201':
+          description: Resource created
+          headers:
+            Location:
+              description: URL of the newly created user
+              schema:
+                type: string
+
+  /api/waste-scans:
+    get:
+      summary: Get all waste scans
+      responses:
+        '200':
+          description: List of waste scans
+    post:
+      summary: Create a new waste scan
+      responses:
+        '201':
+          description: Resource created
+          headers:
+            Location:
+              description: URL of the newly created waste scan
+              schema:
+                type: string
+
+  /api/pickup-requests:
+    get:
+      summary: Get all pickup requests
+      responses:
+        '200':
+          description: List of pickup requests
+    post:
+      summary: Create a new pickup request
+      responses:
+        '201':
+          description: Resource created
+          headers:
+            Location:
+              description: URL of the newly created pickup request
+              schema:
+                type: string
+
+
+  /api/smart-meters:
+    get:
+      summary: Get all smart meters
+      responses:
+        '200':
+          description: List of smart meters
+
+
+  /api/smart-meters/{smartMeterId}/readings:
+    get:
+      summary: Get sensor readings for a smart meter and date
+      parameters:
+        - name: smartMeterId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sensor readings
+
+  /api/smart-meters/{city}/readings/{type}:
+    get:
+      summary: Get sensor readings by city and type
+      parameters:
+        - name: city
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sensor readings
+
+  /api/carbon-footprint-records/{userId}:
+    get:
+      summary: Get carbon footprint records for a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Carbon footprint records
+
+  /api/waste-scans/{wasteScanId}/image:
+    get:
+      summary: Get waste scan image
+      parameters:
+        - name: wasteScanId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Image for waste scan
+          content:
+            image/*: {}
+
+  /api/pickup-requests/{pickupRequestId}/image:
+    get:
+      summary: Get pickup request image
+      parameters:
+        - name: pickupRequestId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Image for pickup request
+          content:
+            image/*: {}
+
+components:
+  schemas: 
+    UserInput:
+      type: object
+      required:
+        - name
+        - email
+        - avatarImage
+        - userProfile
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        avatarImage:
+          type: string
+          description: Base64-encoded image
+        userProfile:
+          type: object
+          required:
+            - birthDate
+            - gender
+            - housingType
+            - householdSize
+            - ecoGoals
+            - location
+          properties:
+            birthDate:
+              type: string
+              format: date
+            gender:
+              $ref: '#/components/schemas/Gender'
+            housingType:
+              $ref: '#/components/schemas/HousingType'
+            householdSize:
+              type: integer
+            ecoGoals:
+              type: array
+              items:
+                type: string
+            location:
+              type: object
+              required:
+                - houseNumber
+                - street
+                - city
+                - postalCode
+              properties:
+                houseNumber:
+                  type: string
+                street:
+                  type: string
+                city:
+                  type: string
+                postalCode:
+                  type: string
+    Gender:
+      type: string
+      enum:
+        - female
+        - male
+        - non_binary
+        - prefer_not_to_say
+
+    HousingType:
+      type: string
+      enum:
+        - apartment
+        - house
+        - one_room_studio
+        - shared_house
+        - other

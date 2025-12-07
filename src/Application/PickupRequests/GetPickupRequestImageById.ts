@@ -1,11 +1,13 @@
 import { UseCase } from '@domaincrafters/application';
-import type {
-    PickupRequestRepository
-} from 'EcoPath/Application/Contracts/mod.ts';
+import type { PickupRequestRepository } from 'EcoPath/Application/Contracts/mod.ts';
 import { PickupRequest, PickupRequestId } from "EcoPath/Domain/mod.ts";
 
 export interface GetPickupRequestImageByIdOutput {
     image: string
+}
+
+export interface GetPickupRequestImageByIdOutput {
+    image: string;
 }
 
 export class GetPickupRequestImageById implements UseCase<PickupRequestId, GetPickupRequestImageByIdOutput> {

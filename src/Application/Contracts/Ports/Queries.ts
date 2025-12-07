@@ -1,36 +1,17 @@
-import { SensorReadingRecord, CarbonFootprintRecord } from 'EcoPath/Application/Contracts/mod.ts';
+import type { SensorReadingRecordData, CarbonFootprintRecordData } from "EcoPath/Application/Contracts/mod.ts";
 
 export type Interval = 'day' | 'week' | 'month';
 
-export interface AllSmartMetersData {
-    id: string;
-    meterType: string;
-    location: {
-        houseNumber: string;
-        street: string;
-        city: string;
-        postalCode: string;
-    };
-}
-
-export interface GetSensorReadingsData {
+export interface SensorReadingsBySmartMeterIdOutput {
     smartMeterId: string;
     type: string;
     from: Date;
     to: Date;
     unit: string;
-    values: SensorReadingRecord[]
+    values: SensorReadingRecordData[]
 }
 
-export interface GetWasteScanImageByIdOutput {
-    image: string;
-}
-
-export interface GetPickupRequestImageByIdOutput {
-    image: string;
-}
-
-export interface GetAverageSensorReadingsData {
+export interface AverageSensorReadingsBySmartMeterIdOutput {
     smartMeterId: string;
     type: string;
     from: Date;
@@ -39,101 +20,95 @@ export interface GetAverageSensorReadingsData {
     average: number;
 }
 
-export interface GetGroupedAverageSensorReadingsData {
+export interface GroupedAverageSensorReadingsBySmartMeterIdOutput {
     smartMeterId: string;
     type: string;
     from: Date;
     to: Date;
     unit: string;
     interval: Interval;
-    values: SensorReadingRecord[];
-}
-
-export interface GetGroupedAverageByCitySensorReadingsData {
-    city: string;
-    type: string;
-    from: Date;
-    to: Date;
-    unit: string;
-    interval: Interval;
-    values: SensorReadingRecord[];
-}
-
-export interface SmartMeterData {
-    id: string;
-    meterType: string;
-    location: {
-        houseNumber: string;
-        street: string;
-        city: string;
-        postalCode: string;
-    };
-}
-
-export interface WasteScanData {
-    id: string;
-    timestamp: Date;
-    wasteType: string;
-    geoLocation: {
-        latitude: number;
-        longitude: number;
-    };
-}
-
-export interface PickupRequestData {
-    id: string;
-    location: {
-        houseNumber: string;
-        street: string;
-        city: string;
-        postalCode: string;
-    };
-    timestamp: Date;
-    notes?: string;
-}
-
-export interface ListAllSmartMetersOutput {
-    data: SmartMeterData[];
-}
-
-export interface ListAllWasteScansOutput {
-    data: WasteScanData[];
-}
-
-export interface ListAllPickupRequestsOutput {
-    data: PickupRequestData[];
+    values: SensorReadingRecordData[];
 }
 
 export interface SensorReadingsBySmartMeterIdAndDateQuery {
-    fetchAll(
+    fetch(
         smartMeterId: string,
         from: Date,
         to: Date
-    ): Promise<GetSensorReadingsData>;
+    ): Promise<SensorReadingsBySmartMeterIdOutput>;
 
     fetchAverage(
         smartMeterId: string,
         from: Date,
         to: Date
-    ): Promise<GetAverageSensorReadingsData>;
+    ): Promise<AverageSensorReadingsBySmartMeterIdOutput>;
 
     fetchGroupedAverage(
         smartMeterId: string,
         from: Date,
         to: Date,
         interval: Interval
-    ): Promise<GetGroupedAverageSensorReadingsData>;
+    ): Promise<GroupedAverageSensorReadingsBySmartMeterIdOutput>;
+}
 
-    fetchGroupedAverageByCity(
-        city: string,
-        type: string,
+export interface SensorReadingsByCityOutput {
+    city: string;
+    type: string;
+    from: Date;
+    to: Date;
+    unit: string;
+    values: SensorReadingRecordData[]
+}
+
+export interface AverageSensorReadingsByCityOutput {
+    smartMeterId: string;
+    type: string;
+    from: Date;
+    to: Date;
+    unit: string;
+    average: number;
+}
+
+export interface GroupedAverageSensorReadingsByCityOutput {
+    city: string;
+    type: string;
+    from: Date;
+    to: Date;
+    unit: string;
+    interval: Interval;
+    values: SensorReadingRecordData[];
+}
+
+export interface SensorReadingsByCityAndDateQuery {
+    fetch(
+        smartMeterId: string,
+        from: Date,
+        to: Date
+    ): Promise<SensorReadingsByCityOutput>;
+
+    fetchAverage(
+        smartMeterId: string,
+        from: Date,
+        to: Date
+    ): Promise<AverageSensorReadingsByCityOutput>;
+
+    fetchGroupedAverage(
+        smartMeterId: string,
         from: Date,
         to: Date,
         interval: Interval
-    ): Promise<GetGroupedAverageByCitySensorReadingsData>
+    ): Promise<GroupedAverageSensorReadingsByCityOutput>;
+}
+
+export interface CarbonFootprintRecordsByUserIdOutput {
+    data: CarbonFootprintRecordData[];
+}
+
+export interface CarbonFootprintRecordsByUserIdByMonthOutput {
+    data: CarbonFootprintRecordData[];
 }
 
 export interface CarbonFootprintRecordsByUserIdQuery {
-    fetchAll(userId: string): Promise<CarbonFootprintRecord[]>;
-    fetchByMonth(userId: string, month: number, year: number): Promise<CarbonFootprintRecord | null>;
+    fetch(userId: string): Promise<CarbonFootprintRecordsByUserIdOutput>;
+    fetchByMonth(userId: string, month: number, year: number): Promise<CarbonFootprintRecordData | null>;
 }

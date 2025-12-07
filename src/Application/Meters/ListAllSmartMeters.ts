@@ -1,7 +1,16 @@
 import { MeterType, SmartMeter } from "EcoPath/Domain/mod.ts";
-import type {
-    SmartMeterRepository, SmartMeterData
-} from 'EcoPath/Application/Contracts/mod.ts';
+import type { SmartMeterRepository } from 'EcoPath/Application/Contracts/mod.ts';
+
+export interface SmartMeterData {
+    id: string;
+    meterType: string;
+    location: {
+        houseNumber: string;
+        street: string;
+        city: string;
+        postalCode: string;
+    };
+}
 
 function toSmartMeterData(entity: SmartMeter): SmartMeterData {
     return {

@@ -16,23 +16,20 @@ export type { SaveSmartMeterInput } from 'EcoPath/Application/Meters/SaveSmartMe
 export type { SaveWasteScanInput } from 'EcoPath/Application/Waste/SaveWasteScan.ts';
 export type { SaveClassificationResultInput } from 'EcoPath/Application/Waste/SaveClassificationResult.ts';
 export type { SavePickupRequestInput } from 'EcoPath/Application/PickupRequests/SavePickupRequest.ts';
+export type { ListAllSmartMetersOutput } from 'EcoPath/Application/Meters/ListAllSmartMeters.ts';
+export type { ListAllPickupRequestsOutput } from 'EcoPath/Application/PickupRequests/ListAllPickupRequests.ts';
+
+// -- QUERY DATA --
+export type { CarbonFootprintRecordData } from 'EcoPath/Application/Contracts/Data/CarbonFootprintRecordData.ts';
+export type { SensorReadingRecordData } from 'EcoPath/Application/Contracts/Data/SensorReadingRecordData.ts';
 
 // -- QUERY INTERFACES -- 
-export type { SensorReadingRecord } from 'EcoPath/Application/Contracts/Data/SensorReadingRecord.ts';
-export type { CarbonFootprintRecord } from 'EcoPath/Application/Contracts/Data/CarbonFootprintRecord.ts';
 export type {
-    AllSmartMetersData,
-    WasteScanData,
-    PickupRequestData,
-    SmartMeterData,
-    ListAllSmartMetersOutput,
-    ListAllWasteScansOutput,
-    ListAllPickupRequestsOutput,
-    GetSensorReadingsData, 
-    GetAverageSensorReadingsData,
     Interval,
-    GetGroupedAverageSensorReadingsData, 
-    SensorReadingsBySmartMeterIdAndDateQuery, 
+    SensorReadingsBySmartMeterIdOutput, 
+    AverageSensorReadingsBySmartMeterIdOutput,
+    GroupedAverageSensorReadingsBySmartMeterIdOutput, 
+    SensorReadingsBySmartMeterIdAndDateQuery,
+    CarbonFootprintRecordsByUserIdOutput,
     CarbonFootprintRecordsByUserIdQuery,
-    GetWasteScanImageByIdOutput
 } from 'EcoPath/Application/Contracts/Ports/Queries.ts';

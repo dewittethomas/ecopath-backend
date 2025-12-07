@@ -1,24 +1,25 @@
 import { UseCase } from '@domaincrafters/application';
-import {
-    GetGroupedAverageSensorReadingsData,
-    AllSensorReadingsBySmartMeterIdAndDateQuery
+import type {
+    GroupedAverageSensorReadingsBySmartMeterIdOutput,
+    SensorReadingsBySmartMeterIdAndDateQuery, 
+    Interval
 } from "EcoPath/Application/Contracts/mod.ts";
 
 export interface GetGroupedAverageSensorReadingsInput {
     smartMeterId: string;
     from: Date;
     to: Date;
-    interval: 'day' | 'week' | 'month';
+    interval: Interval;
 }
 
 export class GetGroupedAverageSensorReadings
-    implements UseCase<GetGroupedAverageSensorReadingsInput, GetGroupedAverageSensorReadingsData>
+    implements UseCase<GetGroupedAverageSensorReadingsInput, GetGroupedAverageSensorReadingsInput>
 {
-    constructor(private readonly _query: AllSensorReadingsBySmartMeterIdAndDateQuery) {}
+    constructor(private readonly _query: SensorReadingsBySmartMeterIdAndDateQuery) {}
 
     async execute(
         input: GetGroupedAverageSensorReadingsInput
-    ): Promise<GetGroupedAverageSensorReadingsData> {
+    ): Promise<GroupedAverageSensorReadingsBySmartMeterIdOutput> {
 
         return await this._query.fetchGroupedAverage(
             input.smartMeterId,

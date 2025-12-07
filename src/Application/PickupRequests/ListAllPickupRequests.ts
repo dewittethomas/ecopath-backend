@@ -1,7 +1,17 @@
 import { PickupRequest } from "EcoPath/Domain/mod.ts";
-import type {
-    PickupRequestRepository, PickupRequestData
-} from 'EcoPath/Application/Contracts/mod.ts';
+import type { PickupRequestRepository } from 'EcoPath/Application/Contracts/mod.ts';
+
+export interface PickupRequestData {
+    id: string;
+    location: {
+        houseNumber: string;
+        street: string;
+        city: string;
+        postalCode: string;
+    };
+    timestamp: Date;
+    notes?: string;
+}
 
 function toPickupRequestData(entity: PickupRequest): PickupRequestData {
     return {

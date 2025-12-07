@@ -5,9 +5,9 @@ export { SaveWasteScan } from 'EcoPath/Application/Waste/SaveWasteScan.ts';
 export { SavePickupRequest } from 'EcoPath/Application/PickupRequests/SavePickupRequest.ts';
 export { SaveClassificationResult } from 'EcoPath/Application/Waste/SaveClassificationResult.ts';
 export { SaveCarbonFootprintRecord } from 'EcoPath/Application/CarbonFootprints/SaveCarbonFootprintRecord.ts';
-export { GetSensorReadings } from 'EcoPath/Application/Meters/GetSensorReadings.ts'
-export { GetAverageSensorReadings } from 'EcoPath/Application/Meters/GetAverageSensorReadings.ts';
-export { GetGroupedAverageSensorReadings } from 'EcoPath/Application/Meters/GetGroupedAverageSensorReadings.ts';
+export { GetSensorReadings } from './Meters/GetSensorReadingsBySmartMeterId.ts'
+export { GetAverageSensorReadings } from './Meters/GetAverageSensorReadingsBySmartMeterId.ts';
+export { GetGroupedAverageSensorReadings } from './Meters/GetGroupedAverageSensorReadingsBySmartMeterId.ts';
 export { ListAllSmartMeters } from 'EcoPath/Application/Meters/ListAllSmartMeters.ts';
 export { ListAllWasteScans } from 'EcoPath/Application/Waste/ListAllWasteScans.ts';
 export { ListAllPickupRequests } from 'EcoPath/Application/PickupRequests/ListAllPickupRequests.ts';

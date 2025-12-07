@@ -1,7 +1,15 @@
 import { WasteScan } from "EcoPath/Domain/mod.ts";
-import type {
-    WasteScanRepository, WasteScanData
-} from 'EcoPath/Application/Contracts/mod.ts';
+import type { WasteScanRepository } from 'EcoPath/Application/Contracts/mod.ts';
+
+export interface WasteScanData {
+    id: string;
+    timestamp: Date;
+    wasteType: string;
+    geoLocation: {
+        latitude: number;
+        longitude: number;
+    };
+}
 
 function toWasteScanData(entity: WasteScan): WasteScanData {
     return {

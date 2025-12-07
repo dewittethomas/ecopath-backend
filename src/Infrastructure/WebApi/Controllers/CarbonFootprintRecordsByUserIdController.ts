@@ -29,7 +29,7 @@ export class CarbonFootprintRecordsByUserIdController implements WebApiControlle
             result = await this.query.fetchByMonth(userId, Number(monthParam), year);
         } else {
             // fetch all
-            result = await this.query.fetchAll(userId);
+            result = await this.query.fetch(userId);
         }
 
         WebApiResult.ok(ctx, result);

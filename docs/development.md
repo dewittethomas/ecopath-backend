@@ -18,7 +18,7 @@ mv ./config/dev/backend.ecopath.dev.env.example ./config/dev/backend.ecopath.dev
 Build the backend image using the development Dockerfile:
 
 ```sh
-docker build -f ./config/dev/Dockerfile -t ecopath-backend .
+docker build -f ./config/dev/Dockerfile -t ecopath-backend . --no-cache
 ```
 
 ## ⚙️ 2. Start the Development Database Container
