@@ -13,6 +13,10 @@ export interface PickupRequestData {
     notes?: string;
 }
 
+export interface ListAllPickupRequestsOutput {
+    data: PickupRequestData[];
+}
+
 function toPickupRequestData(entity: PickupRequest): PickupRequestData {
     return {
         id: entity.id.toString(),
@@ -25,10 +29,6 @@ function toPickupRequestData(entity: PickupRequest): PickupRequestData {
         timestamp: entity.timestamp,
         notes: entity.notes
     };
-}
-
-export interface ListAllPickupRequestsOutput {
-    data: PickupRequestData[];
 }
 
 export class ListAllPickupRequests {

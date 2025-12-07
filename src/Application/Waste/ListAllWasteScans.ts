@@ -11,6 +11,10 @@ export interface WasteScanData {
     };
 }
 
+export interface ListAllWasteScansOutput {
+    data: WasteScanData[];
+}
+
 function toWasteScanData(entity: WasteScan): WasteScanData {
     return {
         id: entity.id.toString(),
@@ -21,10 +25,6 @@ function toWasteScanData(entity: WasteScan): WasteScanData {
             longitude: entity.geoLocation.longitude
         }
     };
-}
-
-export interface ListAllWasteScansOutput {
-    data: WasteScanData[];
 }
 
 export class ListAllWasteScans {

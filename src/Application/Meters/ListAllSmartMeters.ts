@@ -12,6 +12,10 @@ export interface SmartMeterData {
     };
 }
 
+export interface ListAllSmartMetersOutput {
+    data: SmartMeterData[];
+}
+
 function toSmartMeterData(entity: SmartMeter): SmartMeterData {
     return {
         id: entity.id.toString(),
@@ -23,10 +27,6 @@ function toSmartMeterData(entity: SmartMeter): SmartMeterData {
             postalCode: entity.location.postalCode as string
         }
     };
-}
-
-export interface ListAllSmartMetersOutput {
-    data: SmartMeterData[];
 }
 
 export class ListAllSmartMeters {

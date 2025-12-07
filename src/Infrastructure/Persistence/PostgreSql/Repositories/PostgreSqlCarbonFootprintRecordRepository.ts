@@ -1,4 +1,4 @@
-import { CarbonFootprintRecordId, CarbonFootprintRecord, UserId } from "EcoPath/Domain/mod.ts";
+import { CarbonFootprintRecord } from "EcoPath/Domain/mod.ts";
 import type { CarbonFootprintRecordRepository } from "EcoPath/Application/Contracts/mod.ts";
 import { type RecordMapper, type PostgreSqlClient, PostgreSqlRepository } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 import type { PgRecord } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/RecordMapper.ts';
@@ -18,12 +18,12 @@ export class PostgreSqlCarbonFootprintRecordRepository
         const record = this._mapper.toRecord(entity);
 
         const query = `
-            INSERT INTO carbon_footprint_records (user_id, month, year, total_gas_usage, total_electricity_usage)
+            INSERT INTO ${this._tableName} (user_id, month, year, total_gas_usage, total_electricity_usage)
             VALUES ($1, $2, $3, $4, $5)
         `;
 
         await this._dbClient.insert(query, [
-            CarbonFootprintRecordId.toString(),
+            entity.id.toString(),
             record.user_id,
             record.month,
             record.year,
@@ -64,10 +64,6 @@ export class PostgreSqlCarbonFootprintRecordRepository
         await this._dbClient.execute(wasteQuery, params);
     }
 
-    async saveMany(readings: CarbonFootprintRecord[], userId: UserId): Promise<void> {
-        
-    }
-    
     async allByUserId(userId: string): Promise<CarbonFootprintRecord[]> {
         const footprintRows = await this._dbClient.findMany<PgRecord>(
             `

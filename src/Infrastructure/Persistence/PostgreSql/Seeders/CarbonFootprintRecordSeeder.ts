@@ -14,12 +14,10 @@ export class CarbonFootprintRecordSeeder {
     ) {}
 
     async seed(): Promise<void> {
-        const users = await this.userRepository.findAll();
+        const users = await this.userRepository.all();
         const currentYear = new Date().getFullYear();
 
         for (const user of users) {
-            const carbonFootprintRecords: CarbonFootprintRecord[] = [];
-
             console.log(`Started seeding CarbonFootprintRecords for User ${user.id}...`);
 
             for (let month = 1; month <= 12; month++) {
@@ -49,10 +47,8 @@ export class CarbonFootprintRecordSeeder {
                     carbonFootprint
                 );
 
-                carbonFootprintRecords.push(record);
+                await this.carbonFootprintRecordRepository.save(record);
             }
-
-            await this.carbonFootprintRecordRepository.saveMany(carbonFootprintRecords, user.id);
             console.log(`Seeded CarbonFootprintRecords for User ${user.id}.`);
         }
     }

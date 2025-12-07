@@ -1,16 +1,23 @@
 openapi: 3.1.0
 
 info:
-  title: Your API
+  title: EcoPath Backend API
   version: 1.0.0
 
 servers:
   - url: http://localhost:8000
+  - url: https://backendapi.ecopath.site
 
 paths:
   /api/users:
     post:
       summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveUserInput'
       responses:
         '201':
           description: Resource created
@@ -26,8 +33,18 @@ paths:
       responses:
         '200':
           description: List of waste scans
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAllWasteScansOutput'
     post:
       summary: Create a new waste scan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveWasteScanInput'
       responses:
         '201':
           description: Resource created
@@ -61,7 +78,6 @@ paths:
       responses:
         '200':
           description: List of smart meters
-
 
   /api/smart-meters/{smartMeterId}/readings:
     get:
@@ -139,7 +155,26 @@ paths:
 
 components:
   schemas: 
-    UserInput:
+    SaveWasteScanInput:
+      type: object
+      required:
+        - image
+        - timestamp
+        - wasteType
+        - geoLocation
+      properties:
+        image:
+          type: string
+          description: Base64-encoded image
+        timestamp:
+          type: string
+          format: date-time
+        wasteType:
+          type: string
+        geoLocation:
+          $ref: '#/components/schemas/GeoLocation'
+
+    SaveUserInput:
       type: object
       required:
         - name
@@ -179,21 +214,24 @@ components:
               items:
                 type: string
             location:
-              type: object
-              required:
-                - houseNumber
-                - street
-                - city
-                - postalCode
-              properties:
-                houseNumber:
-                  type: string
-                street:
-                  type: string
-                city:
-                  type: string
-                postalCode:
-                  type: string
+              $ref: '#/components/schemas/Location'
+    
+    Location:
+      type: object
+      properties:
+        houseNumber:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        postalCode:
+          type: string
+      required:
+        - houseNumber
+        - street
+        - city
+        - postalCode
     Gender:
       type: string
       enum:
@@ -210,3 +248,42 @@ components:
         - one_room_studio
         - shared_house
         - other
+
+    ListAllWasteScansOutput:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/WasteScanData'
+
+    WasteScanData:
+      type: object
+      required:
+        - id
+        - timestamp
+        - wasteType
+        - geoLocation
+      properties:
+        id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        wasteType:
+          type: string
+        geoLocation:
+          $ref: '#/components/schemas/GeoLocation'
+
+    GeoLocation:
+      type: object
+      required:
+        - latitude
+        - longitude
+      properties:
+        latitude:
+          type: number
+        longitude:
+          type: number

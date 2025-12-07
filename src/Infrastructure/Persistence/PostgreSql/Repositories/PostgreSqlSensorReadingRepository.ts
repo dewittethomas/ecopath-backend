@@ -56,7 +56,7 @@ export class PostgreSqlSensorReadingRepository implements SensorReadingRepositor
         }
 
         const query = `
-            INSERT INTO sensor_readings (smart_meter_id, timestamp, value, unit) 
+            INSERT INTO ${this._tableName} (smart_meter_id, timestamp, value, unit) 
             VALUES ${placeholders.join(', ')}
         `;
 
