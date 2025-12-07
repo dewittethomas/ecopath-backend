@@ -15,49 +15,46 @@ export class CarbonFootprintRecordSeeder {
 
     async seed(): Promise<void> {
         const users = await this.userRepository.findAll();
+        const currentYear = new Date().getFullYear();
 
-        if (users.length === 0) {
-            console.error('❌ No users found. Seed users first.');
-            return;
+        for (const user of users) {
+            const carbonFootprintRecords: CarbonFootprintRecord[] = [];
+
+            console.log(`Started seeding CarbonFootprintRecords for User ${user.id}...`);
+
+            for (let month = 1; month <= 12; month++) {
+                const totalGasUsage = this.randomUsage(20, 80);
+                const totalElectricityUsage = this.randomUsage(50, 200);
+
+                const wasteMap = new Map<WasteType, number>([
+                    [WasteType.Glass, this.randomUsage(1, 5)],
+                    [WasteType.Plastic, this.randomUsage(2, 8)],
+                    [WasteType.Metal, this.randomUsage(0.5, 3)],
+                    [WasteType.PaperAndCardboard, this.randomUsage(2, 10)],
+                    [WasteType.GeneralWaste, this.randomUsage(5, 15)],
+                    [WasteType.BioWaste, this.randomUsage(3, 10)]
+                ]);
+
+                const carbonFootprint = CarbonFootprint.create(
+                    totalGasUsage,
+                    totalElectricityUsage,
+                    wasteMap
+                );
+
+                const record = CarbonFootprintRecord.create(
+                    CarbonFootprintRecordId.create(),
+                    user.id,
+                    month,
+                    currentYear,
+                    carbonFootprint
+                );
+
+                carbonFootprintRecords.push(record);
+            }
+
+            await this.carbonFootprintRecordRepository.saveMany(carbonFootprintRecords, user.id);
+            console.log(`Seeded CarbonFootprintRecords for User ${user.id}.`);
         }
-
-        const user = users[0];
-        const userId = user.id;
-
-        console.log(`Started seeding CarbonFootprintRecords for User ${userId}...`);
-
-        for (let month = 1; month <= 12; month++) {
-            const totalGasUsage = this.randomUsage(20, 80);
-            const totalElectricityUsage = this.randomUsage(50, 200);
-
-            const wasteMap = new Map<WasteType, number>([
-                [WasteType.Glass, this.randomUsage(1, 5)],
-                [WasteType.Plastic, this.randomUsage(2, 8)],
-                [WasteType.Metal, this.randomUsage(0.5, 3)],
-                [WasteType.PaperAndCardboard, this.randomUsage(2, 10)],
-                [WasteType.GeneralWaste, this.randomUsage(5, 15)],
-                [WasteType.BioWaste, this.randomUsage(3, 10)]
-            ]);
-
-            const carbonFootprint = CarbonFootprint.create(
-                totalGasUsage,
-                totalElectricityUsage,
-                wasteMap
-            );
-
-            const record = CarbonFootprintRecord.create(
-                CarbonFootprintRecordId.create(),
-                userId,
-                month,
-                2025,
-                carbonFootprint
-            );
-
-            await this.carbonFootprintRecordRepository.save(record);
-            console.log(`Seeded CarbonFootprintRecord (month: ${month}, year: 2025) for User ${userId}.`);
-        }
-
-        console.log(`Finished seeding CarbonFootprintRecords for User ${userId}.`);
     }
 
     private randomUsage(min: number, max: number): number {

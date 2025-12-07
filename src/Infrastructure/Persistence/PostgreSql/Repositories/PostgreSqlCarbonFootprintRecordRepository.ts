@@ -1,4 +1,4 @@
-import type { CarbonFootprintRecord } from "EcoPath/Domain/mod.ts";
+import { CarbonFootprintRecordId, CarbonFootprintRecord } from "EcoPath/Domain/mod.ts";
 import type { CarbonFootprintRecordRepository } from "EcoPath/Application/Contracts/mod.ts";
 import { type RecordMapper, type PostgreSqlClient, PostgreSqlRepository } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 import type { PgRecord } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/RecordMapper.ts';
@@ -17,28 +17,47 @@ export class PostgreSqlCarbonFootprintRecordRepository
     override async save(entity: CarbonFootprintRecord): Promise<void> {
         const record = this._mapper.toRecord(entity);
 
-        const columns = Object.keys(record);
-        const values = Object.values(record);
-        const placeholders = columns.map((_, i) => `$${i + 1}`).join(',');
-        const updateAssignments = columns.map(col => `${col} = EXCLUDED.${col}`).join(',');
+        const query = `
+            INSERT INTO carbon_footprint_records (user_id, month, year, total_gas_usage, total_electricity_usage)
+            VALUES ($1, $2, $3, $4, $5)
+        `;
 
-        await this._dbClient.execute(`
-            INSERT INTO carbon_footprint_records (${columns.join(',')})
-            VALUES (${placeholders})
-            ON CONFLICT (id) DO UPDATE SET ${updateAssignments}
-        `, values);
+        await this._dbClient.insert(query, [
+            CarbonFootprintRecordId.toString(),
+            record.user_id,
+            record.month,
+            record.year,
+            record.total_gas_usage,
+            record.total_electricity_usage
+        ]);
 
-        await this._dbClient.execute(`
-            DELETE FROM carbon_footprint_records_waste
-            WHERE record_id = $1
-        `, [entity.id.toString()]);
+        const wasteEntries = [...entity.carbonFootprint.totalWaste.entries()];
 
-        for (const [wasteType, weight] of entity.carbonFootprint.totalWaste.entries()) {
-            await this._dbClient.execute(`
-                INSERT INTO carbon_footprint_records_waste (record_id, waste_type, weight_kg)
-                VALUES ($1, $2, $3)
-            `, [entity.id.toString(), wasteType, weight]);
-        }
+        if (wasteEntries.length === 0) return;
+
+        const placeholders: string[] = [];
+        const params: unknown[] = [];
+
+        wasteEntries.forEach(([wasteType, weight], index) => {
+            const base = index * 3;
+
+            placeholders.push(
+                `($${base + 1}, $${base + 2}, $${base + 3})`
+            );
+
+            params.push(
+                entity.id.toString(),
+                wasteType,
+                weight
+            );
+        });
+
+        const wasteQuery = `
+            INSERT INTO carbon_footprint_records_waste (record_id, waste_type, weight_kg)
+            VALUES ${placeholders.join(', ')}
+        `;
+
+        await this._dbClient.execute(wasteQuery, params);
     }
     
     async allByUserId(userId: string): Promise<CarbonFootprintRecord[]> {
@@ -142,4 +161,6 @@ export class PostgreSqlCarbonFootprintRecordRepository
 
         return this._mapper.reconstitute(rowWithWaste);
     }
+
+
 }

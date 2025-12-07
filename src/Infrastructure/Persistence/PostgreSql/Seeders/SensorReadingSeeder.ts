@@ -38,7 +38,6 @@ export class SensorReadingSeeder {
             }
 
             await this.sensorReadingRepository.saveMany(sensorReadings, smartMeter.id);
-
             console.log(`Seeded SensorReadings for SmartMeter ${smartMeter.id} (type: ${smartMeter.meterType}) for ${days} days.`)
         }
     }

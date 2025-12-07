@@ -29,18 +29,33 @@ export class PostgreSqlSensorReadingRepository implements SensorReadingRepositor
     }
 
     async saveMany(readings: SensorReading[], smartMeterId: SmartMeterId): Promise<void> {
-        const placeholders: string[] = [];
+        if (readings.length === 0) return;
 
-        for (const r of readings) {
-            const record = this._mapper.toRecord(r);
-            placeholders.push(`('${smartMeterId.toString()}', '${record.timestamp}', '${record.value}', '${record.unit}')`);
-        }
+        const recordValues = readings.map(r => this._mapper.toRecord(r));
+
+        const placeholders: string[] = [];
+        const params: unknown[] = [];
+
+        recordValues.forEach((record, index) => {
+            const base = index * 4;
+
+            placeholders.push(
+                `($${base + 1}, $${base + 2}, $${base + 3}, $${base + 4})`
+            );
+
+            params.push(
+                smartMeterId.toString(),
+                record.timestamp,
+                record.value,
+                record.unit
+            );
+        });
 
         const query = `
             INSERT INTO sensor_readings (smart_meter_id, timestamp, value, unit)
-            VALUES ${placeholders.join(',')};
+            VALUES ${placeholders.join(', ')}
         `;
 
-        await this._dbClient.execute(query, []);
+        await this._dbClient.execute(query, params);
     }
 }
