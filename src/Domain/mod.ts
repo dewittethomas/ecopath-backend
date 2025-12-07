@@ -9,7 +9,6 @@ export { WasteType } from 'EcoPath/Domain/Waste/WasteType.ts';
 export { WasteCarbonFactors } from 'EcoPath/Domain/Waste/WasteCarbonFactors.ts';
 export { CarbonFootprint } from 'EcoPath/Domain/CarbonFootprints/CarbonFootprint.ts';
 export { CarbonFootprintRecord, CarbonFootprintRecordId } from 'EcoPath/Domain/CarbonFootprints/CarbonFootprintRecord.ts';
-export { ClassificationResult, ClassificationResultId } from 'EcoPath/Domain/Waste/ClassificationResult.ts';
 export { WasteRecord, WasteRecordId } from 'EcoPath/Domain/Waste/WasteRecord.ts';
 export { GeoLocation } from 'EcoPath/Domain/Waste/GeoLocation.ts';
 export { PickupRequest, PickupRequestId } from 'EcoPath/Domain/PickupRequests/PickupRequest.ts';

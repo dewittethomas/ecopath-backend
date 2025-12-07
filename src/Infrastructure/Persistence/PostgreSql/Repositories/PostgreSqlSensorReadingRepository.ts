@@ -12,8 +12,8 @@ export class PostgreSqlSensorReadingRepository implements SensorReadingRepositor
         this._mapper = mapper;
     }
 
-    async save(reading: SensorReading, smartMeterId: SmartMeterId): Promise<void> {
-        const record = this._mapper.toRecord(reading);
+    async save(entity: SensorReading, smartMeterId: SmartMeterId): Promise<void> {
+        const record = this._mapper.toRecord(entity);
 
         const query = `
             INSERT INTO ${this._tableName} (smart_meter_id, timestamp, value, unit)
@@ -28,20 +28,22 @@ export class PostgreSqlSensorReadingRepository implements SensorReadingRepositor
         ]);
     }
 
-    async saveMany(readings: SensorReading[], smartMeterId: SmartMeterId): Promise<void> {
-        if (readings.length === 0) return;
+    async saveMany(entities: SensorReading[], smartMeterId: SmartMeterId): Promise<void> {
+        if (entities.length === 0) return;
 
-        const recordValues = readings.map(r => this._mapper.toRecord(r));
+        const records = entities.map(r => this._mapper.toRecord(r));
 
         const placeholders: string[] = [];
         const params: unknown[] = [];
 
-        recordValues.forEach((record, index) => {
+        let index = 0;
+
+        for (const record of records) {
             const base = index * 4;
 
             placeholders.push(
                 `($${base + 1}, $${base + 2}, $${base + 3}, $${base + 4})`
-            );
+            )
 
             params.push(
                 smartMeterId.toString(),
@@ -49,10 +51,12 @@ export class PostgreSqlSensorReadingRepository implements SensorReadingRepositor
                 record.value,
                 record.unit
             );
-        });
+
+            index++;
+        }
 
         const query = `
-            INSERT INTO sensor_readings (smart_meter_id, timestamp, value, unit)
+            INSERT INTO sensor_readings (smart_meter_id, timestamp, value, unit) 
             VALUES ${placeholders.join(', ')}
         `;
 

@@ -1,4 +1,4 @@
-import { CarbonFootprintRecordId, CarbonFootprintRecord } from "EcoPath/Domain/mod.ts";
+import { CarbonFootprintRecordId, CarbonFootprintRecord, UserId } from "EcoPath/Domain/mod.ts";
 import type { CarbonFootprintRecordRepository } from "EcoPath/Application/Contracts/mod.ts";
 import { type RecordMapper, type PostgreSqlClient, PostgreSqlRepository } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 import type { PgRecord } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/RecordMapper.ts';
@@ -38,7 +38,9 @@ export class PostgreSqlCarbonFootprintRecordRepository
         const placeholders: string[] = [];
         const params: unknown[] = [];
 
-        wasteEntries.forEach(([wasteType, weight], index) => {
+        let index = 0;
+
+        for (const [wasteType, weight] of wasteEntries) {
             const base = index * 3;
 
             placeholders.push(
@@ -50,7 +52,9 @@ export class PostgreSqlCarbonFootprintRecordRepository
                 wasteType,
                 weight
             );
-        });
+
+            index++;
+        };
 
         const wasteQuery = `
             INSERT INTO carbon_footprint_records_waste (record_id, waste_type, weight_kg)
@@ -58,6 +62,10 @@ export class PostgreSqlCarbonFootprintRecordRepository
         `;
 
         await this._dbClient.execute(wasteQuery, params);
+    }
+
+    async saveMany(readings: CarbonFootprintRecord[], userId: UserId): Promise<void> {
+        
     }
     
     async allByUserId(userId: string): Promise<CarbonFootprintRecord[]> {
