@@ -15,7 +15,6 @@ This is the backend for the **EcoPath** project, developed for the **Capstone De
 - Docker
 
 ## Documentation
-Full documentation is available in the `docs` folder:
-- [Development Setup](https://github.com/dewittethomas/ecopath-backend/blob/main/docs/development.md)
+All deployment and environment documentation can be found in the `docs` directory:
+- [Development Deployment](https://github.com/dewittethomas/ecopath-backend/blob/main/docs/development.md)
 - [Production Deployment](https://github.com/dewittethomas/ecopath-backend/blob/main/docs/production.md)
-- [API Endpoints](https://github.com/dewittethomas/ecopath-backend/blob/main/docs/endpoints.md)
