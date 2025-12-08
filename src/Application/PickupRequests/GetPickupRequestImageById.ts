@@ -6,10 +6,6 @@ export interface GetPickupRequestImageByIdOutput {
     image: string
 }
 
-export interface GetPickupRequestImageByIdOutput {
-    image: string;
-}
-
 export class GetPickupRequestImageById implements UseCase<PickupRequestId, GetPickupRequestImageByIdOutput> {
     private readonly _repository: PickupRequestRepository;
 

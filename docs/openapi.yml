@@ -65,6 +65,28 @@ paths:
               schema:
                 type: string
 
+  /api/waste-scans/{wasteScanId}/image:
+    get:
+      summary: Get waste scan image
+      parameters:
+        - name: wasteScanId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Base64-encoded image for waste scan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  image:
+                    type: string
+                required:
+                  - image
+
   /api/pickup-requests:
     get:
       summary: Get all pickup requests
@@ -91,6 +113,28 @@ paths:
               description: URL of the newly created pickup request
               schema:
                 type: string
+
+  /api/pickup-requests/{pickupRequestId}/image:
+    get:
+      summary: Get pickup request image
+      parameters:
+        - name: pickupRequestId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Base64-encoded image for pickup request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  image:
+                    type: string
+                required:
+                  - image
 
   /api/smart-meters/{smartMeterId}/readings:
     get:
@@ -145,11 +189,40 @@ paths:
           required: true
           schema:
             type: string
+
         - name: type
           in: path
           required: true
           schema:
             type: string
+
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+
+        - name: avg
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ['true', 'false']
+
+        - name: interval
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ['day', 'week', 'month']
       responses:
         '200':
           description: Sensor readings
@@ -167,35 +240,9 @@ paths:
         '200':
           description: Carbon footprint records
 
-  /api/waste-scans/{wasteScanId}/image:
-    get:
-      summary: Get waste scan image
-      parameters:
-        - name: wasteScanId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Image for waste scan
-          content:
-            image/*: {}
 
-  /api/pickup-requests/{pickupRequestId}/image:
-    get:
-      summary: Get pickup request image
-      parameters:
-        - name: pickupRequestId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Image for pickup request
-          content:
-            image/*: {}
+
+
 
 components:
   schemas: 

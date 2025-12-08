@@ -8,10 +8,6 @@ export interface GetWasteScanImageByIdOutput {
     image: string
 }
 
-export interface GetWasteScanImageByIdOutput {
-    image: string;
-}
-
 export class GetWasteScanImageById implements UseCase<WasteScanId, GetWasteScanImageByIdOutput> {
     private readonly _repository: WasteScanRepository;
 

@@ -1,0 +1,552 @@
+{
+    "version": "2.0.0",
+    "runtimeConfiguration": {
+        "environment": "default",
+        "laxTestingModeEnabled": false,
+        "apiConnectivityCheck": true,
+        "logLevel": "error",
+        "logDestination": "stdout+platform",
+        "logMaxFileSize": 2147483648,
+        "requestHeaderNameRequestId": "x-scan-request-id",
+        "requestHeaderNameScenarioId": "x-scan-scenario-id",
+        "requestHeaderNameRequestType": "x-scan-request-type",
+        "requestFlowrate": 100,
+        "requestTimeout": 30,
+        "requestTlsInsecureSkipVerify": true,
+        "responseFollowRedirection": false,
+        "responseMaxBodySizeScan": 10485760,
+        "happyPathOnly": false,
+        "maxRequestRetryAttempts": 5,
+        "maxScanDuration": 1800,
+        "memoryLimit": 2147483648,
+        "memoryTimeSpan": 10,
+        "reportMaxRequestSizeHappyPath": 8092,
+        "reportMaxRequestSizeTest": 8092,
+        "reportIncludeRequestBody": true,
+        "reportIncludeResponseBody": true,
+        "reportMaxHttpResponseSizeHappyPath": 8092,
+        "reportMaxBodySizeHappyPath": 8092,
+        "reportMaxHttpResponseSizeTest": 8092,
+        "reportMaxBodySizeTest": 8092,
+        "reportIssuesOnly": false,
+        "reportMaxIssues": 1000,
+        "reportMaxSize": 20971520,
+        "reportGenerateCurlCommand": true,
+        "normalizeServerUrls": true
+    },
+    "customizations": {
+        "happyPaths": {
+            "retry": 1,
+            "responsePolicy": {
+                "httpStatusExpected": true,
+                "mustBeConformant": true
+            },
+            "httpStatusExpected": []
+        },
+        "tests": {
+            "responsePolicy": {
+                "httpStatusExpected": true,
+                "mustBeConformant": true
+            }
+        }
+    },
+    "operations": {
+        "/api/carbon-footprint-records/{userId}:get": {
+            "operationId": "/api/carbon-footprint-records/{userId}:get",
+            "scenarios": [
+                {
+                    "key": "happy.path",
+                    "fuzzing": true,
+                    "requests": [
+                        {
+                            "$ref": "#/operations/~1api~1carbon-footprint-records~1{userId}:get/request",
+                            "fuzzing": true
+                        }
+                    ]
+                }
+            ],
+            "request": {
+                "operationId": "/api/carbon-footprint-records/{userId}:get",
+                "request": {
+                    "type": "42c",
+                    "details": {
+                        "url": "{{host}}/api/carbon-footprint-records/{userId}",
+                        "method": "GET",
+                        "paths": [
+                            {
+                                "key": "userId",
+                                "value": "wmuopxaheetvvigidmeskyvhtlsnoksj"
+                            }
+                        ]
+                    }
+                },
+                "defaultResponse": "200",
+                "responses": {
+                    "200": {
+                        "expectations": {
+                            "httpStatus": 200
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pickup-requests/{pickupRequestId}/image:get": {
+            "operationId": "/api/pickup-requests/{pickupRequestId}/image:get",
+            "scenarios": [
+                {
+                    "key": "happy.path",
+                    "fuzzing": true,
+                    "requests": [
+                        {
+                            "$ref": "#/operations/~1api~1pickup-requests~1{pickupRequestId}~1image:get/request",
+                            "fuzzing": true
+                        }
+                    ]
+                }
+            ],
+            "request": {
+                "operationId": "/api/pickup-requests/{pickupRequestId}/image:get",
+                "request": {
+                    "type": "42c",
+                    "details": {
+                        "url": "{{host}}/api/pickup-requests/{pickupRequestId}/image",
+                        "method": "GET",
+                        "paths": [
+                            {
+                                "key": "pickupRequestId",
+                                "value": "lsnivtyuehnkwyryuqmcfaphgvzvxwiy"
+                            }
+                        ]
+                    }
+                },
+                "defaultResponse": "200",
+                "responses": {
+                    "200": {
+                        "expectations": {
+                            "httpStatus": 200
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pickup-requests:get": {
+            "operationId": "/api/pickup-requests:get",
+            "scenarios": [
+                {
+                    "key": "happy.path",
+                    "fuzzing": true,
+                    "requests": [
+                        {
+                            "$ref": "#/operations/~1api~1pickup-requests:get/request",
+                            "fuzzing": true
+                        }
+                    ]
+                }
+            ],
+            "request": {
+                "operationId": "/api/pickup-requests:get",
+                "request": {
+                    "type": "42c",
+                    "details": {
+                        "url": "{{host}}/api/pickup-requests",
+                        "method": "GET"
+                    }
+                },
+                "defaultResponse": "200",
+                "responses": {
+                    "200": {
+                        "expectations": {
+                            "httpStatus": 200
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pickup-requests:post": {
+            "operationId": "/api/pickup-requests:post",
+            "scenarios": [
+                {
+                    "key": "happy.path",
+                    "fuzzing": true,
+                    "requests": [
+                        {
+                            "$ref": "#/operations/~1api~1pickup-requests:post/request",
+                            "fuzzing": true
+                        }
+                    ]
+                }
+            ],
+            "request": {
+                "operationId": "/api/pickup-requests:post",
+                "request": {
+                    "type": "42c",
+                    "details": {
+                        "url": "{{host}}/api/pickup-requests",
+                        "method": "POST",
+                        "headers": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "requestBody": {
+                            "mode": "json",
+                            "json": {
+                                "image": "sqkowubscicgzotxhighzsoovqsnejmk",
+                                "location": {
+                                    "city": "aejjyirulwffbdyuafeeemhzcnoovnrq",
+                                    "houseNumber": "fpmkdcbsmsnapuqpamtrjsnrbttsayux",
+                                    "postalCode": "phtswdelixhyqlgncxrvxdntpzgssmyr",
+                                    "street": "gdqnfxomorpjwrzmikhsjzbklwgsxyso"
+                                },
+                                "notes": "kkdbgajxjsbxexvflkhsywzfiknronml",
+                                "timestamp": "gutponjpkqepaaaterdklihsmawbvmcf"
+                            }
+                        }
+                    }
+                },
+                "defaultResponse": "201",
+                "responses": {
+                    "201": {
+                        "expectations": {
+                            "httpStatus": 201
+                        }
+                    }
+                }
+            }
+        },
+        "/api/smart-meters/{city}/readings/{type}:get": {
+            "operationId": "/api/smart-meters/{city}/readings/{type}:get",
+            "scenarios": [
+                {
+                    "key": "happy.path",
+                    "fuzzing": true,
+                    "requests": [
+                        {
+                            "$ref": "#/operations/~1api~1smart-meters~1{city}~1readings~1{type}:get/request",
+                            "fuzzing": true
+                        }
+                    ]
+                }
+            ],
+            "request": {
+                "operationId": "/api/smart-meters/{city}/readings/{type}:get",
+                "request": {
+                    "type": "42c",
+                    "details": {
+                        "url": "{{host}}/api/smart-meters/{city}/readings/{type}",
+                        "method": "GET",
+                        "paths": [
+                            {
+                                "key": "city",
+                                "value": "ktcqaqyzembufgviipgnvqcvievrjpqx"
+                            },
+                            {
+                                "key": "type",
+                                "value": "zyvaozqtqwhwweocaffxzokauapmuhhs"
+                            }
+                        ]
+                    }
+                },
+                "defaultResponse": "200",
+                "responses": {
+                    "200": {
+                        "expectations": {
+                            "httpStatus": 200
+                        }
+                    }
+                }
+            }
+        },
+        "/api/smart-meters/{smartMeterId}/readings:get": {
+            "operationId": "/api/smart-meters/{smartMeterId}/readings:get",
+            "scenarios": [
+                {
+                    "key": "happy.path",
+                    "fuzzing": true,
+                    "requests": [
+                        {
+                            "$ref": "#/operations/~1api~1smart-meters~1{smartMeterId}~1readings:get/request",
+                            "fuzzing": true
+                        }
+                    ]
+                }
+            ],
+            "request": {
+                "operationId": "/api/smart-meters/{smartMeterId}/readings:get",
+                "request": {
+                    "type": "42c",
+                    "details": {
+                        "url": "{{host}}/api/smart-meters/{smartMeterId}/readings",
+                        "method": "GET",
+                        "paths": [
+                            {
+                                "key": "smartMeterId",
+                                "value": "xgxbiqctlqdujxkpqgusmtyqzkmutwpp"
+                            }
+                        ],
+                        "queries": [
+                            {
+                                "key": "from",
+                                "value": "izobfprissgutsvckimlpplyxwqbeqfj"
+                            },
+                            {
+                                "key": "to",
+                                "value": "ngismanrzjlvteshkgolkzczqnaowffe"
+                            },
+                            {
+                                "key": "avg",
+                                "value": true
+                            },
+                            {
+                                "key": "interval",
+                                "value": "day"
+                            }
+                        ]
+                    }
+                },
+                "defaultResponse": "200",
+                "responses": {
+                    "200": {
+                        "expectations": {
+                            "httpStatus": 200
+                        }
+                    }
+                }
+            }
+        },
+        "/api/smart-meters:get": {
+            "operationId": "/api/smart-meters:get",
+            "scenarios": [
+                {
+                    "key": "happy.path",
+                    "fuzzing": true,
+                    "requests": [
+                        {
+                            "$ref": "#/operations/~1api~1smart-meters:get/request",
+                            "fuzzing": true
+                        }
+                    ]
+                }
+            ],
+            "request": {
+                "operationId": "/api/smart-meters:get",
+                "request": {
+                    "type": "42c",
+                    "details": {
+                        "url": "{{host}}/api/smart-meters",
+                        "method": "GET"
+                    }
+                },
+                "defaultResponse": "200",
+                "responses": {
+                    "200": {
+                        "expectations": {
+                            "httpStatus": 200
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users:post": {
+            "operationId": "/api/users:post",
+            "scenarios": [
+                {
+                    "key": "happy.path",
+                    "fuzzing": true,
+                    "requests": [
+                        {
+                            "$ref": "#/operations/~1api~1users:post/request",
+                            "fuzzing": true
+                        }
+                    ]
+                }
+            ],
+            "request": {
+                "operationId": "/api/users:post",
+                "request": {
+                    "type": "42c",
+                    "details": {
+                        "url": "{{host}}/api/users",
+                        "method": "POST",
+                        "headers": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "requestBody": {
+                            "mode": "json",
+                            "json": {
+                                "avatarImage": "lsbliosddfsalescyqiivaifuhavvbiq",
+                                "email": "hdglrsthoxdejxlqcdyymgyixpntgzsr",
+                                "name": "tzlibokiissrzxldfthleqfirfnqknbi",
+                                "userProfile": {
+                                    "birthDate": "rejnmwkpmsbtnqgqpjhxhnyouxqnbuuy",
+                                    "ecoGoals": [
+                                        "vrlndyszxsodtmqjhemtfdnkuxehfoen",
+                                        "vrlndyszxsodtmqjhemtfdnkuxehfoen",
+                                        "vrlndyszxsodtmqjhemtfdnkuxehfoen",
+                                        "vrlndyszxsodtmqjhemtfdnkuxehfoen"
+                                    ],
+                                    "gender": "prefer_not_to_say",
+                                    "householdSize": 1930461772547943657,
+                                    "housingType": "shared_house",
+                                    "location": {
+                                        "city": "aejjyirulwffbdyuafeeemhzcnoovnrq",
+                                        "houseNumber": "fpmkdcbsmsnapuqpamtrjsnrbttsayux",
+                                        "postalCode": "phtswdelixhyqlgncxrvxdntpzgssmyr",
+                                        "street": "gdqnfxomorpjwrzmikhsjzbklwgsxyso"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "defaultResponse": "201",
+                "responses": {
+                    "201": {
+                        "expectations": {
+                            "httpStatus": 201
+                        }
+                    }
+                }
+            }
+        },
+        "/api/waste-scans/{wasteScanId}/image:get": {
+            "operationId": "/api/waste-scans/{wasteScanId}/image:get",
+            "scenarios": [
+                {
+                    "key": "happy.path",
+                    "fuzzing": true,
+                    "requests": [
+                        {
+                            "$ref": "#/operations/~1api~1waste-scans~1{wasteScanId}~1image:get/request",
+                            "fuzzing": true
+                        }
+                    ]
+                }
+            ],
+            "request": {
+                "operationId": "/api/waste-scans/{wasteScanId}/image:get",
+                "request": {
+                    "type": "42c",
+                    "details": {
+                        "url": "{{host}}/api/waste-scans/{wasteScanId}/image",
+                        "method": "GET",
+                        "paths": [
+                            {
+                                "key": "wasteScanId",
+                                "value": "thnkuaaewkforvegyvzoasduhztmgxih"
+                            }
+                        ]
+                    }
+                },
+                "defaultResponse": "200",
+                "responses": {
+                    "200": {
+                        "expectations": {
+                            "httpStatus": 200
+                        }
+                    }
+                }
+            }
+        },
+        "/api/waste-scans:get": {
+            "operationId": "/api/waste-scans:get",
+            "scenarios": [
+                {
+                    "key": "happy.path",
+                    "fuzzing": true,
+                    "requests": [
+                        {
+                            "$ref": "#/operations/~1api~1waste-scans:get/request",
+                            "fuzzing": true
+                        }
+                    ]
+                }
+            ],
+            "request": {
+                "operationId": "/api/waste-scans:get",
+                "request": {
+                    "type": "42c",
+                    "details": {
+                        "url": "{{host}}/api/waste-scans",
+                        "method": "GET"
+                    }
+                },
+                "defaultResponse": "200",
+                "responses": {
+                    "200": {
+                        "expectations": {
+                            "httpStatus": 200
+                        }
+                    }
+                }
+            }
+        },
+        "/api/waste-scans:post": {
+            "operationId": "/api/waste-scans:post",
+            "scenarios": [
+                {
+                    "key": "happy.path",
+                    "fuzzing": true,
+                    "requests": [
+                        {
+                            "$ref": "#/operations/~1api~1waste-scans:post/request",
+                            "fuzzing": true
+                        }
+                    ]
+                }
+            ],
+            "request": {
+                "operationId": "/api/waste-scans:post",
+                "request": {
+                    "type": "42c",
+                    "details": {
+                        "url": "{{host}}/api/waste-scans",
+                        "method": "POST",
+                        "headers": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "requestBody": {
+                            "mode": "json",
+                            "json": {
+                                "geoLocation": {
+                                    "latitude": 2.097640230281112e+38,
+                                    "longitude": 2.634932535002787e+37
+                                },
+                                "image": "xijibhtrokcotvoldjphfbpnwoznuvwq",
+                                "timestamp": "esxqeufggwgwbodbtgtuuvphutyiwnre",
+                                "wasteType": "bfeaostsneurdiycozsuquidqramjnwh"
+                            }
+                        }
+                    }
+                },
+                "defaultResponse": "201",
+                "responses": {
+                    "201": {
+                        "expectations": {
+                            "httpStatus": 201
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "environments": {
+        "default": {
+            "variables": {
+                "host": {
+                    "from": "environment",
+                    "name": "SCAN42C_HOST",
+                    "required": false,
+                    "default": "http://localhost:8000"
+                }
+            }
+        }
+    }
+}

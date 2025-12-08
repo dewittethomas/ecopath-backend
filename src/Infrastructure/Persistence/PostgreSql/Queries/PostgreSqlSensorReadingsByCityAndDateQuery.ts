@@ -2,7 +2,6 @@ import type {
     Interval,
     SensorReadingsByCityOutput,
     AverageSensorReadingsByCityOutput,
-    GroupedAverageSensorReadingsByCityOutput,
     SensorReadingRecordData,
     SensorReadingsByCityAndDateQuery
 } from 'EcoPath/Application/Contracts/mod.ts';
