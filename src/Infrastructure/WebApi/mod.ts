@@ -19,3 +19,5 @@ export { AllUsersController } from 'EcoPath/Infrastructure/WebApi/Controllers/Al
 export { AllWasteScansController } from 'EcoPath/Infrastructure/WebApi/Controllers/AllWasteScansController.ts';
 export { AllPickupRequestsController } from "EcoPath/Infrastructure/WebApi/Controllers/AllPickupRequestsController.ts";
 export { AllSmartMetersController } from 'EcoPath/Infrastructure/WebApi/Controllers/AllSmartMetersController.ts';
+
+export { CalculateCarbonFootprintImpactController } from 'EcoPath/Infrastructure/WebApi/Controllers/CalculateCarbonFootprintImpactController.ts';

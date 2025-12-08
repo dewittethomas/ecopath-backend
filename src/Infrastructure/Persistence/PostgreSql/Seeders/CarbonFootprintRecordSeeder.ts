@@ -1,7 +1,7 @@
 import {
     CarbonFootprintRecord,
     CarbonFootprintRecordId,
-    CarbonFootprint,
+    CarbonFootprintData,
     WasteType
 } from 'EcoPath/Domain/mod.ts';
 
@@ -33,7 +33,7 @@ export class CarbonFootprintRecordSeeder {
                     [WasteType.BioWaste, this.randomUsage(3, 10)]
                 ]);
 
-                const carbonFootprint = CarbonFootprint.create(
+                const carbonFootprint = CarbonFootprintData.create(
                     totalGasUsage,
                     totalElectricityUsage,
                     wasteMap

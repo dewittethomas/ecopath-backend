@@ -18,6 +18,9 @@ export type { ListAllUsersOutput } from 'EcoPath/Application/Households/ListAllU
 export type { ListAllSmartMetersOutput } from 'EcoPath/Application/Meters/ListAllSmartMeters.ts';
 export type { ListAllWasteScansOutput } from 'EcoPath/Application/Waste/ListAllWasteScans.ts';
 export type { ListAllPickupRequestsOutput } from 'EcoPath/Application/PickupRequests/ListAllPickupRequests.ts';
+export type { GetWasteScanImageByIdOutput } from 'EcoPath/Application/Waste/GetWasteScanImageById.ts';
+export type { GetPickupRequestImageByIdOutput } from 'EcoPath/Application/PickupRequests/GetPickupRequestImageById.ts';
+export type { CalculateCarbonFootprintImpactInput, CalculateCarbonFootprintImpactOutput } from 'EcoPath/Application/CarbonFootprints/CalculateCarbonFootprintImpact.ts';
 
 // -- QUERY DATA --
 export type { CarbonFootprintRecordData } from 'EcoPath/Application/Contracts/Data/CarbonFootprintRecordData.ts';

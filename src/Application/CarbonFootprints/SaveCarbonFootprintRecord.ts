@@ -3,7 +3,7 @@ import type { CarbonFootprintRecordRepository, UnitOfWork } from 'EcoPath/Applic
 import {
     CarbonFootprintRecord,
     CarbonFootprintRecordId,
-    CarbonFootprint,
+    CarbonFootprintData,
     WasteType,
     UserId
 } from 'EcoPath/Domain/mod.ts';
@@ -13,10 +13,10 @@ export interface SaveCarbonFootprintRecordInput {
     userId: string;
     year: number;
     month: number;
-    CarbonFootprint: {
-        totalGasUsage: number;
-        totalElectricityUsage: number;
-        totalWaste: Record<WasteType, number>;
+    carbonFootprintData: {
+        gasM3: number;
+        electricityKWh: number;
+        wasteKg: Map<string, number>
     };
 }
 
@@ -34,14 +34,14 @@ export class SaveCarbonFootprintRecord implements UseCase<SaveCarbonFootprintRec
 
     execute(input: SaveCarbonFootprintRecordInput): Promise<void> {
         return this._unitOfWork.do<void>(() => {
-            const totalWasteMap = new Map<WasteType, number>(
-                Object.entries(input.CarbonFootprint.totalWaste) as [WasteType, number][]
+            const wasteMap = new Map<WasteType, number>(
+                Object.entries(input.carbonFootprintData.wasteKg) as [WasteType, number][]
             );
 
-            const carbonFootprint = CarbonFootprint.create(
-                input.CarbonFootprint.totalGasUsage,
-                input.CarbonFootprint.totalElectricityUsage,
-                totalWasteMap
+            const carbonFootprintData = CarbonFootprintData.create(
+                input.carbonFootprintData.gasM3,
+                input.carbonFootprintData.electricityKWh,
+                wasteMap
             );
 
             const record = CarbonFootprintRecord.create(
@@ -49,7 +49,7 @@ export class SaveCarbonFootprintRecord implements UseCase<SaveCarbonFootprintRec
                 UserId.create(input.userId),
                 input.month,
                 input.year,
-                carbonFootprint
+                carbonFootprintData
             );
 
             return this._recordRepository.save(record);

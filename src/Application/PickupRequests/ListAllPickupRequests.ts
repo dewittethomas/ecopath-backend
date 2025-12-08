@@ -1,5 +1,6 @@
 import { PickupRequest } from "EcoPath/Domain/mod.ts";
 import type { PickupRequestRepository } from 'EcoPath/Application/Contracts/mod.ts';
+import { UseCase } from "@domaincrafters/application";
 
 export interface PickupRequestData {
     id: string;
@@ -31,7 +32,7 @@ function toPickupRequestData(entity: PickupRequest): PickupRequestData {
     };
 }
 
-export class ListAllPickupRequests {
+export class ListAllPickupRequests implements UseCase<void, ListAllPickupRequestsOutput> {
     private readonly _repository: PickupRequestRepository;
 
     constructor(repository: PickupRequestRepository) {

@@ -2,7 +2,7 @@ import type { PgRecord, RecordMapper } from 'EcoPath/Infrastructure/Persistence/
 import {
     CarbonFootprintRecord,
     CarbonFootprintRecordId,
-    CarbonFootprint,
+    CarbonFootprintData,
     UserId
 } from 'EcoPath/Domain/mod.ts';
 
@@ -13,13 +13,13 @@ export class CarbonFootprintRecordMapper implements RecordMapper<CarbonFootprint
             user_id: entity.userId.toString(),
             month: entity.month,
             year: entity.year,
-            total_gas_usage: entity.carbonFootprint.totalGasUsage,
-            total_electricity_usage: entity.carbonFootprint.totalElectricityUsage
+            total_gas_usage: entity.carbonFootprintData.gasM3,
+            total_electricity_usage: entity.carbonFootprintData.electricityKWh
         };
     }
 
     reconstitute(record: PgRecord): CarbonFootprintRecord {
-        const cf = CarbonFootprint.create(
+        const cf = CarbonFootprintData.create(
             Number(record.total_gas_usage),
             Number(record.total_electricity_usage),
             new Map()

@@ -4,8 +4,7 @@ export interface CarbonFootprintRecordData {
     month: number;
     year: number;
 
-    totalGasUsage: number;
-    totalElectricityUsage: number;
-
-    totalWaste: Record<string, number>; // wasteType → kg
+    gasM3: number;
+    electricityKWh: number;
+    wasteKg: Record<string, number>;
 }

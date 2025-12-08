@@ -1,5 +1,6 @@
-import { MeterType, SmartMeter } from "EcoPath/Domain/mod.ts";
+import { SmartMeter } from "EcoPath/Domain/mod.ts";
 import type { SmartMeterRepository } from 'EcoPath/Application/Contracts/mod.ts';
+import { UseCase } from "@domaincrafters/application";
 
 export interface SmartMeterData {
     id: string;
@@ -29,7 +30,7 @@ function toSmartMeterData(entity: SmartMeter): SmartMeterData {
     };
 }
 
-export class ListAllSmartMeters {
+export class ListAllSmartMeters implements UseCase<void, ListAllSmartMetersOutput> {
     private readonly _repository: SmartMeterRepository;
 
     constructor(repository: SmartMeterRepository) {

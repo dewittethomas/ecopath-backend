@@ -10,6 +10,15 @@ servers:
 
 paths:
   /api/users:
+    get:
+      summary: Get all users
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAllUsersOutput'
     post:
       summary: Create a new user
       requestBody:
@@ -246,6 +255,37 @@ paths:
 
 components:
   schemas: 
+    ListAllUsersOutput:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserData'
+
+    UserData:
+      type: object
+      required:
+        - id
+        - name
+        - email
+        - avatarImage
+        - userProfile
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        avatarImage:
+          type: string
+        userProfile:
+          $ref: '#/components/schemas/UserProfile'
+
     ListAllPickupRequestsOutput:
       type: object
       required:
@@ -307,30 +347,7 @@ components:
           type: string
           description: Base64-encoded image
         userProfile:
-          type: object
-          required:
-            - birthDate
-            - gender
-            - location
-            - housingType
-            - householdSize
-            - ecoGoals
-          properties:
-            birthDate:
-              type: string
-              format: date
-            gender:
-              $ref: '#/components/schemas/Gender'
-            housingType:
-              $ref: '#/components/schemas/HousingType'
-            householdSize:
-              type: integer
-            ecoGoals:
-              type: array
-              items:
-                type: string
-            location:
-              $ref: '#/components/schemas/Location'
+          $ref: '#/components/schemas/UserProfile'
 
     SaveWasteScanInput:
       type: object
@@ -387,6 +404,7 @@ components:
         - street
         - city
         - postalCode
+
     Gender:
       type: string
       enum:
@@ -542,6 +560,33 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SensorReadingRecordData'
+    
+    UserProfile:
+      type: object
+      required:
+        - birthDate
+        - gender
+        - location
+        - housingType
+        - householdSize
+        - ecoGoals
+      properties:
+        birthDate:
+          type: string
+          format: date
+        gender:
+          $ref: '#/components/schemas/Gender'
+        housingType:
+          $ref: '#/components/schemas/HousingType'
+        householdSize:
+          type: integer
+        ecoGoals:
+          type: array
+          items:
+            type: string
+        location:
+          $ref: '#/components/schemas/Location'
+
     
     GeoLocation:
       type: object

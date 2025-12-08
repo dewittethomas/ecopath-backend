@@ -79,7 +79,7 @@ export class SaveUserController implements WebApiController {
                 () => Guard.check(body.userProfile.birthDate).againstEmpty('Birth date is required'),
                 () => Guard.check(body.userProfile.gender).againstEmpty('Gender is required'),
                 () => Guard.check(body.userProfile.housingType).againstEmpty('Housing type is required'),
-                () => Guard.check(body.userProfile.householdSize).againstNegative().againstZero(),
+                () => Guard.check(body.userProfile.householdSize).againstZero().againstNegative(),
                 () => Guard.check(body.userProfile.location).againstNullOrUndefined('Location is required'),
                 () => Guard.check(body.userProfile.location.houseNumber).againstEmpty('HouseNumber is required'),
                 () => Guard.check(body.userProfile.location.street).againstEmpty('Street is required'),

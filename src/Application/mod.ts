@@ -13,3 +13,4 @@ export { ListAllWasteScans } from 'EcoPath/Application/Waste/ListAllWasteScans.t
 export { ListAllPickupRequests } from 'EcoPath/Application/PickupRequests/ListAllPickupRequests.ts';
 export { GetWasteScanImageById } from 'EcoPath/Application/Waste/GetWasteScanImageById.ts';
 export { GetPickupRequestImageById } from 'EcoPath/Application/PickupRequests/GetPickupRequestImageById.ts';
+export { CalculateCarbonFootprintImpact } from 'EcoPath/Application/CarbonFootprints/CalculateCarbonFootprintImpact.ts';

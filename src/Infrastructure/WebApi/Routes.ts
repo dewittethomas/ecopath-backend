@@ -12,7 +12,8 @@ import {
     AllPickupRequestsController,
     GetWasteScanImageByIdController,
     GetPickupRequestImageByIdController,
-    AllUsersController
+    AllUsersController,
+    CalculateCarbonFootprintImpactController
 } from "EcoPath/Infrastructure/WebApi/mod.ts";
 
 export class Routes {
@@ -65,6 +66,10 @@ export class Routes {
             .mapGet(
                 GetPickupRequestImageByIdController.name,
                 '/api/pickup-requests/:pickupRequestId/image'
+            )
+            .mapPost(
+                CalculateCarbonFootprintImpactController.name,
+                '/api/carbon-footprint-records/calculate'
             )
             .build();
     }

@@ -14,7 +14,8 @@ import {
     CarbonFootprintRecordsByUserIdController,
     SaveWasteScanController,
     GetWasteScanImageByIdController,
-    GetPickupRequestImageByIdController
+    GetPickupRequestImageByIdController,
+    CalculateCarbonFootprintImpactController
 } from 'EcoPath/Infrastructure/WebApi/mod.ts';
 import {
     SavePickupRequest,
@@ -25,7 +26,8 @@ import {
     SaveUser,
     SaveWasteScan,
     GetWasteScanImageById,
-    GetPickupRequestImageById
+    GetPickupRequestImageById,
+    CalculateCarbonFootprintImpact
 } from 'EcoPath/Application/mod.ts';
 import {
     SensorReadingsBySmartMeterIdAndDateQuery,
@@ -80,6 +82,8 @@ export class OakControllerFactory implements ControllerFactory {
                 return await this.buildGetWasteScanImageByIdController();
             case GetPickupRequestImageByIdController.name:
                 return await this.buildGetPickupRequestImageByIdController();
+            case CalculateCarbonFootprintImpactController.name:
+                return await this.buildCalculateCarbonFootprintImpactController();
             default:
                 throw new IllegalStateException(`Route name ${ctx.routeName} not found`);
         }
@@ -221,5 +225,11 @@ export class OakControllerFactory implements ControllerFactory {
         const getPickupRequestImageById = new GetPickupRequestImageById(pickupRequestRepository);
 
         return new GetPickupRequestImageByIdController(getPickupRequestImageById);
+    }
+
+    private async buildCalculateCarbonFootprintImpactController(): Promise<CalculateCarbonFootprintImpactController> {
+        const calculateCarbonFootprintImpact = new CalculateCarbonFootprintImpact();
+
+        return new CalculateCarbonFootprintImpactController(calculateCarbonFootprintImpact);
     }
 }

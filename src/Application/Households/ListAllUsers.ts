@@ -1,5 +1,6 @@
 import { User } from 'EcoPath/Domain/mod.ts';
 import type { UserRepository } from "EcoPath/Application/Contracts/mod.ts";
+import { UseCase } from "@domaincrafters/application";
 
 export interface UserData {
     id: string;
@@ -47,7 +48,7 @@ function toUserData(entity: User): UserData {
     };
 }
 
-export class ListAllUsers {
+export class ListAllUsers implements UseCase<void, ListAllUsersOutput> {
     private readonly _repository: UserRepository;
 
     constructor(repository: UserRepository) {

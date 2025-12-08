@@ -1,5 +1,6 @@
 import { WasteScan } from "EcoPath/Domain/mod.ts";
 import type { WasteScanRepository } from 'EcoPath/Application/Contracts/mod.ts';
+import { UseCase } from "@domaincrafters/application";
 
 export interface WasteScanData {
     id: string;
@@ -27,7 +28,7 @@ function toWasteScanData(entity: WasteScan): WasteScanData {
     };
 }
 
-export class ListAllWasteScans {
+export class ListAllWasteScans implements UseCase<void, ListAllWasteScansOutput> {
     private readonly _repository: WasteScanRepository;
 
     constructor(repository: WasteScanRepository) {

@@ -8,12 +8,12 @@ import {
 } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
 import type { UseCase } from '@domaincrafters/application';
 import { PickupRequestId } from "EcoPath/Domain/mod.ts";
-import type { GetWasteScanImageByIdOutput } from 'EcoPath/Application/Contracts/mod.ts';
+import type { GetPickupRequestImageByIdOutput } from 'EcoPath/Application/Contracts/mod.ts';
 
 export class GetPickupRequestImageByIdController implements WebApiController {
-    private readonly _getPickupRequestImageById: UseCase<PickupRequestId, GetWasteScanImageByIdOutput>;
+    private readonly _getPickupRequestImageById: UseCase<PickupRequestId, GetPickupRequestImageByIdOutput>;
 
-    constructor(getPickupRequestImageById: UseCase<PickupRequestId, GetWasteScanImageByIdOutput>) {
+    constructor(getPickupRequestImageById: UseCase<PickupRequestId, GetPickupRequestImageByIdOutput>) {
         this._getPickupRequestImageById = getPickupRequestImageById;
     }
 
@@ -31,7 +31,7 @@ export class GetPickupRequestImageByIdController implements WebApiController {
             .create([
                 () => Guard.check(ctx.params.pickupRequestId).againstEmpty('pickupRequestId is required'),
             ])
-            .onValidationFailure('Invalid request for pickup requests..')
+            .onValidationFailure('Invalid request for pickup requests.')
             .validate();
 
         return Promise.resolve();

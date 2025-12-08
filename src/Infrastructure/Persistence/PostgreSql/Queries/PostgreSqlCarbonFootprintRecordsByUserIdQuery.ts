@@ -3,7 +3,7 @@ import type {
     CarbonFootprintRecordsByUserIdQuery,
     CarbonFootprintRecordData
 } from 'EcoPath/Application/Contracts/mod.ts';
-import { CarbonFootprint, WasteType } from "EcoPath/Domain/mod.ts";
+import { CarbonFootprintData, WasteType } from "EcoPath/Domain/mod.ts";
 import { PostgreSqlClient } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 import { PgRecord } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/RecordMapper.ts';
 
@@ -44,7 +44,7 @@ export class PostgreSqlCarbonFootprintRecordsByUserIdQuery
             data: rows.map(row => {
                 const id = row.id as string;
 
-                const footprint = CarbonFootprint.create(
+                const footprint = CarbonFootprintData.create(
                     Number(row.total_gas_usage),
                     Number(row.total_electricity_usage),
                     wasteMapByRecord[id] ?? new Map<WasteType, number>()
@@ -55,9 +55,9 @@ export class PostgreSqlCarbonFootprintRecordsByUserIdQuery
                     userId: row.user_id as string,
                     month: Number(row.month),
                     year: Number(row.year),
-                    totalGasUsage: footprint.totalGasUsage,
-                    totalElectricityUsage: footprint.totalElectricityUsage,
-                    totalWaste: Object.fromEntries(footprint.totalWaste)
+                    gasM3: footprint.gasM3,
+                    electricityKWh: footprint.electricityKWh,
+                    wasteKg: Object.fromEntries(footprint.wasteKg)
                 };
             })
         }
@@ -92,7 +92,7 @@ export class PostgreSqlCarbonFootprintRecordsByUserIdQuery
             wasteMap.set(w.waste_type as WasteType, Number(w.weight_kg));
         }
 
-        const footprint = CarbonFootprint.create(
+        const footprint = CarbonFootprintData.create(
             Number(row.total_gas_usage),
             Number(row.total_electricity_usage),
             wasteMap
@@ -103,9 +103,9 @@ export class PostgreSqlCarbonFootprintRecordsByUserIdQuery
             userId: row.user_id as string,
             month: Number(row.month),
             year: Number(row.year),
-            totalGasUsage: footprint.totalGasUsage,
-            totalElectricityUsage: footprint.totalElectricityUsage,
-            totalWaste: Object.fromEntries(footprint.totalWaste)
+            gasM3: footprint.gasM3,
+            electricityKWh: footprint.electricityKWh,
+            wasteKg: Object.fromEntries(footprint.wasteKg)
         };
     }
 }
