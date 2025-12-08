@@ -5,6 +5,7 @@ import type { ControllerFactory } from 'EcoPath/Infrastructure/WebApi/Shared/mod
 import {
     SaveUserController,
     SavePickupRequestController,
+    AllUsersController,
     AllSmartMetersController,
     AllWasteScansController,
     AllPickupRequestsController,
@@ -17,6 +18,7 @@ import {
 } from 'EcoPath/Infrastructure/WebApi/mod.ts';
 import {
     SavePickupRequest,
+    ListAllUsers,
     ListAllWasteScans,
     ListAllSmartMeters,
     ListAllPickupRequests,
@@ -31,11 +33,11 @@ import {
     CarbonFootprintRecordsByUserIdQuery,
     SmartMeterRepository,
     WasteScanRepository,
-    PickupRequestRepository
+    PickupRequestRepository,
+    UserRepository
 } from 'EcoPath/Application/Contracts/mod.ts';
 import type { ServiceProvider } from '@domaincrafters/di';
 import type {
-    UserRepository,
     UnitOfWork
 } from 'EcoPath/Application/Contracts/mod.ts';
 
@@ -54,6 +56,8 @@ export class OakControllerFactory implements ControllerFactory {
         }
 
         switch (ctx.routeName) {
+            case AllUsersController.name:
+                return await this.buildAllUsersController();
             case AllSmartMetersController.name:
                 return await this.buildAllSmartMetersController();
             case SaveUserController.name:
@@ -133,6 +137,16 @@ export class OakControllerFactory implements ControllerFactory {
         return new SavePickupRequestController(
             savePickupRequest
         );
+    }
+
+    private async buildAllUsersController(): Promise<AllUsersController> {
+        const userRepository = (await this._serviceProvider.getService<UserRepository>(
+            'postgreSqlUserRepository'
+        )).getOrThrow();
+
+        const listAllUsers = new ListAllUsers(userRepository);
+
+        return new AllUsersController(listAllUsers);
     }
 
     private async buildAllSmartMetersController(): Promise<AllSmartMetersController> {

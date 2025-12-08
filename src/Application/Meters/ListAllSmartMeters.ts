@@ -19,12 +19,12 @@ export interface ListAllSmartMetersOutput {
 function toSmartMeterData(entity: SmartMeter): SmartMeterData {
     return {
         id: entity.id.toString(),
-        meterType: entity.meterType as MeterType,
+        meterType: entity.meterType,
         location: {
-            houseNumber: entity.location.houseNumber as string,
-            street: entity.location.street as string,
-            city: entity.location.street as string,
-            postalCode: entity.location.postalCode as string
+            houseNumber: entity.location.houseNumber,
+            street: entity.location.street,
+            city: entity.location.street,
+            postalCode: entity.location.postalCode
         }
     };
 }

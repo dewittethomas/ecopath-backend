@@ -15,6 +15,7 @@ export { GetWasteScanImageByIdController } from 'EcoPath/Infrastructure/WebApi/C
 export { GetPickupRequestImageByIdController } from 'EcoPath/Infrastructure/WebApi/Controllers/GetPickupRequestImageByIdController.ts';
 
 // All
+export { AllUsersController } from 'EcoPath/Infrastructure/WebApi/Controllers/AllUsersController.ts'; 
 export { AllWasteScansController } from 'EcoPath/Infrastructure/WebApi/Controllers/AllWasteScansController.ts';
 export { AllPickupRequestsController } from "EcoPath/Infrastructure/WebApi/Controllers/AllPickupRequestsController.ts";
 export { AllSmartMetersController } from 'EcoPath/Infrastructure/WebApi/Controllers/AllSmartMetersController.ts';

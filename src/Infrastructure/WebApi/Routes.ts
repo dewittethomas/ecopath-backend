@@ -11,7 +11,8 @@ import {
     CarbonFootprintRecordsByUserIdController,
     AllPickupRequestsController,
     GetWasteScanImageByIdController,
-    GetPickupRequestImageByIdController
+    GetPickupRequestImageByIdController,
+    AllUsersController
 } from "EcoPath/Infrastructure/WebApi/mod.ts";
 
 export class Routes {
@@ -28,6 +29,10 @@ export class Routes {
             .mapPost(
                 SavePickupRequestController.name,
                 '/api/pickup-requests'
+            )
+            .mapGet(
+                AllUsersController.name,
+                '/api/users'
             )
             .mapGet(
                 AllSmartMetersController.name,

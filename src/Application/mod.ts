@@ -7,6 +7,7 @@ export { SaveCarbonFootprintRecord } from 'EcoPath/Application/CarbonFootprints/
 export { GetSensorReadings } from './Meters/GetSensorReadingsBySmartMeterId.ts'
 export { GetAverageSensorReadings } from './Meters/GetAverageSensorReadingsBySmartMeterId.ts';
 export { GetGroupedAverageSensorReadings } from './Meters/GetGroupedAverageSensorReadingsBySmartMeterId.ts';
+export { ListAllUsers } from 'EcoPath/Application/Households/ListAllUsers.ts';
 export { ListAllSmartMeters } from 'EcoPath/Application/Meters/ListAllSmartMeters.ts';
 export { ListAllWasteScans } from 'EcoPath/Application/Waste/ListAllWasteScans.ts';
 export { ListAllPickupRequests } from 'EcoPath/Application/PickupRequests/ListAllPickupRequests.ts';

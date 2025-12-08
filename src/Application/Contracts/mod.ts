@@ -14,6 +14,7 @@ export type { SaveUserInput } from 'EcoPath/Application/Households/SaveUser.ts';
 export type { SaveSmartMeterInput } from 'EcoPath/Application/Meters/SaveSmartMeter.ts';
 export type { SaveWasteScanInput } from 'EcoPath/Application/Waste/SaveWasteScan.ts';
 export type { SavePickupRequestInput } from 'EcoPath/Application/PickupRequests/SavePickupRequest.ts';
+export type { ListAllUsersOutput } from 'EcoPath/Application/Households/ListAllUsers.ts';
 export type { ListAllSmartMetersOutput } from 'EcoPath/Application/Meters/ListAllSmartMeters.ts';
 export type { ListAllWasteScansOutput } from 'EcoPath/Application/Waste/ListAllWasteScans.ts';
 export type { ListAllPickupRequestsOutput } from 'EcoPath/Application/PickupRequests/ListAllPickupRequests.ts';
