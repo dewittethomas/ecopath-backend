@@ -1,6 +1,7 @@
 import { SensorReading, SmartMeterId } from 'EcoPath/Domain/mod.ts';
 import type { SensorReadingRepository } from 'EcoPath/Application/Contracts/mod.ts';
 import type { RecordMapper, PostgreSqlClient } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
+import { toUSVString } from "node:util";
 
 export class PostgreSqlSensorReadingRepository implements SensorReadingRepository {
     private readonly _dbClient: PostgreSqlClient;
@@ -14,18 +15,18 @@ export class PostgreSqlSensorReadingRepository implements SensorReadingRepositor
 
     async save(valueObject: SensorReading, smartMeterId: SmartMeterId): Promise<void> {
         const record = this._mapper.toRecord(valueObject);
+        
+        const columns = Object.keys(record);
+        const values = Object.values(record);
+
+        const placeholders = columns.map((_, index) => `$${index + 1}`).join(',');
 
         const query = `
-            INSERT INTO ${this._tableName} (smart_meter_id, timestamp, value, unit)
-            VALUES ($1, $2, $3, $4)
+            INSERT INTO ${this._tableName} (${columns.join(', ')})
+            VALUES (${placeholders})
         `;
 
-        await this._dbClient.insert(query, [
-            smartMeterId.toString(),
-            record.timestamp,
-            record.value,
-            record.unit
-        ]);
+        await this._dbClient.execute(query, [smartMeterId.toString(), ...values]);
     }
 
     async saveMany(entities: SensorReading[], smartMeterId: SmartMeterId): Promise<void> {

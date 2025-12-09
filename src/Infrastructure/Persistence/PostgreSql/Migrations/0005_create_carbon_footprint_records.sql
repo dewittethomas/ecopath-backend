@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS carbon_footprint_records (
     impact_co2kg DOUBLE PRECISION NOT NULL CHECK (impact_co2kg >= 0)
 );
 
-CREATE INDEX IF NOT EXISTS idx_carbon_footprint_records_user_year_month
+CREATE UNIQUE INDEX IF NOT EXISTS idx_carbon_footprint_records_user_year_month
     ON carbon_footprint_records (user_id, year, month);
 
 
@@ -31,5 +31,5 @@ CREATE TABLE IF NOT EXISTS carbon_footprint_records_waste (
     PRIMARY KEY (record_id, waste_type)
 );
 
-CREATE INDEX IF NOT EXISTS idx_carbon_footprint_records_waste_record
-    ON carbon_footprint_records_waste (record_id);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_carbon_footprint_records_waste_record
+    ON carbon_footprint_records_waste (record_id, waste_type);

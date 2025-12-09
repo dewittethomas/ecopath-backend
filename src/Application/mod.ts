@@ -4,9 +4,6 @@ export { SaveSmartMeter } from 'EcoPath/Application/Meters/SaveSmartMeter.ts';
 export { SaveWasteScan } from 'EcoPath/Application/Waste/SaveWasteScan.ts';
 export { SavePickupRequest } from 'EcoPath/Application/PickupRequests/SavePickupRequest.ts';
 export { SaveCarbonFootprintRecord } from 'EcoPath/Application/CarbonFootprints/SaveCarbonFootprintRecord.ts';
-export { GetSensorReadings } from './Meters/GetSensorReadingsBySmartMeterId.ts'
-export { GetAverageSensorReadings } from './Meters/GetAverageSensorReadingBySmartMeterId.ts';
-export { GetGroupedAverageSensorReadings } from './Meters/GetGroupedAverageSensorReadingsBySmartMeterId.ts';
 export { ListAllUsers } from 'EcoPath/Application/Households/ListAllUsers.ts';
 export { ListAllSmartMeters } from 'EcoPath/Application/Meters/ListAllSmartMeters.ts';
 export { ListAllWasteScans } from 'EcoPath/Application/Waste/ListAllWasteScans.ts';

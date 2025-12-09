@@ -26,7 +26,7 @@ export class CarbonFootprintRecordsByUserIdController implements WebApiControlle
         if (monthParam) {
             // fetch by month/year
             const year = yearParam ? Number(yearParam) : new Date().getFullYear();
-            result = await this.query.fetchByMonth(userId, Number(monthParam), year);
+            result = await this.query.fetchByDate(userId, Number(monthParam), Number(year));
         } else {
             // fetch all
             result = await this.query.fetch(userId);

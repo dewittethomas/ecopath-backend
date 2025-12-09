@@ -1,5 +1,6 @@
 import type {
     CarbonFootprintRecordsByUserIdOutput,
+    AverageCarbonFootprintRecordsByUserIdOutput,
     CarbonFootprintRecordsByUserIdQuery,
     CarbonFootprintRecordData
 } from 'EcoPath/Application/Contracts/mod.ts';
@@ -20,8 +21,6 @@ export class PostgreSqlCarbonFootprintRecordsByUserIdQuery
             ORDER BY year DESC, month DESC
         `, [userId]);
 
-        if (rows.length === 0) return { data: []};
-
         const recordIds = rows.map(r => r.id);
 
         const wasteRows = await this.db.findMany<PgRecord>(`
@@ -41,12 +40,13 @@ export class PostgreSqlCarbonFootprintRecordsByUserIdQuery
         }
 
         return {
-            data: rows.map(row => {
+            userId,
+            values: rows.map(row => {
                 const id = row.id as string;
 
                 const footprint = CarbonFootprintData.create(
-                    Number(row.gasM3),
-                    Number(row.electricityKWh),
+                    Number(row.gas_m3),
+                    Number(row.electricity_kwh),
                     wasteMapByRecord[id] ?? new Map<WasteType, number>()
                 );
 
@@ -63,7 +63,26 @@ export class PostgreSqlCarbonFootprintRecordsByUserIdQuery
         }
     }
 
-    async fetchByMonth(
+    async fetchAverage(userId: string): Promise<AverageCarbonFootprintRecordsByUserIdOutput> {
+        const optionalRow = await this.db.findOne<PgRecord>(`
+            SELECT waste_type, AVG(weight_kg)::float AS avg_weight
+            FROM carbon_footprint_records_waste
+            GROUP BY waste_type;
+        `, []);
+
+        const row = optionalRow.getOrThrow();
+
+        return {
+            userId,
+            gasM3: row.avg_gas as number,
+            electricityKWh: row.avg_electricity as number,
+            wasteKg: {
+                'paper': 5
+            }
+        }
+    }
+
+    async fetchByDate(
         userId: string,
         month: number,
         year: number

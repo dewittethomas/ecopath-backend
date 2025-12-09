@@ -42,7 +42,7 @@ export class RouterBuilder {
         }
 
         if (selectedMiddlewares.length === 0) {
-            throw new IllegalStateException(`No rout handler for route ${routeName}`);
+            throw new IllegalStateException(`No route handler for route ${routeName}`);
         }
 
         this._router.add(

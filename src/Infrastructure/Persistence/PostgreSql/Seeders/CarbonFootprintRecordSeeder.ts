@@ -42,7 +42,7 @@ export class CarbonFootprintRecordSeeder {
                 );
 
                 const impact = CarbonFootprintCalculator.calculate(carbonFootprint);
-
+                console.log(user.id)
                 const userId = UserId.create(user.id.value);
 
                 const record = CarbonFootprintRecord.create(

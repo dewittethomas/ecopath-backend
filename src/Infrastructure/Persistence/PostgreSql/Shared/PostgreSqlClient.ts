@@ -1,4 +1,4 @@
-import { Client } from '@db/postgres';
+import { Client, QueryArrayResult } from '@db/postgres';
 import { Guard, IllegalStateException, Optional } from "@domaincrafters/std";
 
 export class PostgreSqlClient {
@@ -66,9 +66,12 @@ export class PostgreSqlClient {
         await this._client.queryArray(query, params);
     }
 
-    async execute(query: string, params: unknown[]): Promise<{ rowCount: number }> {
+    async execute(query: string, params: unknown[]): Promise<{ rowCount: number; rows: unknown[][] }> {
         const result = await this._client.queryArray(query, params);
-        return { rowCount: result.rowCount ?? 0 };
+        return {
+            rowCount: result.rowCount ?? 0,
+            rows: result.rows ?? []
+        };
     }
 
     async transaction<T>(fn: () => Promise<T>): Promise<T> {

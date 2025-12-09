@@ -108,8 +108,15 @@ export interface CarbonFootprintRecordsByUserIdOutput {
     values: CarbonFootprintRecordData[]
 }
 
+export interface AverageCarbonFootprintRecordsByUserIdOutput {
+    userId: string;
+    gasM3: number;
+    electricityKWh: number;
+    wasteKg: Record<string, number>;
+}
+
 export interface CarbonFootprintRecordsByUserIdQuery {
     fetch(userId: string): Promise<CarbonFootprintRecordsByUserIdOutput>;
-    fetchAverage(userId: string): Promise<CarbonFootprintRecordData>;
+    fetchAverage(userId: string): Promise<AverageCarbonFootprintRecordsByUserIdOutput>;
     fetchByDate(userId: string, month: number, year: number): Promise<CarbonFootprintRecordData | null>;
 }

@@ -1,7 +1,6 @@
 import type { Repository, Entity, EntityId } from '@domaincrafters/domain';
 import { Optional, IllegalStateException } from '@domaincrafters/std';
-import type { RecordMapper, PgRecord } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
-import { PostgreSqlClient } from './PostgreSqlClient.ts';
+import type { RecordMapper, PgRecord, PostgreSqlClient } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 
 export abstract class PostgreSqlRepository<E extends Entity> implements Repository<E> {
     protected readonly _dbClient: PostgreSqlClient;
