@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS carbon_footprint_records (
     month INT NOT NULL CHECK (month BETWEEN 1 AND 12),
     year INT NOT NULL CHECK (year BETWEEN 2000 AND 2100),
 
-    gas_M3 DOUBLE PRECISION NOT NULL CHECK (gas_M3 >= 0),
-    electricity_KWh DOUBLE PRECISION NOT NULL CHECK (electricity_KWh >= 0),
+    gas_m3 DOUBLE PRECISION NOT NULL CHECK (gas_m3 >= 0),
+    electricity_kwh DOUBLE PRECISION NOT NULL CHECK (electricity_kwh >= 0),
     impact_co2kg DOUBLE PRECISION NOT NULL CHECK (impact_co2kg >= 0)
 );
 

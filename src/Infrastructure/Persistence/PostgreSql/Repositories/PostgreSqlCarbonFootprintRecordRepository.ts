@@ -18,8 +18,8 @@ export class PostgreSqlCarbonFootprintRecordRepository
         const record = this._mapper.toRecord(entity);
 
         const query = `
-            INSERT INTO ${this._tableName} (id, user_id, month, year, gasM3, electricityKWh)
-            VALUES ($1, $2, $3, $4, $5, $6)
+            INSERT INTO ${this._tableName} (id, user_id, month, year, gas_m3, electricity_kwh, impact_co2kg)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
         `;
 
         await this._dbClient.insert(query, [
@@ -27,8 +27,9 @@ export class PostgreSqlCarbonFootprintRecordRepository
             record.user_id,
             record.month,
             record.year,
-            record.gasM3,
-            record.electricityKWh
+            record.gas_m3,
+            record.electricity_kwh,
+            record.impact_co2kg
         ]);
 
         const wasteEntries = [...entity.carbonFootprintData.wasteKg.entries()];

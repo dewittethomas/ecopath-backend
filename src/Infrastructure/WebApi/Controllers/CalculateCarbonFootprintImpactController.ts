@@ -7,8 +7,7 @@ import {
     WebApiResult,
 } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
 import type { UseCase } from '@domaincrafters/application';
-import type { CalculateCarbonFootprintImpactInput, CalculateCarbonFootprintImpactOutput } from 'EcoPath/Application/Contracts/mod.ts';
-import { SaveCarbonFootprintRecordInput } from "../../../Application/CarbonFootprints/SaveCarbonFootprintRecord.ts";
+import type { CalculateCarbonFootprintImpactInput, CalculateCarbonFootprintImpactOutput, SaveCarbonFootprintRecordInput } from 'EcoPath/Application/Contracts/mod.ts';
 
 export interface CalculateCarbonFootprintImpactBody {
     userId: string;
@@ -53,7 +52,8 @@ export class CalculateCarbonFootprintImpactController implements WebApiControlle
                 gasM3: body.carbonFootprintData.gasM3,
                 electricityKWh: body.carbonFootprintData.electricityKWh,
                 wasteKg: body.carbonFootprintData.wasteKg
-            }
+            },
+            impact: result.carbonFootprintImpact
         }
 
         await this._saveCarbonFootprintImpact.execute(saveInput);

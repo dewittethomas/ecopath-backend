@@ -21,6 +21,7 @@ export type { ListAllPickupRequestsOutput } from 'EcoPath/Application/PickupRequ
 export type { GetWasteScanImageByIdOutput } from 'EcoPath/Application/Waste/GetWasteScanImageById.ts';
 export type { GetPickupRequestImageByIdOutput } from 'EcoPath/Application/PickupRequests/GetPickupRequestImageById.ts';
 export type { CalculateCarbonFootprintImpactInput, CalculateCarbonFootprintImpactOutput } from 'EcoPath/Application/CarbonFootprints/CalculateCarbonFootprintImpact.ts';
+export type { SaveCarbonFootprintRecordInput } from 'EcoPath/Application/CarbonFootprints/SaveCarbonFootprintRecord.ts';
 
 // -- QUERY DATA --
 export type { CarbonFootprintRecordData } from 'EcoPath/Application/Contracts/Data/CarbonFootprintRecordData.ts';

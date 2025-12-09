@@ -27,7 +27,7 @@ export async function runSeeder(provider: ServiceProvider): Promise<void> {
             smartMeterRepository,
             sensorReadingRepository
         ).seed();
-        await new CarbonFootprintRecordSeeder(carbonFootprintRecordRepository, userRepository).seed();
+        // await new CarbonFootprintRecordSeeder(carbonFootprintRecordRepository, userRepository).seed();
         await new WasteScanSeeder(wasteScanRepository).seed();
         await new PickupRequestSeeder(pickupRequestRepository).seed();
     });

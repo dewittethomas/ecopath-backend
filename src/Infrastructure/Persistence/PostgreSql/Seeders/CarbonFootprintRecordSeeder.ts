@@ -2,7 +2,9 @@ import {
     CarbonFootprintRecord,
     CarbonFootprintRecordId,
     CarbonFootprintData,
-    WasteType
+    CarbonFootprintCalculator,
+    WasteType,
+    UserId
 } from 'EcoPath/Domain/mod.ts';
 
 import type { CarbonFootprintRecordRepository, UserRepository } from 'EcoPath/Application/Contracts/mod.ts';
@@ -39,12 +41,17 @@ export class CarbonFootprintRecordSeeder {
                     wasteMap
                 );
 
+                const impact = CarbonFootprintCalculator.calculate(carbonFootprint);
+
+                const userId = UserId.create(user.id.value);
+
                 const record = CarbonFootprintRecord.create(
                     CarbonFootprintRecordId.create(),
-                    user.id,
+                    userId,
                     month,
                     currentYear,
-                    carbonFootprint
+                    carbonFootprint,
+                    impact
                 );
 
                 await this.carbonFootprintRecordRepository.save(record);

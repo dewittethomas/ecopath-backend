@@ -1,4 +1,4 @@
-import { Guard } from "@domaincrafters/std";
+import { ExtraGuard } from "EcoPath/Domain/mod.ts";
 
 export class CarbonFootprintImpact {
     private readonly _co2kg: number;
@@ -18,7 +18,7 @@ export class CarbonFootprintImpact {
     }
 
     private validateState(): void {
-        Guard.check(this._co2kg, 'co2kg').againstNegative();
+        ExtraGuard.check(this._co2kg, 'co2kg').ensureNumberIsAboveZero();
     }
 
     get co2kg(): number {

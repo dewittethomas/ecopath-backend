@@ -5,7 +5,8 @@ import {
     CarbonFootprintRecordId,
     CarbonFootprintData,
     WasteType,
-    UserId
+    UserId,
+    CarbonFootprintImpact
 } from 'EcoPath/Domain/mod.ts';
 
 export interface SaveCarbonFootprintRecordInput {
@@ -17,6 +18,7 @@ export interface SaveCarbonFootprintRecordInput {
         electricityKWh: number;
         wasteKg: Map<string, number>
     };
+    impact: number;
 }
 
 export class SaveCarbonFootprintRecord implements UseCase<SaveCarbonFootprintRecordInput> {
@@ -43,6 +45,8 @@ export class SaveCarbonFootprintRecord implements UseCase<SaveCarbonFootprintRec
                 wasteMap
             );
 
+            const carbonFootprintImpact = CarbonFootprintImpact.create(input.impact);
+
             const carbonFootprintRecordId = CarbonFootprintRecordId.create();
 
             const record = CarbonFootprintRecord.create(
@@ -50,7 +54,8 @@ export class SaveCarbonFootprintRecord implements UseCase<SaveCarbonFootprintRec
                 UserId.create(input.userId),
                 input.month,
                 input.year,
-                carbonFootprintData
+                carbonFootprintData,
+                carbonFootprintImpact
             );
 
             return this._recordRepository.save(record);

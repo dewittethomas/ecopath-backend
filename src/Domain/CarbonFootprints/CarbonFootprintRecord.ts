@@ -1,6 +1,6 @@
 import { Guard } from '@domaincrafters/std';
 import { Entity, UUIDEntityId } from '@domaincrafters/domain';
-import { ExtraGuard, UserId, CarbonFootprintData } from 'EcoPath/Domain/mod.ts';
+import { ExtraGuard, UserId, CarbonFootprintData, CarbonFootprintImpact } from 'EcoPath/Domain/mod.ts';
 
 export class CarbonFootprintRecordId extends UUIDEntityId {
     private constructor(id?: string) {
@@ -17,19 +17,22 @@ export class CarbonFootprintRecord extends Entity {
     private readonly _year: number;
     private readonly _month: number;
     private readonly _carbonFootprintData: CarbonFootprintData;
+    private readonly _impact: CarbonFootprintImpact;
 
     private constructor(
         id: CarbonFootprintRecordId,
         userId: UserId,
         month: number,
         year: number,
-        carbonFootprintData: CarbonFootprintData
+        carbonFootprintData: CarbonFootprintData,
+        impact: CarbonFootprintImpact
     ) {
         super(id);
         this._userId = userId;
         this._month = month;
         this._year = year;
         this._carbonFootprintData = carbonFootprintData;
+        this._impact = impact;
     }
 
     public static create(
@@ -37,14 +40,16 @@ export class CarbonFootprintRecord extends Entity {
         userId: UserId,
         month: number,
         year: number,
-        carbonFootprintData: CarbonFootprintData
+        carbonFootprintData: CarbonFootprintData,
+        impact: CarbonFootprintImpact
     ): CarbonFootprintRecord {
         const record = new CarbonFootprintRecord(
             id,
             userId,
             month,
             year,
-            carbonFootprintData
+            carbonFootprintData,
+            impact
         );
 
         record.validateState();
@@ -56,6 +61,7 @@ export class CarbonFootprintRecord extends Entity {
         Guard.check(this._month, 'month').isInRange(1, 12);
         Guard.check(this._year, 'year').isInRange(2000, 2100);
         ExtraGuard.check(this._carbonFootprintData, 'carbonFootprintData').againstNullOrUndefined();
+        ExtraGuard.check(this._impact, 'impact').againstNullOrUndefined();
     }
 
     override get id(): CarbonFootprintRecordId {
@@ -76,5 +82,9 @@ export class CarbonFootprintRecord extends Entity {
 
     get carbonFootprintData(): CarbonFootprintData {
         return this._carbonFootprintData;
+    }
+
+    get impact(): CarbonFootprintImpact {
+        return this._impact;
     }
 }
