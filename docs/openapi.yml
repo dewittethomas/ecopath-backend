@@ -235,6 +235,22 @@ paths:
       responses:
         '200':
           description: Sensor readings
+  /api/carbon-footprint-records/calculate:
+    post:
+      summary: Calculate carbon footprint impact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculateCarbonFootprintInput'
+      responses:
+        '200':
+          description: Carbon footprint calculation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalculateCarbonFootprintOutput'
 
   /api/carbon-footprint-records/{userId}:
     get:
@@ -248,10 +264,6 @@ paths:
       responses:
         '200':
           description: Carbon footprint records
-
-
-
-
 
 components:
   schemas: 
@@ -330,6 +342,59 @@ components:
         location:
           $ref: '#/components/schemas/Location'
 
+    CalculateCarbonFootprintInput:
+      type: object
+      required:
+        - userId
+        - month
+        - year
+        - carbonFootprintData
+      properties:
+        userId:
+          type: string
+        month:
+          type: integer
+          minimum: 1
+          maximum: 12
+        year:
+          type: integer
+          minimum: 2000
+          maximum: 2100
+        carbonFootprintData:
+          $ref: '#/components/schemas/CarbonFootprintData'
+
+    CalculateCarbonFootprintOutput:
+      type: object
+      required:
+        - carbonFootprintImpact
+      properties:
+        carbonFootprintImpact:
+          type: number
+
+    CarbonFootprintData:
+      type: object
+      required:
+        - gasM3
+        - electricityKWh
+        - wasteKg
+      properties:
+        gasM3:
+          type: number
+        electricityKWh:
+          type: number
+        wasteKg:
+          type: object
+          description: Waste type → kg
+          additionalProperties:
+            type: number
+          example:
+            glass: 5
+            plastic: 12
+            metal: 3
+            paper_and_cardboard: 7
+            general_waste: 10
+            bio_waste: 4
+
     SaveUserInput:
       type: object
       required:
@@ -405,6 +470,16 @@ components:
         - city
         - postalCode
 
+    WasteType:
+      type: string
+      enum:
+        - glass
+        - plastic
+        - metal
+        - paper_and_cardboard
+        - general_waste
+        - bio_waste
+
     Gender:
       type: string
       enum:
@@ -441,7 +516,6 @@ components:
             - string
             - 'null'
           
-
     WasteScanData:
       type: object
       required:
@@ -456,7 +530,7 @@ components:
           type: string
           format: date-time
         wasteType:
-          type: string
+          $ref: '#/components/schemas/WasteType'
         geoLocation:
           $ref: '#/components/schemas/GeoLocation'
 
@@ -587,7 +661,6 @@ components:
         location:
           $ref: '#/components/schemas/Location'
 
-    
     GeoLocation:
       type: object
       required:
