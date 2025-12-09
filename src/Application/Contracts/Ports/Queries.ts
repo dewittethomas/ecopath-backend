@@ -104,14 +104,12 @@ export interface SensorReadingsByCityAndDateQuery {
 }
 
 export interface CarbonFootprintRecordsByUserIdOutput {
-    data: CarbonFootprintRecordData[];
-}
-
-export interface CarbonFootprintRecordsByUserIdByMonthOutput {
-    data: CarbonFootprintRecordData[];
+    userId: string;
+    values: CarbonFootprintRecordData[]
 }
 
 export interface CarbonFootprintRecordsByUserIdQuery {
     fetch(userId: string): Promise<CarbonFootprintRecordsByUserIdOutput>;
-    fetchByMonth(userId: string, month: number, year: number): Promise<CarbonFootprintRecordData | null>;
+    fetchAverage(userId: string): Promise<CarbonFootprintRecordData>;
+    fetchByDate(userId: string, month: number, year: number): Promise<CarbonFootprintRecordData | null>;
 }

@@ -39,5 +39,5 @@ export type {
     GroupedAverageSensorReadingsByCityOutput, 
     SensorReadingsByCityAndDateQuery,
     CarbonFootprintRecordsByUserIdOutput,
-    CarbonFootprintRecordsByUserIdQuery,
+    CarbonFootprintRecordsByUserIdQuery
 } from 'EcoPath/Application/Contracts/Ports/Queries.ts';
