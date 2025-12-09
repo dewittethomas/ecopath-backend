@@ -1,4 +1,4 @@
-# Ecopath Backend
+# EcoPath Backend
 
 This is the backend for the **EcoPath** project, developed for the **Capstone Design Project** course at **Sejong University**.
 
