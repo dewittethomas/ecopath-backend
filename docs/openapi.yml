@@ -189,6 +189,7 @@ paths:
                   - $ref: '#/components/schemas/SensorReadingsBySmartMeterIdOutput'
                   - $ref: '#/components/schemas/AverageSensorReadingsBySmartMeterIdOutput'
                   - $ref: '#/components/schemas/GroupedAverageSensorReadingsBySmartMeterIdOutput'
+
   /api/smart-meters/{city}/readings/{type}:
     get:
       summary: Get sensor readings by city and type
@@ -235,6 +236,60 @@ paths:
       responses:
         '200':
           description: Sensor readings
+
+  /api/carbon-footprint-records/{userId}:
+    get:
+      summary: Get carbon footprint records for a user
+      description: |
+        Behavior depends on query parameters:
+
+        - No query params → return all records for the user  
+        - `month` (and optional `year`) → return a single record for that month/year  
+        - `avg=true` → return average value across all records  
+
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: User ID
+
+        - in: query
+          name: month
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 12
+          description: Month to filter by
+
+        - in: query
+          name: year
+          required: false
+          schema:
+            type: integer
+          description: Year to filter by (defaults to current year if `month` is provided)
+
+        - in: query
+          name: avg
+          required: false
+          schema:
+            type: string
+            enum: ['true', 'false']
+          description: If true, returns average values instead of raw records
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/CarbonFootprintRecordsByUserIdOutput'
+                  - $ref: '#/components/schemas/AverageCarbonFootprintRecordsByUserIdOutput'
+                  - $ref: '#/components/schemas/CarbonFootprintRecordData'
+
   /api/carbon-footprint-records/calculate:
     post:
       summary: Calculate carbon footprint impact
@@ -252,21 +307,48 @@ paths:
               schema:
                 $ref: '#/components/schemas/CalculateCarbonFootprintOutput'
 
-  /api/carbon-footprint-records/{userId}:
-    get:
-      summary: Get carbon footprint records for a user
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Carbon footprint records
-
 components:
   schemas: 
+    CarbonFootprintRecordData:
+        type: object
+        properties:
+          id:
+            type: string
+          userId:
+            type: string
+          month:
+            type: integer
+          year:
+            type: integer
+          carbonFootprintData:
+            $ref: '#/components/schemas/CarbonFootprintData'
+
+    CarbonFootprintRecordsByUserIdOutput:
+      type: object
+      properties:
+        userId:
+          type: string
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarbonFootprintRecordData'
+
+    AverageCarbonFootprintRecordsByUserIdOutput:
+      type: object
+      properties:
+        userId:
+          type: string
+        gasM3:
+          type: number
+        electricityKWh:
+          type: number
+        impact:
+          type: number
+        wasteKg:
+          type: object
+          additionalProperties:
+            type: number
+
     ListAllUsersOutput:
       type: object
       required:

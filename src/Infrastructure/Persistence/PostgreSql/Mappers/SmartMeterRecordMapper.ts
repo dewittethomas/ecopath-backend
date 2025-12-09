@@ -1,4 +1,4 @@
-import type { PgRecord, RecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/RecordMapper.ts';
+import type { PgRecord, RecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 import { SmartMeter, SmartMeterId, MeterType, Location } from 'EcoPath/Domain/mod.ts';
 
 export class SmartMeterRecordMapper implements RecordMapper<SmartMeter> {

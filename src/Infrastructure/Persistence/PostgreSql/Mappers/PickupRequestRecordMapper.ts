@@ -1,4 +1,4 @@
-import type { PgRecord, RecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/RecordMapper.ts';
+import type { PgRecord, RecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 import { PickupRequest, PickupRequestId, Location } from 'EcoPath/Domain/mod.ts';
 
 export class PickupRequestMapper implements RecordMapper<PickupRequest> {

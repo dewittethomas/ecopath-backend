@@ -21,10 +21,15 @@ export class CarbonFootprintRecordsByUserIdController implements WebApiControlle
         const monthParam = ctx.request.url.searchParams.get('month');
         const yearParam = ctx.request.url.searchParams.get('year');
 
+        const avgFlag = ctx.request.url.searchParams.get('avg');
+
         let result;
 
-        if (monthParam) {
-            // fetch by month/year
+        if (avgFlag === 'true') {
+            // fetch average
+            result = await this.query.fetchAverage(userId);
+        } else if (monthParam) {
+            // fetch by month/year (default: this year)
             const year = yearParam ? Number(yearParam) : new Date().getFullYear();
             result = await this.query.fetchByDate(userId, Number(monthParam), Number(year));
         } else {

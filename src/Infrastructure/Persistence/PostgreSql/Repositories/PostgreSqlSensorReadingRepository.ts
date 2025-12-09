@@ -1,7 +1,6 @@
 import { SensorReading, SmartMeterId } from 'EcoPath/Domain/mod.ts';
 import type { SensorReadingRepository } from 'EcoPath/Application/Contracts/mod.ts';
 import type { RecordMapper, PostgreSqlClient } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
-import { toUSVString } from "node:util";
 
 export class PostgreSqlSensorReadingRepository implements SensorReadingRepository {
     private readonly _dbClient: PostgreSqlClient;

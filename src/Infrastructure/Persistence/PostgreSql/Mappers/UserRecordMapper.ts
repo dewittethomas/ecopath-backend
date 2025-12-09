@@ -1,5 +1,5 @@
+import type { PgRecord, RecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 import { User, UserId, UserProfile, Gender, HousingType, Location } from 'EcoPath/Domain/mod.ts';
-import type { PgRecord, RecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/RecordMapper.ts';
 
 const arrayToRecord = (array: string[]): string => array.map(key => `"${key}"`).join(',');
 function reconstituteArray(value: unknown): string[] {

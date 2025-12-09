@@ -112,6 +112,7 @@ export interface AverageCarbonFootprintRecordsByUserIdOutput {
     userId: string;
     gasM3: number;
     electricityKWh: number;
+    impact: number;
     wasteKg: Record<string, number>;
 }
 

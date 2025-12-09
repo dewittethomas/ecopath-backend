@@ -1,4 +1,4 @@
-import type { PgRecord, RecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/RecordMapper.ts';
+import type { PgRecord, RecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 import {
     CarbonFootprintRecord,
     CarbonFootprintRecordId,

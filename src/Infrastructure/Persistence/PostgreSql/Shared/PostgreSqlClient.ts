@@ -1,4 +1,4 @@
-import { Client, QueryArrayResult } from '@db/postgres';
+import { Client } from '@db/postgres';
 import { Guard, IllegalStateException, Optional } from "@domaincrafters/std";
 
 export class PostgreSqlClient {

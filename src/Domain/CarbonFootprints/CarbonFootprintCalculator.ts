@@ -13,6 +13,8 @@ export class CarbonFootprintCalculator {
             waste += kg * WasteCarbonFactors[type];
         }
 
-        return CarbonFootprintImpact.create(Number((gas + elec + waste).toFixed(2)));
+        const roundedResult = Math.round((gas + elec + waste) * 100) / 100;
+
+        return CarbonFootprintImpact.create(roundedResult);
     }
 }
