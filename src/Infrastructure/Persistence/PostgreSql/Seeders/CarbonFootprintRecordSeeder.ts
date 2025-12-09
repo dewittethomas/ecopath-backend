@@ -21,8 +21,8 @@ export class CarbonFootprintRecordSeeder {
             console.log(`Started seeding CarbonFootprintRecords for User ${user.id}...`);
 
             for (let month = 1; month <= 12; month++) {
-                const totalGasUsage = this.randomUsage(20, 80);
-                const totalElectricityUsage = this.randomUsage(50, 200);
+                const gasM3 = this.randomUsage(20, 80);
+                const electricityKWh = this.randomUsage(50, 200);
 
                 const wasteMap = new Map<WasteType, number>([
                     [WasteType.Glass, this.randomUsage(1, 5)],
@@ -34,8 +34,8 @@ export class CarbonFootprintRecordSeeder {
                 ]);
 
                 const carbonFootprint = CarbonFootprintData.create(
-                    totalGasUsage,
-                    totalElectricityUsage,
+                    gasM3,
+                    electricityKWh,
                     wasteMap
                 );
 

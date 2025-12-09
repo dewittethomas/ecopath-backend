@@ -9,7 +9,6 @@ import {
 } from 'EcoPath/Domain/mod.ts';
 
 export interface SaveCarbonFootprintRecordInput {
-    id: string;
     userId: string;
     year: number;
     month: number;
@@ -44,8 +43,10 @@ export class SaveCarbonFootprintRecord implements UseCase<SaveCarbonFootprintRec
                 wasteMap
             );
 
+            const carbonFootprintRecordId = CarbonFootprintRecordId.create();
+
             const record = CarbonFootprintRecord.create(
-                CarbonFootprintRecordId.create(input.id),
+                carbonFootprintRecordId,
                 UserId.create(input.userId),
                 input.month,
                 input.year,

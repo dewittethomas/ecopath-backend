@@ -45,8 +45,8 @@ export class PostgreSqlCarbonFootprintRecordsByUserIdQuery
                 const id = row.id as string;
 
                 const footprint = CarbonFootprintData.create(
-                    Number(row.total_gas_usage),
-                    Number(row.total_electricity_usage),
+                    Number(row.gasM3),
+                    Number(row.electricityKWh),
                     wasteMapByRecord[id] ?? new Map<WasteType, number>()
                 );
 
@@ -93,8 +93,8 @@ export class PostgreSqlCarbonFootprintRecordsByUserIdQuery
         }
 
         const footprint = CarbonFootprintData.create(
-            Number(row.total_gas_usage),
-            Number(row.total_electricity_usage),
+            Number(row.gasM3),
+            Number(row.electricityKWh),
             wasteMap
         );
 

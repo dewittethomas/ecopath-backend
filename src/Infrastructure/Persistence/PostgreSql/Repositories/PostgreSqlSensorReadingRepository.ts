@@ -12,8 +12,8 @@ export class PostgreSqlSensorReadingRepository implements SensorReadingRepositor
         this._mapper = mapper;
     }
 
-    async save(entity: SensorReading, smartMeterId: SmartMeterId): Promise<void> {
-        const record = this._mapper.toRecord(entity);
+    async save(valueObject: SensorReading, smartMeterId: SmartMeterId): Promise<void> {
+        const record = this._mapper.toRecord(valueObject);
 
         const query = `
             INSERT INTO ${this._tableName} (smart_meter_id, timestamp, value, unit)

@@ -18,8 +18,8 @@ export class PostgreSqlCarbonFootprintRecordRepository
         const record = this._mapper.toRecord(entity);
 
         const query = `
-            INSERT INTO ${this._tableName} (user_id, month, year, total_gas_usage, total_electricity_usage)
-            VALUES ($1, $2, $3, $4, $5)
+            INSERT INTO ${this._tableName} (id, user_id, month, year, gasM3, electricityKWh)
+            VALUES ($1, $2, $3, $4, $5, $6)
         `;
 
         await this._dbClient.insert(query, [
@@ -27,11 +27,11 @@ export class PostgreSqlCarbonFootprintRecordRepository
             record.user_id,
             record.month,
             record.year,
-            record.total_gas_usage,
-            record.total_electricity_usage
+            record.gasM3,
+            record.electricityKWh
         ]);
 
-        const wasteEntries = [...entity.carbonFootprint.totalWaste.entries()];
+        const wasteEntries = [...entity.carbonFootprintData.wasteKg.entries()];
 
         if (wasteEntries.length === 0) return;
 
@@ -93,13 +93,13 @@ export class PostgreSqlCarbonFootprintRecordRepository
         const wasteMapByRecord: Record<string, Map<string, number>> = {};
 
         for (const row of wasteRows) {
-            const recId = row.record_id as string;
+            const recordId = row.record_id as string;
 
-            if (!wasteMapByRecord[recId]) {
-                wasteMapByRecord[recId] = new Map();
+            if (!wasteMapByRecord[recordId]) {
+                wasteMapByRecord[recordId] = new Map();
             }
 
-            wasteMapByRecord[recId].set(
+            wasteMapByRecord[recordId].set(
                 row.waste_type as string,
                 Number(row.weight_kg)
             );
@@ -165,6 +165,4 @@ export class PostgreSqlCarbonFootprintRecordRepository
 
         return this._mapper.reconstitute(rowWithWaste);
     }
-
-
 }

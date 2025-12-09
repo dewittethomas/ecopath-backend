@@ -6,8 +6,9 @@ CREATE TABLE IF NOT EXISTS carbon_footprint_records (
     month INT NOT NULL CHECK (month BETWEEN 1 AND 12),
     year INT NOT NULL CHECK (year BETWEEN 2000 AND 2100),
 
-    total_gas_usage DOUBLE PRECISION NOT NULL CHECK (total_gas_usage >= 0),
-    total_electricity_usage DOUBLE PRECISION NOT NULL CHECK (total_electricity_usage >= 0)
+    gas_M3 DOUBLE PRECISION NOT NULL CHECK (gas_M3 >= 0),
+    electricity_KWh DOUBLE PRECISION NOT NULL CHECK (electricity_KWh >= 0),
+    impact_co2kg DOUBLE PRECISION NOT NULL CHECK (impact_co2kg >= 0)
 );
 
 CREATE INDEX IF NOT EXISTS idx_carbon_footprint_records_user_year_month

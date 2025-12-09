@@ -27,7 +27,8 @@ import {
     SaveWasteScan,
     GetWasteScanImageById,
     GetPickupRequestImageById,
-    CalculateCarbonFootprintImpact
+    CalculateCarbonFootprintImpact,
+    SaveCarbonFootprintRecord
 } from 'EcoPath/Application/mod.ts';
 import {
     SensorReadingsBySmartMeterIdAndDateQuery,
@@ -36,7 +37,8 @@ import {
     SmartMeterRepository,
     WasteScanRepository,
     PickupRequestRepository,
-    UserRepository
+    UserRepository,
+    CarbonFootprintRecordRepository
 } from 'EcoPath/Application/Contracts/mod.ts';
 import type { ServiceProvider } from '@domaincrafters/di';
 import type {
@@ -228,8 +230,16 @@ export class OakControllerFactory implements ControllerFactory {
     }
 
     private async buildCalculateCarbonFootprintImpactController(): Promise<CalculateCarbonFootprintImpactController> {
-        const calculateCarbonFootprintImpact = new CalculateCarbonFootprintImpact();
+        const carbonFootprintRecordRepository = (await this._serviceProvider.getService<CarbonFootprintRecordRepository>(
+            'postgreSqlCarbonFootprintRecordRepository'
+        )).getOrThrow();
 
-        return new CalculateCarbonFootprintImpactController(calculateCarbonFootprintImpact);
+        const unitOfWork = (await this._serviceProvider.getService<UnitOfWork>('postgreSqlUnitOfWork'))
+            .getOrThrow();
+
+        const calculateCarbonFootprintImpact = new CalculateCarbonFootprintImpact();
+        const saveCarbonFootprintRecord = new SaveCarbonFootprintRecord(carbonFootprintRecordRepository, unitOfWork);
+
+        return new CalculateCarbonFootprintImpactController(calculateCarbonFootprintImpact, saveCarbonFootprintRecord);
     }
 }
