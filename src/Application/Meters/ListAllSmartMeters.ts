@@ -24,7 +24,7 @@ function toSmartMeterData(entity: SmartMeter): SmartMeterData {
         location: {
             houseNumber: entity.location.houseNumber,
             street: entity.location.street,
-            city: entity.location.street,
+            city: entity.location.city,
             postalCode: entity.location.postalCode
         }
     };
