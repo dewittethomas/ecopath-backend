@@ -34,7 +34,7 @@ docker compose -f ./config/production/docker-compose.yml up -d backend-db.prod
 Migrations must be applied **before starting the production backend**.
 
 ```sh
-docker compose -f ./config/production/docker-compose.yml run --rm backend.dev deno task migrate
+docker compose -f ./config/production/docker-compose.yml run --rm backend.prod deno task migrate
 ```
 
 This:
@@ -83,7 +83,7 @@ docker compose -f ./config/production/docker-compose.yml run --rm backend.prod d
 If you need to completely reset the production database (⚠️ destructive):
 
 ```sh
-docker compose -f ./config/dev/docker-compose.yml down -v
+docker compose -f ./config/production/docker-compose.yml down -v
 ```
 
 Then repeat all setup steps starting from the top.
