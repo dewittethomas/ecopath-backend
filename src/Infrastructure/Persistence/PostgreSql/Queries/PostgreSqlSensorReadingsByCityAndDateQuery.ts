@@ -34,6 +34,7 @@ export class PostgreSqlSensorReadingsByCityAndDateQuery
             AND meter_type = $2)
               AND timestamp >= $3
               AND timestamp < $4
+            ORDER BY timestamp ASC
         `, [city, type, fromIso, toIso]);
 
         const values: SensorReadingRecordData[] = rows.map(r => ({
