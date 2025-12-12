@@ -10,7 +10,7 @@ export class GeoLocation {
     }
 
     public static create(latitude: number, longitude: number): GeoLocation {
-        const geoLocation  = new GeoLocation(latitude, longitude);
+        const geoLocation = new GeoLocation(latitude, longitude);
         geoLocation.validateState();
         return geoLocation;
     }

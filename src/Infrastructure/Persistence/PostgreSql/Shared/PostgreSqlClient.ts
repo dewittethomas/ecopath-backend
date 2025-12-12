@@ -80,8 +80,8 @@ export class PostgreSqlClient {
             const result = await fn();
             await this._client.queryArray('COMMIT');
             return result;
-    } catch (error) {
-        await this._client.queryArray('ROLLBACK');
+        } catch (error) {
+            await this._client.queryArray('ROLLBACK');
             throw this.convertErrorToIllegalStateException(error, 'Transaction failed');
         }
     }

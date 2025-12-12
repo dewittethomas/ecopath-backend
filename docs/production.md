@@ -18,7 +18,7 @@ mv ./config/production/backend.ecopath.prod.env.example ./config/production/back
 Build the backend image using the production Dockerfile:
 
 ```sh
-docker build -f ./config/dev/Dockerfile -t ecopath-backend . --no-cache
+docker build -f ./config/production/Dockerfile -t ecopath-backend . --no-cache
 ```
 
 ## ⚙️ 2. Start the Production Database Container
@@ -34,7 +34,7 @@ docker compose -f ./config/production/docker-compose.yml up -d backend-db.prod
 Migrations must be applied **before starting the production backend**.
 
 ```sh
-docker compose -f ./config/dev/docker-compose.yml run --rm backend.dev deno task migrate
+docker compose -f ./config/production/docker-compose.yml run --rm backend.dev deno task migrate
 ```
 
 This:

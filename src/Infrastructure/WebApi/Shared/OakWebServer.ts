@@ -41,7 +41,7 @@ export class OakWebServer {
             .listen({
                 hostname: this._hostname,
                 port: this._port,
-                signal: this._abortController.signal,
+                signal: this._abortController.signal
             });
     }
 
